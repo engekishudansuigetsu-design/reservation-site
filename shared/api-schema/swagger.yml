@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: 演劇集団すいげつ 予約システム API
+  version: 1.0.0
+
+paths:
+  /reserve:
+    get:
+      summary: 予約状況取得API
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReserveStatus'
+        '403':
+          $ref: '#/components/responses/RegistrationNotStartedError'
+        '410':
+          $ref: '#/components/responses/RegistrationClosedError'
+        '503':
+          $ref: '#/components/responses/MaintenanceError'
+
+    post:
+      summary: 予約API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReserveInput'
+      responses:
+        '200':
+          description: 予約完了
+        '400':
+          $ref: '#/components/responses/InvalidParameterError'
+        '409':
+          $ref: '#/components/responses/MaxReserveError'
+        '503':
+          $ref: '#/components/responses/MaintenanceError'
+
+components:
+  schemas:
+    # --- データ構造の定義 ---
+    ReserveStatus:
+      type: object
+      properties:
+        reserveId:
+          type: string
+          format: date-time
+        label:
+          type: string
+        remainCount:
+          type: number
+
+    ReserveInput:
+      type: object
+      required: [reserveId, name, count, reserveFrom]
+      properties:
+        reserveId:
+          type: string
+        name:
+          type: string
+        count:
+          type: number
+        reserveFrom:
+          type: string
+          enum: [X, Instagram, Web, Other]
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+  responses:
+    # --- 再利用可能なエラーレスポンスの定義 ---
+    RegistrationNotStartedError:
+      description: 予約受付開始前
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    
+    RegistrationClosedError:
+      description: 予約受付終了後
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InvalidParameterError:
+      description: 入力値不正
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    MaxReserveError:
+      description: 満席
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    MaintenanceError:
+      description: メンテナンス中
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
