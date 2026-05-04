@@ -8,20 +8,20 @@ paths:
     get:
       summary: 予約状況取得API
       responses:
-        '200':
+        "200":
           description: 成功
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ReserveStatus'
-        '403':
-          $ref: '#/components/responses/RegistrationNotStartedError'
-        '410':
-          $ref: '#/components/responses/RegistrationClosedError'
-        '503':
-          $ref: '#/components/responses/MaintenanceError'
+                  $ref: "#/components/schemas/ReserveStatus"
+        "403":
+          $ref: "#/components/responses/RegistrationNotStartedError"
+        "410":
+          $ref: "#/components/responses/RegistrationClosedError"
+        "503":
+          $ref: "#/components/responses/MaintenanceError"
 
     post:
       summary: 予約API
@@ -30,16 +30,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReserveInput'
+              $ref: "#/components/schemas/ReserveInput"
       responses:
-        '200':
+        "200":
           description: 予約完了
-        '400':
-          $ref: '#/components/responses/InvalidParameterError'
-        '409':
-          $ref: '#/components/responses/MaxReserveError'
-        '503':
-          $ref: '#/components/responses/MaintenanceError'
+        "400":
+          $ref: "#/components/responses/InvalidParameterError"
+        "409":
+          $ref: "#/components/responses/MaxReserveError"
+        "503":
+          $ref: "#/components/responses/MaintenanceError"
 
 components:
   schemas:
@@ -59,15 +59,20 @@ components:
       type: object
       required: [reserveId, name, count, reserveFrom]
       properties:
-        reserveId:
-          type: string
         name:
+          type: string
+        email:
+          type: string
+        slotId:
           type: string
         count:
           type: number
-        reserveFrom:
+        findFrom:
+          type: array
+          items:
+            type: string
+        note:
           type: string
-          enum: [X, Instagram, Web, Other]
 
     ErrorResponse:
       type: object
@@ -84,32 +89,32 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    
+            $ref: "#/components/schemas/ErrorResponse"
+
     RegistrationClosedError:
       description: 予約受付終了後
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            $ref: "#/components/schemas/ErrorResponse"
 
     InvalidParameterError:
       description: 入力値不正
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            $ref: "#/components/schemas/ErrorResponse"
 
     MaxReserveError:
       description: 満席
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            $ref: "#/components/schemas/ErrorResponse"
 
     MaintenanceError:
       description: メンテナンス中
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            $ref: "#/components/schemas/ErrorResponse"
