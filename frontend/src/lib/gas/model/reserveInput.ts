@@ -4,11 +4,12 @@
  * 演劇集団すいげつ 予約システム API
  * OpenAPI spec version: 1.0.0
  */
-import type { ReserveInputReserveFrom } from './reserveInputReserveFrom';
 
 export interface ReserveInput {
-  reserveId: string;
   name: string;
+  email?: string;
+  slotId?: string;
   count: number;
-  reserveFrom: ReserveInputReserveFrom;
+  findFrom?: string[];
+  note?: string;
 }

@@ -12,5 +12,4 @@ export * from './maxReserveErrorResponse';
 export * from './registrationClosedErrorResponse';
 export * from './registrationNotStartedErrorResponse';
 export * from './reserveInput';
-export * from './reserveInputReserveFrom';
 export * from './reserveStatus';
