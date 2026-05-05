@@ -12,11 +12,10 @@ async function enableMocking() {
 
   // Orvalが生成したmswのhandlersをインポート
   // パスはOrvalのoutput設定に合わせて調整してください
-  const { getDefaultMock } =
-    await import("frontend/src/lib/gas/default/default.msw.ts");
+  const { gasMocks } = await import("frontend/src/lib/gas/default/mock.ts");
   const { setupWorker } = await import("msw/browser");
 
-  const worker = setupWorker(...getDefaultMock());
+  const worker = setupWorker(...gasMocks());
   return worker.start();
 }
 

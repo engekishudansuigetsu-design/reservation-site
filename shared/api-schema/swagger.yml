@@ -46,6 +46,7 @@ components:
     # --- データ構造の定義 ---
     ReserveStatus:
       type: object
+      required: [reserveId, label, remainCount]
       properties:
         reserveId:
           type: string
@@ -57,13 +58,13 @@ components:
 
     ReserveInput:
       type: object
-      required: [reserveId, name, count, reserveFrom]
+      required: [reserveId, name, email, count, reserveFrom]
       properties:
         name:
           type: string
         email:
           type: string
-        slotId:
+        reserveId:
           type: string
         count:
           type: number
