@@ -1,15 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
 import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 
 async function enableMocking() {
-  console.log("Mocking enabled check:", import.meta.env.VITE_ENABLE_MOCK);
   // 開発環境かつ、環境変数などでモックを有効にしたい場合のみ実行
   if (!import.meta.env.DEV || import.meta.env.VITE_ENABLE_MOCK !== "true") {
-    console.log("noooo");
     return;
   }
 
