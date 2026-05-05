@@ -1,6 +1,6 @@
 import { Box, Flex, IconButton, Menu, Portal } from "@chakra-ui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { SECTION_IDS, headerHeight } from "../../const.tsx";
+import { SECTION_IDS, headerHeight } from "../../const";
 
 const menuItems = [
 	{ id: SECTION_IDS.introduction, label: "あらすじ" },

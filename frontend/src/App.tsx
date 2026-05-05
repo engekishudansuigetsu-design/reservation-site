@@ -1,7 +1,7 @@
 import { Layout } from "./components/Layout/Layout";
 import { useGetReserve, usePostReserve } from "./lib/gas/default/default";
 import { Box, Text } from "@chakra-ui/react";
-import { SECTION_IDS, headerHeight } from "./const.tsx";
+import { SECTION_IDS, headerHeight } from "./const";
 
 function App() {
   const { data } = useGetReserve();
