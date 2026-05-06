@@ -19,20 +19,17 @@ import {
   type ReservationRequest,
 } from "@repo/shared/domain-model";
 
-type ReservationFormValues = z.infer<typeof reservationSchema>;
-
 // import reservationSchema from "shared/domain-model/reservationSchema";
 
 const peopleCollection = createListCollection({
   items: Array.from({ length: 10 }, (_, i) => ({
     label: `${i + 1}人`,
-    value: String(i + 1),
+    value: Number(i + 1),
   })),
 });
 
 export const ReservationForm = () => {
   const [horizontal, setHorizontal] = useState<string[]>([]);
-  const [people, setPeople] = useState<string[]>([]);
   const reservationDateTimeCollection = createListCollection({
     items: RESERVATION_DATE_TIME,
   });
@@ -42,9 +39,19 @@ export const ReservationForm = () => {
     watch,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(reservationSchema) });
-  const onPushReservation = (values: ReservationFormValues) => {
-    console.log(values, "送信する値");
+  } = useForm({
+    resolver: zodResolver(reservationSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      reserveId: "",
+      count: 1,
+      findFrom: [],
+      note: "",
+    },
+  });
+  const onPushReservation = (values: ReservationRequest) => {
+    console.log(values);
   };
   return (
     <form noValidate onSubmit={handleSubmit((data) => onPushReservation(data))}>
@@ -117,8 +124,10 @@ export const ReservationForm = () => {
           {/* 当ファイルの上部に定義されているpeopleCollectionを使用して、Selectコンポーネントで人数を選択できるようにしています */}
           <Select.Root
             collection={peopleCollection}
-            value={people}
-            onValueChange={(details) => setPeople(details.value)}
+            value={watch("count") ? [String(watch("count"))] : []}
+            onValueChange={(details) =>
+              setValue("count", parseInt(details.value[0] ?? ""))
+            }
           >
             <Select.HiddenSelect />
             <Select.Control>
