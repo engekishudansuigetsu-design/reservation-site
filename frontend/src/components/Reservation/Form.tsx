@@ -29,12 +29,49 @@ export const ReservationForm = () => {
 
 				<Fieldset.Root>
 					<Fieldset.Legend>観劇日時</Fieldset.Legend>
-					<Input placeholder="観劇日時" />
+					<CheckboxGroup
+						value={reservationDateTime}
+						onValueChange={setReservationDateTime}
+					>
+						<Stack gap="2">
+							{RESERVATION_DATE_TIME.map((option) => (
+								<Checkbox.Root key={option.value} value={option.value}>
+									<Checkbox.HiddenInput />
+									<Checkbox.Control />
+									<Checkbox.Label>{option.label}</Checkbox.Label>
+								</Checkbox.Root>
+							))}
+						</Stack>
+					</CheckboxGroup>
 				</Fieldset.Root>
 
 				<Field.Root required>
 					<Field.Label>予約人数</Field.Label>
-					<Input placeholder="人数" />
+					<Select.Root
+						collection={peopleCollection}
+						value={people}
+						onValueChange={(details) => setPeople(details.value)}
+					>
+						<Select.HiddenSelect />
+						<Select.Control>
+							<Select.Trigger>
+								<Select.ValueText placeholder="人数を選択" />
+							</Select.Trigger>
+							<Select.IndicatorGroup>
+								<Select.Indicator />
+							</Select.IndicatorGroup>
+						</Select.Control>
+						<Select.Positioner>
+							<Select.Content>
+								{peopleCollection.items.map((item) => (
+									<Select.Item item={item} key={item.value}>
+										{item.label}
+										<Select.ItemIndicator />
+									</Select.Item>
+								))}
+							</Select.Content>
+						</Select.Positioner>
+					</Select.Root>
 				</Field.Root>
 
 				<Fieldset.Root>
