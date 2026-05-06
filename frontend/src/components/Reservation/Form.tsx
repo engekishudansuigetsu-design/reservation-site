@@ -24,7 +24,7 @@ import {
 const peopleCollection = createListCollection({
   items: Array.from({ length: 10 }, (_, i) => ({
     label: `${i + 1}人`,
-    value: Number(i + 1),
+    value: String(i + 1),
   })),
 });
 
@@ -45,7 +45,7 @@ export const ReservationForm = () => {
       name: "",
       email: "",
       reserveId: "",
-      count: 1,
+      count: 0,
       findFrom: [],
       note: "",
     },
@@ -88,7 +88,9 @@ export const ReservationForm = () => {
             collection={reservationDateTimeCollection}
             value={watch("reserveId") ? [watch("reserveId")] : []}
             onValueChange={(details) => {
-              setValue("reserveId", details.value[0] ?? "");
+              setValue("reserveId", details.value[0] ?? "", {
+                shouldValidate: true,
+              });
             }}
           >
             <Select.HiddenSelect />
@@ -126,7 +128,9 @@ export const ReservationForm = () => {
             collection={peopleCollection}
             value={watch("count") ? [String(watch("count"))] : []}
             onValueChange={(details) =>
-              setValue("count", parseInt(details.value[0] ?? ""))
+              setValue("count", parseInt(details.value[0] ?? ""), {
+                shouldValidate: true,
+              })
             }
           >
             <Select.HiddenSelect />
