@@ -87,6 +87,12 @@ export const ReservationForm = () => {
 							))}
 						</Stack>
 					</CheckboxGroup>
+					{horizontal.includes("other") && (
+						<Field.Root mt={3}>
+							<Field.Label>その他（詳細）</Field.Label>
+							<Textarea placeholder="具体的にご記入ください" />
+						</Field.Root>
+					)}
 				</Fieldset.Root>
 
 				<Field.Root>
