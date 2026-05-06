@@ -1,7 +1,7 @@
 import { Layout } from "./components/Layout/Layout";
 import { useGetReserve, usePostReserve } from "./lib/gas/default/default";
 import { Box, Text } from "@chakra-ui/react";
-import { SECTION_IDS, headerHeight } from "./const";
+import { SECTION_IDS, HEADERHEIGHT, MENUITEMS, } from "./const";
 
 function App() {
   const { data } = useGetReserve();
@@ -10,8 +10,8 @@ function App() {
   return (
     <>
       <Layout>
-        <Text as="h2" fontSize="xl" scrollMarginTop={headerHeight} id={SECTION_IDS.introduction}>
-          あらすじ
+        <Text as="h2" fontSize="xl" scrollMarginTop={HEADERHEIGHT} id={SECTION_IDS.introduction}>
+          {MENUITEMS.find((item) => item.id === SECTION_IDS.introduction)?.label}
         </Text>
         <Text>
           あああああああああああああああああああああああ
@@ -24,23 +24,18 @@ function App() {
         </Text>
 
         <Box h="1000px" bg="blue.100">
-          <Text as="h2" fontSize="xl" scrollMarginTop={headerHeight} id={SECTION_IDS.characters}>
-            登場人物
+          <Text as="h2" fontSize="xl" scrollMarginTop={HEADERHEIGHT} id={SECTION_IDS.characters}>
+            {MENUITEMS.find((item) => item.id === SECTION_IDS.characters)?.label}
           </Text>
         </Box>
 
         <Box h="1000px" bg="blue.100">
-          <Text as="h2" fontSize="xl" scrollMarginTop={headerHeight} id={SECTION_IDS.performance}>
-            公演情報
+          <Text as="h2" fontSize="xl" scrollMarginTop={HEADERHEIGHT} id={SECTION_IDS.performance}>
+            {MENUITEMS.find((item) => item.id === SECTION_IDS.performance)?.label}
           </Text>
         </Box>
 
 
-        <Text as="h2" fontSize="xl" scrollMarginTop={headerHeight} id={SECTION_IDS.reservation}>
-          予約
-        </Text>
-
-        <form></form>
       </Layout>
     </>
   );
