@@ -76,7 +76,17 @@ export const ReservationForm = () => {
 
 				<Fieldset.Root>
 					<Fieldset.Legend>どこで本公演を知りましたか？</Fieldset.Legend>
-					<Input placeholder="知った方法" />
+					<CheckboxGroup value={horizontal} onValueChange={setHorizontal}>
+						<Stack gap="2">
+							{HORIZONTAL.map((option) => (
+								<Checkbox.Root key={option.value} value={option.value}>
+									<Checkbox.HiddenInput />
+									<Checkbox.Control />
+									<Checkbox.Label>{option.label}</Checkbox.Label>
+								</Checkbox.Root>
+							))}
+						</Stack>
+					</CheckboxGroup>
 				</Fieldset.Root>
 
 				<Field.Root>

@@ -21,5 +21,5 @@ export const HORIZONTAL = [
 	{ value: "web", label: "本webページ" },
 	{ value: "flyer", label: "フライヤー" },
 	{ value: "contact", label: "関係者" },
-	// { value: "other", label: "そのた" }, // 3行くらいで表示+行数増やせるようにしておく
+	{ value: "other", label: "その他" }, // 3行くらいで表示+行数増やせるようにしておく
 ];
