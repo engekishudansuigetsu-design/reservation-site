@@ -13,9 +13,9 @@ function App() {
         as="h2"
         fontSize="xl"
         scrollMarginTop={HEADER_HEIGHT}
-        id={SECTION_IDS.introduction}
+        id={SECTION_IDS[SECTION_IDS.introduction]}
       >
-        MENU_MAP[SECTION_IDS.introduction]
+        {MENU_MAP.introduction}
       </Text>
       <Text>あああああああああああああああああああああああ</Text>
       <Text>ああああああああああああああああああああああああ</Text>
@@ -28,7 +28,7 @@ function App() {
           scrollMarginTop={HEADER_HEIGHT}
           id={SECTION_IDS.characters}
         >
-          MENU_MAP[SECTION_IDS.characters]
+          {MENU_MAP[SECTION_IDS.characters]}
         </Text>
       </Box>
 
@@ -39,7 +39,7 @@ function App() {
           scrollMarginTop={HEADER_HEIGHT}
           id={SECTION_IDS.performance}
         >
-          MENU_MAP[SECTION_IDS.performance]
+          {MENU_MAP[SECTION_IDS.performance]}
         </Text>
       </Box>
     </Layout>
