@@ -10,7 +10,6 @@ import {
   Fieldset,
   createListCollection,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { RESERVATION_DATE_TIME, HORIZONTAL } from "../../const";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,8 +17,6 @@ import {
   reservationSchema,
   type ReservationRequest,
 } from "@repo/shared/domain-model";
-
-// import reservationSchema from "shared/domain-model/reservationSchema";
 
 const peopleCollection = createListCollection({
   items: Array.from({ length: 10 }, (_, i) => ({
@@ -29,7 +26,6 @@ const peopleCollection = createListCollection({
 });
 
 export const ReservationForm = () => {
-  const [horizontal, setHorizontal] = useState<string[]>([]);
   const reservationDateTimeCollection = createListCollection({
     items: RESERVATION_DATE_TIME,
   });
@@ -53,10 +49,16 @@ export const ReservationForm = () => {
   const onPushReservation = (values: ReservationRequest) => {
     console.log(values);
   };
+
+  const formSizeStyles = {
+    base: "100%",
+    md: "400px",
+  };
+
   return (
     <form noValidate onSubmit={handleSubmit((data) => onPushReservation(data))}>
       <Stack gap="6" maxW="sm">
-        <Field.Root required invalid={!!errors.name}>
+        <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
             お名前
             <Field.RequiredIndicator />
@@ -65,7 +67,7 @@ export const ReservationForm = () => {
           <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
         </Field.Root>
 
-        <Field.Root required invalid={!!errors.email}>
+        <Field.Root required invalid={!!errors.email} w={formSizeStyles}>
           <Field.Label>
             メールアドレス
             <Field.RequiredIndicator />
@@ -78,7 +80,7 @@ export const ReservationForm = () => {
           <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
         </Field.Root>
 
-        <Field.Root required invalid={!!errors.reserveId}>
+        <Field.Root required invalid={!!errors.reserveId} w={formSizeStyles}>
           <Field.Label>
             観劇日時
             <Field.RequiredIndicator />
@@ -118,7 +120,7 @@ export const ReservationForm = () => {
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>
 
-        <Field.Root required invalid={!!errors.count}>
+        <Field.Root required invalid={!!errors.count} w={formSizeStyles}>
           <Field.Label>
             予約人数
             <Field.RequiredIndicator />
@@ -159,13 +161,14 @@ export const ReservationForm = () => {
         <Fieldset.Root
           _required={{ color: "red.500" }}
           invalid={!!errors.findFrom}
+          w={formSizeStyles}
         >
           <Fieldset.Legend>どこで本公演を知りましたか？</Fieldset.Legend>
-
-          {/* <Fieldset.RequiredIndicator /> */}
           <CheckboxGroup
             value={watch("findFrom") ?? []}
-            onValueChange={(value) => setValue("findFrom", value)}
+            onValueChange={(value) =>
+              setValue("findFrom", value, { shouldValidate: true })
+            }
           >
             <Stack gap="2">
               {HORIZONTAL.map((option) => (
@@ -177,7 +180,7 @@ export const ReservationForm = () => {
               ))}
             </Stack>
           </CheckboxGroup>
-          {horizontal.includes("other") && (
+          {watch("findFrom").includes("other") && (
             <Field.Root mt={3}>
               <Field.Label>その他（詳細）</Field.Label>
               <Textarea placeholder="具体的にご記入ください" />
@@ -186,7 +189,7 @@ export const ReservationForm = () => {
           <Fieldset.ErrorText>{errors.findFrom?.message}</Fieldset.ErrorText>
         </Fieldset.Root>
 
-        <Field.Root>
+        <Field.Root w={formSizeStyles}>
           <Field.Label>備考</Field.Label>
           <Textarea placeholder="備考があればこちらに入力してください" />
         </Field.Root>
