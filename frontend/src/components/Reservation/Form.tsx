@@ -3,7 +3,7 @@ import {
   Checkbox,
   Button,
   Textarea,
-  Select,
+  Text,
   Stack,
   Field,
   CheckboxGroup,
@@ -17,6 +17,7 @@ import {
   reservationSchema,
   type ReservationRequest,
 } from "@repo/shared/domain-model";
+import { FormSelect } from "./SelectBox";
 
 const peopleCollection = createListCollection({
   items: Array.from({ length: 10 }, (_, i) => ({
@@ -34,7 +35,7 @@ export const ReservationForm = () => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = useForm({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
@@ -50,20 +51,21 @@ export const ReservationForm = () => {
     console.log(values);
   };
 
+  const formsize = "600px";
   const formSizeStyles = {
     base: "100%",
-    md: "400px",
+    md: formsize,
   };
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onPushReservation(data))}>
-      <Stack gap="6" maxW="sm">
+      <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
             お名前
             <Field.RequiredIndicator />
           </Field.Label>
-          <Input placeholder="水月 太郎" {...register("name")} />
+          <Input placeholder="海月 太郎" {...register("name")} />
           <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
         </Field.Root>
 
@@ -85,38 +87,14 @@ export const ReservationForm = () => {
             観劇日時
             <Field.RequiredIndicator />
           </Field.Label>
-
-          <Select.Root
+          <FormSelect
+            placeholder="観劇日時を選択"
             collection={reservationDateTimeCollection}
-            value={watch("reserveId") ? [watch("reserveId")] : []}
-            onValueChange={(details) => {
-              setValue("reserveId", details.value[0] ?? "", {
-                shouldValidate: true,
-              });
-            }}
-          >
-            <Select.HiddenSelect />
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder="観劇日時を選択" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>
-
-            <Select.Positioner>
-              <Select.Content>
-                {reservationDateTimeCollection.items.map((item) => (
-                  <Select.Item item={item} key={item.value}>
-                    {item.label}
-                    <Select.ItemIndicator />
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Positioner>
-          </Select.Root>
-
+            value={watch("reserveId") ? [String(watch("reserveId"))] : []}
+            onChange={(value: string[]) =>
+              setValue("reserveId", value[0], { shouldValidate: true })
+            }
+          />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>
 
@@ -125,36 +103,15 @@ export const ReservationForm = () => {
             予約人数
             <Field.RequiredIndicator />
           </Field.Label>
-          {/* 当ファイルの上部に定義されているpeopleCollectionを使用して、Selectコンポーネントで人数を選択できるようにしています */}
-          <Select.Root
+          {/* selectボックスの実装は長くなったので切り出し */}
+          <FormSelect
+            placeholder="人数を選択"
             collection={peopleCollection}
             value={watch("count") ? [String(watch("count"))] : []}
-            onValueChange={(details) =>
-              setValue("count", parseInt(details.value[0] ?? ""), {
-                shouldValidate: true,
-              })
+            onChange={(value: string[]) =>
+              setValue("count", Number(value[0]), { shouldValidate: true })
             }
-          >
-            <Select.HiddenSelect />
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder="人数を選択" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>
-            <Select.Positioner>
-              <Select.Content>
-                {peopleCollection.items.map((item) => (
-                  <Select.Item item={item} key={item.value}>
-                    {item.label}
-                    <Select.ItemIndicator />
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Positioner>
-          </Select.Root>
+          />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>
 
@@ -163,11 +120,16 @@ export const ReservationForm = () => {
           invalid={!!errors.findFrom}
           w={formSizeStyles}
         >
-          <Fieldset.Legend>どこで本公演を知りましたか？</Fieldset.Legend>
+          <Fieldset.Legend>
+            どこで本公演を知りましたか？
+            <Text as="span" color="red.500" ml="1">
+              *
+            </Text>
+          </Fieldset.Legend>
           <CheckboxGroup
             value={watch("findFrom") ?? []}
             onValueChange={(value) =>
-              setValue("findFrom", value, { shouldValidate: true })
+              setValue("findFrom", value, { shouldValidate: isSubmitted })
             }
           >
             <Stack gap="2">
