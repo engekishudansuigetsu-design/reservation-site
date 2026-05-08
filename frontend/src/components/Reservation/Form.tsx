@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form";
+
 import {
   Input,
   Checkbox,
@@ -11,8 +13,8 @@ import {
   createListCollection,
 } from "@chakra-ui/react";
 import { RESERVATION_DATE_TIME, HORIZONTAL } from "../../const";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   reservationSchema,
   type ReservationRequest,
@@ -26,11 +28,22 @@ const peopleCollection = createListCollection({
   })),
 });
 
-export const ReservationForm = () => {
-  const reservationDateTimeCollection = createListCollection({
-    items: RESERVATION_DATE_TIME,
-  });
+const reservationDateTimeCollection = createListCollection({
+  items: RESERVATION_DATE_TIME,
+});
 
+const formsize = "600px";
+
+const formSizeStyles = {
+  base: "100%",
+  md: formsize,
+};
+
+const onPushReservation = (values: ReservationRequest) => {
+  console.log(values);
+};
+
+export const ReservationForm = () => {
   const {
     register,
     handleSubmit,
@@ -50,15 +63,21 @@ export const ReservationForm = () => {
     },
   });
 
-  const onPushReservation = (values: ReservationRequest) => {
-    console.log(values);
+  const selectedReserveId = watch("reserveId");
+  const selectedCount = watch("count");
+  const selectedFindFrom = watch("findFrom") ?? [];
+  const isOtherSelected = selectedFindFrom.includes("other");
+
+  const handleReserveIdChange = (value: string[]) => {
+    setValue("reserveId", value[0] ?? "", { shouldValidate: true });
   };
 
-  const formsize = "600px";
+  const handleCountChange = (value: string[]) => {
+    setValue("count", Number(value[0]), { shouldValidate: true });
+  };
 
-  const formSizeStyles = {
-    base: "100%",
-    md: formsize,
+  const handleFindFromChange = (value: string[]) => {
+    setValue("findFrom", value, { shouldValidate: isSubmitted });
   };
 
   return (
@@ -94,10 +113,8 @@ export const ReservationForm = () => {
           <FormSelect
             placeholder="観劇日時を選択"
             collection={reservationDateTimeCollection}
-            value={watch("reserveId") ? [String(watch("reserveId"))] : []}
-            onChange={(value: string[]) =>
-              setValue("reserveId", value[0], { shouldValidate: true })
-            }
+            value={selectedReserveId ? [String(selectedReserveId)] : []}
+            onChange={handleReserveIdChange}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>
@@ -111,10 +128,8 @@ export const ReservationForm = () => {
           <FormSelect
             placeholder="人数を選択"
             collection={peopleCollection}
-            value={watch("count") ? [String(watch("count"))] : []}
-            onChange={(value: string[]) =>
-              setValue("count", Number(value[0]), { shouldValidate: true })
-            }
+            value={selectedCount ? [String(selectedCount)] : []}
+            onChange={handleCountChange}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>
@@ -131,10 +146,8 @@ export const ReservationForm = () => {
             </Text>
           </Fieldset.Legend>
           <CheckboxGroup
-            value={watch("findFrom") ?? []}
-            onValueChange={(value) =>
-              setValue("findFrom", value, { shouldValidate: isSubmitted })
-            }
+            value={selectedFindFrom}
+            onValueChange={handleFindFromChange}
           >
             <Stack gap="2">
               {HORIZONTAL.map((option) => (
@@ -146,7 +159,7 @@ export const ReservationForm = () => {
               ))}
             </Stack>
           </CheckboxGroup>
-          {watch("findFrom").includes("other") && (
+          {isOtherSelected && (
             <Field.Root mt={3}>
               <Field.Label>その他（詳細）</Field.Label>
               <Textarea
