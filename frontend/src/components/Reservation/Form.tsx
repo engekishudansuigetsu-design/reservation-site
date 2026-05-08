@@ -30,6 +30,7 @@ export const ReservationForm = () => {
   const reservationDateTimeCollection = createListCollection({
     items: RESERVATION_DATE_TIME,
   });
+
   const {
     register,
     handleSubmit,
@@ -44,14 +45,17 @@ export const ReservationForm = () => {
       reserveId: "",
       count: 0,
       findFrom: [],
+      findFromOther: "",
       note: "",
     },
   });
+
   const onPushReservation = (values: ReservationRequest) => {
     console.log(values);
   };
 
   const formsize = "600px";
+
   const formSizeStyles = {
     base: "100%",
     md: formsize,
@@ -145,7 +149,10 @@ export const ReservationForm = () => {
           {watch("findFrom").includes("other") && (
             <Field.Root mt={3}>
               <Field.Label>その他（詳細）</Field.Label>
-              <Textarea placeholder="具体的にご記入ください" />
+              <Textarea
+                placeholder="具体的にご記入ください"
+                {...register("findFromOther")}
+              />
             </Field.Root>
           )}
           <Fieldset.ErrorText>{errors.findFrom?.message}</Fieldset.ErrorText>
@@ -153,7 +160,10 @@ export const ReservationForm = () => {
 
         <Field.Root w={formSizeStyles}>
           <Field.Label>備考</Field.Label>
-          <Textarea placeholder="備考があればこちらに入力してください" />
+          <Textarea
+            placeholder="その他備考があればこちらに入力してください"
+            {...register("note")}
+          />
         </Field.Root>
 
         <Button type="submit">内容を確認する</Button>
