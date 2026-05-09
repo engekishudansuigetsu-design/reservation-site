@@ -12,5 +12,8 @@
   "type": "commonjs",
   "dependencies": {
     "@repo/shared": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/google-apps-script": "^2.0.8"
   }
 }
