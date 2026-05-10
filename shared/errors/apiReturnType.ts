@@ -1,4 +1,4 @@
-import { ErrorCode } from "./errorCodes";
+import type { ErrorCode } from "./errorCodes";
 
 export type ApiSuccessResponse<T> = {
   result: true;
