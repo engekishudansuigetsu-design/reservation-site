@@ -21,23 +21,23 @@ import type {
 } from '../model';
 
 
-export const getGetReserveResponseMock = (): ReserveStatus[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({reserveId: faker.date.past().toISOString().slice(0, 19) + 'Z', label: faker.string.alpha({length: {min: 10, max: 20}}), remainCount: faker.number.float({fractionDigits: 2})})))
+export const getGetExecResponseMock = (): ReserveStatus[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({reserveId: faker.date.past().toISOString().slice(0, 19) + 'Z', label: faker.string.alpha({length: {min: 10, max: 20}}), remainCount: faker.number.float({fractionDigits: 2})})))
 
 
-export const getGetReserveMockHandler = (overrideResponse?: ReserveStatus[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<ReserveStatus[]> | ReserveStatus[]), options?: RequestHandlerOptions) => {
-  return http.get('*/reserve', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+export const getGetExecMockHandler = (overrideResponse?: ReserveStatus[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<ReserveStatus[]> | ReserveStatus[]), options?: RequestHandlerOptions) => {
+  return http.get('*/exec', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
 
 
     return HttpResponse.json(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetReserveResponseMock(),
+    : getGetExecResponseMock(),
       { status: 200
       })
   }, options)
 }
 
-export const getPostReserveMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
-  return http.post('*/reserve', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+export const getPostExecMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/exec', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
   if (typeof overrideResponse === 'function') {await overrideResponse(info); }
 
     return new HttpResponse(null,
@@ -46,6 +46,6 @@ export const getPostReserveMockHandler = (overrideResponse?: void | ((info: Para
   }, options)
 }
 export const getDefaultMock = () => [
-  getGetReserveMockHandler(),
-  getPostReserveMockHandler()
+  getGetExecMockHandler(),
+  getPostExecMockHandler()
 ]

@@ -18,6 +18,16 @@ export const customInstance = <T>(
     ...config,
     ...options,
     cancelToken: source.token,
+    /**
+     * GASへPOSTする際、
+     * axiosが勝手にJSON化するので
+     * stringへ変換して送る
+     * GASはOPTIONSリクエストに弱いため、手動でtextとして送信
+     */
+    data:
+      typeof config.data === "object"
+        ? JSON.stringify(config.data)
+        : config.data,
   }).then(({ data }) => data) as PromiseWithCancel<T>; // 2. 型をキャスト
 
   // 3. cancelメソッドを付与
