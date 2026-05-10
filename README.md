@@ -46,7 +46,7 @@ npm install
 ```
 
 フロントWebapp ローカル起動
-.env.developmentファイルのモック情報を設定した上で実行
+.env.exampleを参考に.env.developmentファイルのモック情報を設定した上で実行
 
 ```bash
 npm run dev

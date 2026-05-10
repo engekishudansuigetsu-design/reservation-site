@@ -5,6 +5,8 @@ export const AXIOS_INSTANCE = axios.create({
   // 必要に応じて設定
 });
 
+const BASE_URL = (import.meta.env.VITE_GAS_API_URL as string) ?? "";
+
 // Orvalが期待する「キャンセル機能付きPromise」の型を定義
 export type PromiseWithCancel<T> = Promise<T> & { cancel?: () => void };
 
@@ -13,11 +15,17 @@ export const customInstance = <T>(
   options?: AxiosRequestConfig,
 ): PromiseWithCancel<T> => {
   const source = axios.CancelToken.source();
+  // config.url が "/reserve" なら、先頭の "/" を消して "exec" にする処理
+  const requestUrl = config.url?.startsWith("/")
+    ? config.url.substring(1)
+    : config.url;
 
   // 1. まず普通のPromiseとして作成
   const promise = AXIOS_INSTANCE({
     ...config,
     ...options,
+    baseURL: BASE_URL,
+    url: requestUrl,
     headers: {
       ...options?.headers,
       // GAS側へのリクエストを「単純なリクエスト」にするため text/plain を指定
