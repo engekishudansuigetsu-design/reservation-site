@@ -1,4 +1,5 @@
 import axios, { type AxiosRequestConfig, type AxiosError } from "axios";
+import { type ApiResponse } from "@repo/shared/errors";
 
 export const AXIOS_INSTANCE = axios.create({
   // 必要に応じて設定
@@ -17,6 +18,11 @@ export const customInstance = <T>(
   const promise = AXIOS_INSTANCE({
     ...config,
     ...options,
+    headers: {
+      ...options?.headers,
+      // GAS側へのリクエストを「単純なリクエスト」にするため text/plain を指定
+      "Content-Type": "text/plain",
+    },
     cancelToken: source.token,
     /**
      * GASへPOSTする際、
@@ -28,7 +34,17 @@ export const customInstance = <T>(
       typeof config.data === "object"
         ? JSON.stringify(config.data)
         : config.data,
-  }).then(({ data }) => data) as PromiseWithCancel<T>; // 2. 型をキャスト
+  }).then(({ data }: { data: ApiResponse<T> }) => {
+    // GAS側から返ってきたJSONの result フィールドを確認
+    if (data.result === false) {
+      // 失敗時は例外を投げる。これにより React Query の onError が発火する
+      // data 全体を渡すことで、コンポーネント側で code や message を参照可能に
+      return Promise.reject(data);
+    }
+
+    // 成功時はデータ（payload）のみを返す
+    return data.data;
+  }) as PromiseWithCancel<T>; // 2. 型をキャスト
 
   // 3. cancelメソッドを付与
   promise.cancel = () => {
