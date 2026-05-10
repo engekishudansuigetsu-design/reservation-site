@@ -7,7 +7,7 @@
 
 export interface ReserveInput {
   name: string;
-  email?: string;
+  email: string;
   reserveId: string;
   count: number;
   findFrom?: string[];

@@ -44,14 +44,14 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 /**
  * @summary 予約状況取得API
  */
-export const getReserve = (
+export const getExec = (
 
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
 
 
       return customInstance<ReserveStatus[]>(
-      {url: `/reserve`, method: 'GET', signal
+      {url: `/exec`, method: 'GET', signal
     },
       options);
     }
@@ -59,69 +59,69 @@ export const getReserve = (
 
 
 
-export const getGetReserveQueryKey = () => {
+export const getGetExecQueryKey = () => {
     return [
-    `/reserve`
+    `/exec`
     ] as const;
     }
 
 
-export const getGetReserveQueryOptions = <TData = Awaited<ReturnType<typeof getReserve>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReserve>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetExecQueryOptions = <TData = Awaited<ReturnType<typeof getExec>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExec>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetReserveQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetExecQueryKey();
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getReserve>>> = ({ signal }) => getReserve(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getExec>>> = ({ signal }) => getExec(requestOptions, signal);
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getReserve>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getExec>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetReserveQueryResult = NonNullable<Awaited<ReturnType<typeof getReserve>>>
-export type GetReserveQueryError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>
+export type GetExecQueryResult = NonNullable<Awaited<ReturnType<typeof getExec>>>
+export type GetExecQueryError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>
 
 
-export function useGetReserve<TData = Awaited<ReturnType<typeof getReserve>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReserve>>, TError, TData>> & Pick<
+export function useGetExec<TData = Awaited<ReturnType<typeof getExec>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExec>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getReserve>>,
+          Awaited<ReturnType<typeof getExec>>,
           TError,
-          Awaited<ReturnType<typeof getReserve>>
+          Awaited<ReturnType<typeof getExec>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetReserve<TData = Awaited<ReturnType<typeof getReserve>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReserve>>, TError, TData>> & Pick<
+export function useGetExec<TData = Awaited<ReturnType<typeof getExec>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExec>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getReserve>>,
+          Awaited<ReturnType<typeof getExec>>,
           TError,
-          Awaited<ReturnType<typeof getReserve>>
+          Awaited<ReturnType<typeof getExec>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetReserve<TData = Awaited<ReturnType<typeof getReserve>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReserve>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useGetExec<TData = Awaited<ReturnType<typeof getExec>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExec>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary 予約状況取得API
  */
 
-export function useGetReserve<TData = Awaited<ReturnType<typeof getReserve>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReserve>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useGetExec<TData = Awaited<ReturnType<typeof getExec>>, TError = ErrorType<RegistrationNotStartedErrorResponse | RegistrationClosedErrorResponse | MaintenanceErrorResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getExec>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetReserveQueryOptions(options)
+  const queryOptions = getGetExecQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -136,14 +136,14 @@ export function useGetReserve<TData = Awaited<ReturnType<typeof getReserve>>, TE
 /**
  * @summary 予約API
  */
-export const postReserve = (
+export const postExec = (
     reserveInput: ReserveInput,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
 
 
       return customInstance<void>(
-      {url: `/reserve`, method: 'POST',
+      {url: `/exec`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: reserveInput, signal
     },
@@ -152,11 +152,11 @@ export const postReserve = (
 
 
 
-export const getPostReserveMutationOptions = <TError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postReserve>>, TError,{data: ReserveInput}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof postReserve>>, TError,{data: ReserveInput}, TContext> => {
+export const getPostExecMutationOptions = <TError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: ReserveInput}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: ReserveInput}, TContext> => {
 
-const mutationKey = ['postReserve'];
+const mutationKey = ['postExec'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -166,10 +166,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postReserve>>, {data: ReserveInput}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postExec>>, {data: ReserveInput}> = (props) => {
           const {data} = props ?? {};
 
-          return  postReserve(data,requestOptions)
+          return  postExec(data,requestOptions)
         }
 
 
@@ -179,20 +179,20 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostReserveMutationResult = NonNullable<Awaited<ReturnType<typeof postReserve>>>
-    export type PostReserveMutationBody = ReserveInput
-    export type PostReserveMutationError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>
+    export type PostExecMutationResult = NonNullable<Awaited<ReturnType<typeof postExec>>>
+    export type PostExecMutationBody = ReserveInput
+    export type PostExecMutationError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>
 
     /**
  * @summary 予約API
  */
-export const usePostReserve = <TError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postReserve>>, TError,{data: ReserveInput}, TContext>, request?: SecondParameter<typeof customInstance>}
+export const usePostExec = <TError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: ReserveInput}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postReserve>>,
+        Awaited<ReturnType<typeof postExec>>,
         TError,
         {data: ReserveInput},
         TContext
       > => {
-      return useMutation(getPostReserveMutationOptions(options), queryClient);
+      return useMutation(getPostExecMutationOptions(options), queryClient);
     }
