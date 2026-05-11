@@ -6,7 +6,6 @@ export const reservationSchema = z.object({
   reserveId: z.string().min(1, "観劇日時を選択してください"), // 観劇日時
   count: z.number().min(1, "予約人数を選択してください"), // 予約人数
   findFrom: z.array(z.string()).min(1, "1つ以上選択してください"), // どこから予約したか
-  findFromOther: z.string().optional(), //どこから予約したかのその他項目
   note: z.string().optional(), // 備考
 });
 

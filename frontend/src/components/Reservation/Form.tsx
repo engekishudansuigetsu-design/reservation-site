@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
+import React from "react";
 import {
   Input,
   Checkbox,
@@ -15,10 +16,7 @@ import {
 import { RESERVATION_DATE_TIME, HORIZONTAL } from "../../const";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  reservationSchema,
-  type ReservationRequest,
-} from "@repo/shared/domain-model";
+import { reservationSchemaFront, type ReservationRequestFront } from "./type";
 import { FormSelect } from "./SelectBox";
 
 const peopleCollection = createListCollection({
@@ -39,19 +37,20 @@ const formSizeStyles = {
   md: formsize,
 };
 
-const onPushReservation = (values: ReservationRequest) => {
+const onPushReservation = (values: ReservationRequestFront) => {
   console.log(values);
 };
 
 export const ReservationForm = () => {
   const {
+    control,
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors, isSubmitted },
   } = useForm({
-    resolver: zodResolver(reservationSchema),
+    resolver: zodResolver(reservationSchemaFront),
+    mode: "onChange",
     defaultValues: {
       name: "",
       email: "",
@@ -62,23 +61,6 @@ export const ReservationForm = () => {
       note: "",
     },
   });
-
-  const selectedReserveId = watch("reserveId");
-  const selectedCount = watch("count");
-  const selectedFindFrom = watch("findFrom") ?? [];
-  const isOtherSelected = selectedFindFrom.includes("other");
-
-  const handleReserveIdChange = (value: string[]) => {
-    setValue("reserveId", value[0] ?? "", { shouldValidate: true });
-  };
-
-  const handleCountChange = (value: string[]) => {
-    setValue("count", Number(value[0]), { shouldValidate: true });
-  };
-
-  const handleFindFromChange = (value: string[]) => {
-    setValue("findFrom", value, { shouldValidate: isSubmitted });
-  };
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onPushReservation(data))}>
@@ -111,10 +93,12 @@ export const ReservationForm = () => {
             <Field.RequiredIndicator />
           </Field.Label>
           <FormSelect
+            name="reserveId"
             placeholder="観劇日時を選択"
             collection={reservationDateTimeCollection}
-            value={selectedReserveId ? [String(selectedReserveId)] : []}
-            onChange={handleReserveIdChange}
+            control={control}
+            // value={selectedReserveId ? [selectedReserveId] : []}
+            // onChange={handleReserveIdChange}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>
@@ -126,10 +110,11 @@ export const ReservationForm = () => {
           </Field.Label>
           {/* selectボックスの実装は長くなったので切り出し */}
           <FormSelect
+            name="count"
             placeholder="人数を選択"
+            control={control}
             collection={peopleCollection}
-            value={selectedCount ? [String(selectedCount)] : []}
-            onChange={handleCountChange}
+            // value={selectedCount ? [String(selectedCount)] : []}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>
@@ -145,29 +130,55 @@ export const ReservationForm = () => {
               *
             </Text>
           </Fieldset.Legend>
-          <CheckboxGroup
-            value={selectedFindFrom}
-            onValueChange={handleFindFromChange}
-          >
-            <Stack gap="2">
-              {HORIZONTAL.map((option) => (
-                <Checkbox.Root key={option.value} value={option.value}>
-                  <Checkbox.HiddenInput />
-                  <Checkbox.Control />
-                  <Checkbox.Label>{option.label}</Checkbox.Label>
-                </Checkbox.Root>
-              ))}
-            </Stack>
-          </CheckboxGroup>
-          {isOtherSelected && (
-            <Field.Root mt={3}>
-              <Field.Label>その他（詳細）</Field.Label>
-              <Textarea
-                placeholder="具体的にご記入ください"
-                {...register("findFromOther")}
-              />
-            </Field.Root>
-          )}
+          <Controller
+            name="findFrom"
+            control={control}
+            render={({ field }) => {
+              const selectedFindFrom = field.value ?? [];
+              const isOtherSelected = selectedFindFrom.includes("other");
+              const isWhoSelected = selectedFindFrom.includes("contact");
+
+              return (
+                <CheckboxGroup
+                  value={selectedFindFrom}
+                  onValueChange={(value) =>
+                    setValue("findFrom", value, { shouldValidate: isSubmitted })
+                  }
+                >
+                  <Stack gap="2">
+                    {HORIZONTAL.map((option) => (
+                      <React.Fragment key={option.value}>
+                        <Checkbox.Root value={option.value}>
+                          <Checkbox.HiddenInput />
+                          <Checkbox.Control />
+                          <Checkbox.Label>{option.label}</Checkbox.Label>
+                        </Checkbox.Root>
+
+                        {isWhoSelected && option.value === "contact" && (
+                          <Field.Root mb={3}>
+                            <Input
+                              placeholder="関係者名をご記入してください"
+                              {...register("findFromWho")}
+                            />
+                          </Field.Root>
+                        )}
+
+                        {isOtherSelected && option.value === "other" && (
+                          <Field.Root mb={3}>
+                            <Textarea
+                              placeholder="具体的にご記入ください"
+                              {...register("findFromOther")}
+                            />
+                          </Field.Root>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </Stack>
+                </CheckboxGroup>
+              );
+            }}
+          />
+
           <Fieldset.ErrorText>{errors.findFrom?.message}</Fieldset.ErrorText>
         </Fieldset.Root>
 
