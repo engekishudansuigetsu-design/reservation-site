@@ -13,7 +13,9 @@ import {
   Fieldset,
   createListCollection,
 } from "@chakra-ui/react";
-import { RESERVATION_DATE_TIME, HORIZONTAL } from "../../const";
+import { HORIZONTAL } from "../../const";
+import type { SelectOption } from "../../const";
+import { RESERVATION_MASTER_SCHEDULE } from "@repo/shared/domain-model";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { reservationSchemaFront, type ReservationRequestFront } from "./type";
@@ -26,8 +28,11 @@ const peopleCollection = createListCollection({
   })),
 });
 
-const reservationDateTimeCollection = createListCollection({
-  items: RESERVATION_DATE_TIME,
+const reservationDateTimeCollection = createListCollection<SelectOption>({
+  items: RESERVATION_MASTER_SCHEDULE.map((reservation) => ({
+    value: reservation.reserveId,
+    label: reservation.label,
+  })),
 });
 
 const formsize = "600px";

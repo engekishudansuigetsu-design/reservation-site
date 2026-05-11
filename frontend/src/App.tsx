@@ -1,5 +1,5 @@
 import { Layout } from "./components/Layout/Layout";
-import { useGetReserve, usePostReserve } from "./lib/gas/default/default";
+// import { useGetReserve, usePostReserve } from "./lib/gas/default/default";
 import { Box, Text } from "@chakra-ui/react";
 import { SECTION_IDS, HEADER_HEIGHT, MENU_MAP } from "./const";
 
@@ -7,9 +7,9 @@ import { ReservationForm } from "./components/Reservation/Form";
 
 function App() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data } = useGetReserve();
+  // const { data } = useGetReserve();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { mutateAsync: postReserve } = usePostReserve();
+  // const { mutateAsync: postReserve } = usePostReserve();
 
   return (
     <Layout>

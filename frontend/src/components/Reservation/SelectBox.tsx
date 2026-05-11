@@ -1,11 +1,7 @@
 import { Select, createListCollection } from "@chakra-ui/react";
 import { Controller, type Control, type FieldValues } from "react-hook-form";
 import type { ReservationRequestFront } from "./type";
-
-type SelectOption = {
-  label: string;
-  value: string;
-};
+import type { SelectOption } from "../../const";
 
 type FormSelectProps = {
   name: "reserveId" | "count";

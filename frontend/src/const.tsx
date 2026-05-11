@@ -35,3 +35,8 @@ export const MENU_ITEMS = [
 export const MENU_MAP: Record<SectionId, string> = Object.fromEntries(
   MENU_ITEMS.map((item) => [item.id, item.label]),
 ) as Record<SectionId, string>;
+
+export type SelectOption = {
+  label: string;
+  value: string;
+};
