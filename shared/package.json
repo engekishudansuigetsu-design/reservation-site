@@ -6,6 +6,7 @@
   "private": true,
   "exports": {
     "./domain-model": "./domain-model/index.ts",
-    "./api-schema": "./api-schema/swagger.yaml"
+    "./api-schema": "./api-schema/swagger.yaml",
+    "./errors": "./errors/index.ts"
   }
 }
