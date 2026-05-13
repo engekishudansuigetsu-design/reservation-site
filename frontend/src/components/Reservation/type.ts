@@ -8,8 +8,7 @@ const reserveIds: string[] = RESERVATION_MASTER_SCHEDULE.map(
 
 const ERROR_MESSAGES = {
   nameRequired: "お名前を入力してください",
-  emailRequired: "メールアドレスを入力してください",
-  emailInvalid: "メールアドレスの形式で入力してください",
+  emailRequired: "有効なメールアドレスを入力してください",
   reserveIdRequired: "観劇日時を選択してください",
   countRequired: "予約人数を選択してください",
   findFromRequired: "1つ以上選択してください",
@@ -20,10 +19,7 @@ const ERROR_MESSAGES = {
 export const reservationSchemaFront = reservationSchema.extend({
   name: z.string().min(1, ERROR_MESSAGES.nameRequired),
 
-  email: z
-    .string()
-    .min(1, ERROR_MESSAGES.emailRequired)
-    .email(ERROR_MESSAGES.emailInvalid),
+  email: z.email(ERROR_MESSAGES.emailRequired),
 
   reserveId: z
     .string()

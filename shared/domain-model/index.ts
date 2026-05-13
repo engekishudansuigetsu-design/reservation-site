@@ -40,7 +40,7 @@ export const RESERVATION_MASTER_SCHEDULE = [
 /** 予約情報 */
 export const reservationSchema = z.object({
   name: z.string().min(1), // 予約者名
-  email: z.string().email(), // 予約者メール
+  email: z.email(), // 予約者メール
   reserveId: z.enum(RESERVATION_MASTER_SCHEDULE.map((v) => v.reserveId)), // 観劇日時
   count: z.number().min(1), // 予約人数
   findFrom: z.array(z.string()), // どこから予約したか

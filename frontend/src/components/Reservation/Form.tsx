@@ -51,8 +51,8 @@ export const ReservationForm = () => {
     control,
     register,
     handleSubmit,
-    setValue,
-    formState: { errors, isSubmitted },
+    resetField,
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(reservationSchemaFront),
     mode: "onChange",
@@ -102,8 +102,6 @@ export const ReservationForm = () => {
             placeholder="観劇日時を選択"
             collection={reservationDateTimeCollection}
             control={control}
-            // value={selectedReserveId ? [selectedReserveId] : []}
-            // onChange={handleReserveIdChange}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>
@@ -119,7 +117,6 @@ export const ReservationForm = () => {
             placeholder="人数を選択"
             control={control}
             collection={peopleCollection}
-            // value={selectedCount ? [String(selectedCount)] : []}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>
@@ -140,15 +137,22 @@ export const ReservationForm = () => {
             control={control}
             render={({ field }) => {
               const selectedFindFrom = field.value ?? [];
-              const isOtherSelected = selectedFindFrom.includes("other");
               const isWhoSelected = selectedFindFrom.includes("contact");
+              const isOtherSelected = selectedFindFrom.includes("other");
 
               return (
                 <CheckboxGroup
                   value={selectedFindFrom}
-                  onValueChange={(value) =>
-                    setValue("findFrom", value, { shouldValidate: isSubmitted })
-                  }
+                  onValueChange={(value) => {
+                    console.log(value);
+                    field.onChange(value);
+                    if (!value.includes("contact")) {
+                      resetField("findFromWho");
+                    }
+                    if (!value.includes("other")) {
+                      resetField("findFromOther");
+                    }
+                  }}
                 >
                   <Stack gap="2">
                     {HORIZONTAL.map((option) => (
