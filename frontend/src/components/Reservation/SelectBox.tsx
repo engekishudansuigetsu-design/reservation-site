@@ -1,21 +1,31 @@
 import { Select, createListCollection } from "@chakra-ui/react";
-import { Controller, type Control, type FieldValues } from "react-hook-form";
-import type { ReservationRequestFront } from "./type";
+import {
+  Controller,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
 import type { SelectOption } from "../../const";
 
-type FormSelectProps = {
-  name: "reserveId" | "count";
+type FormSelectProps<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>,
+> = {
+  name: TName;
   placeholder: string;
+  control: Control<TFieldValues>;
   collection: ReturnType<typeof createListCollection<SelectOption>>;
-  control: Control<ReservationRequestFront>;
 };
 
-export const FormSelect = ({
+export const FormSelect = <
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>,
+>({
   name,
   placeholder,
   collection,
   control,
-}: FormSelectProps) => (
+}: FormSelectProps<TFieldValues, TName>) => (
   <Controller
     control={control}
     name={name}
@@ -27,11 +37,11 @@ export const FormSelect = ({
         }
         onValueChange={(details) => {
           const selectedValue = details.value[0] ?? "";
-          if (name === "count") {
-            field.onChange(Number(selectedValue));
-            return;
-          }
-          field.onChange(selectedValue);
+          field.onChange(
+            typeof field.value === "number"
+              ? Number(selectedValue)
+              : selectedValue,
+          );
         }}
         onInteractOutside={() => field.onBlur()}
       >
