@@ -3,6 +3,8 @@ import { Layout } from "./components/Layout/Layout";
 import { Box, Text } from "@chakra-ui/react";
 import { SECTION_IDS, HEADER_HEIGHT, MENU_MAP } from "./const";
 
+import { ReservationForm } from "./components/Reservation/Form";
+
 function App() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const { data } = useGetReserve();
@@ -42,6 +44,18 @@ function App() {
           id={SECTION_IDS.performance}
         >
           {MENU_MAP[SECTION_IDS.performance]}
+        </Text>
+      </Box>
+
+      <Box>
+        <Text
+          as="h2"
+          fontSize="xl"
+          scrollMarginTop={HEADER_HEIGHT}
+          id={SECTION_IDS.reservation}
+        >
+          {MENU_MAP[SECTION_IDS.reservation]}
+          <ReservationForm />
         </Text>
       </Box>
     </Layout>
