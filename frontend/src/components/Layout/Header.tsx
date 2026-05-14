@@ -9,11 +9,11 @@ export const Header = () => {
     // もしtargetが見つからない場合は、ページのトップにスクロールする
     if (!target) return;
 
-    // あらすじセクションの場合は、ページのトップにスクロールする
+    // トップセクションの場合は、ページのトップにスクロールする
     // それ以外のセクションの場合は、該当のセクションにスクロールする
     target.scrollIntoView({
       behavior: "smooth",
-      ...(id === SECTION_IDS.introduction ? { top: 0 } : { block: "start" }),
+      ...(id === SECTION_IDS.top ? { top: 0 } : { block: "start" }),
     });
   };
 
