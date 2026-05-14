@@ -1,14 +1,16 @@
-import React from 'react';
-import { Header } from './Header';
-import { Box, Container } from '@chakra-ui/react';
+import React from "react";
+import { Header } from "./Header";
+import { Container } from "@chakra-ui/react";
+import { Footer } from "./Footer";
 
 export const Layout = (props: { children: React.ReactNode }) => {
-	return (
-		<Box>
-			<Header />
-			<Container maxW="container.lg" mt={4}>
-				{props.children}
-			</Container>
-		</Box>
-	);
-}
+  return (
+    <>
+      <Header />
+      <Container w="720px" mt={4} mb={8}>
+        {props.children}
+      </Container>
+      <Footer />
+    </>
+  );
+};
