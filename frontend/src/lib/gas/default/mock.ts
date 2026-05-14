@@ -1,10 +1,7 @@
-import {
-  getGetReserveMockHandler,
-  getPostReserveMockHandler,
-} from "./default.msw";
+import { getGetExecMockHandler, getPostExecMockHandler } from "./default.msw";
 
 export const gasMocks = () => [
-  getGetReserveMockHandler([
+  getGetExecMockHandler([
     {
       reserveId: "2026-07-19T13:30:00+09:00",
       label: "07/19 13:30",
@@ -26,5 +23,5 @@ export const gasMocks = () => [
       remainCount: 0,
     },
   ]),
-  getPostReserveMockHandler(),
+  getPostExecMockHandler(),
 ];
