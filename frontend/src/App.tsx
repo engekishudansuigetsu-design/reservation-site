@@ -3,14 +3,9 @@ import { Layout } from "./components/Layout/Layout";
 import { Box, Text } from "@chakra-ui/react";
 import { SECTION_IDS, HEADER_HEIGHT, MENU_MAP } from "./const";
 
-import { ReservationForm } from "./components/Reservation/Form";
+import { Reservation } from "./components/Reservation/Reservation";
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const { data } = useGetReserve();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const { mutateAsync: postReserve } = usePostReserve();
-
   return (
     <Layout>
       <Text
@@ -25,7 +20,7 @@ function App() {
       <Text>ああああああああああああああああああああああああ</Text>
       <Text>ああああああああああああああああああああああああ</Text>
 
-      <Box h="1000px" bg="blue.100">
+      <Box h="100px" bg="blue.100">
         <Text
           as="h2"
           fontSize="xl"
@@ -55,8 +50,8 @@ function App() {
           id={SECTION_IDS.reservation}
         >
           {MENU_MAP[SECTION_IDS.reservation]}
-          <ReservationForm />
         </Text>
+        <Reservation />
       </Box>
     </Layout>
   );

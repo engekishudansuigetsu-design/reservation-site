@@ -1,10 +1,8 @@
 import { Controller, useForm } from "react-hook-form";
-
 import React from "react";
 import {
   Input,
   Checkbox,
-  Button,
   Textarea,
   Text,
   Stack,
@@ -12,6 +10,7 @@ import {
   CheckboxGroup,
   Fieldset,
   createListCollection,
+  Button,
 } from "@chakra-ui/react";
 import { HORIZONTAL } from "../../const";
 import type { SelectOption } from "../../const";
@@ -42,11 +41,11 @@ const formSizeStyles = {
   md: formsize,
 };
 
-const onPushReservation = (values: ReservationRequestFront) => {
-  console.log(values);
+type onSubmitFrom = {
+  onSubmit: (formData: ReservationRequestFront) => void;
 };
 
-export const ReservationForm = () => {
+export const ReservationForm = ({ onSubmit }: onSubmitFrom) => {
   const {
     control,
     register,
@@ -68,7 +67,7 @@ export const ReservationForm = () => {
   });
 
   return (
-    <form noValidate onSubmit={handleSubmit((data) => onPushReservation(data))}>
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
@@ -144,7 +143,6 @@ export const ReservationForm = () => {
                 <CheckboxGroup
                   value={selectedFindFrom}
                   onValueChange={(value) => {
-                    console.log(value);
                     field.onChange(value);
                     if (!value.includes("contact")) {
                       resetField("findFromWho");
