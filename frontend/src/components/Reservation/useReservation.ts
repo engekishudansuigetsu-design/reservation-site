@@ -6,6 +6,7 @@ import type { ReservationRequestFront } from "./type";
 type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
   reservation: ReserveInput | undefined;
+  confirmReservation: ReservationRequestFront | undefined;
   isOpenConfirmDialog: boolean;
   onCancel: () => void;
   onPostReserve: () => Promise<void>;
@@ -15,6 +16,8 @@ type UseReservationReturn = {
 
 export const useReservation = (): UseReservationReturn => {
   const [reservation, setReservation] = useState<ReserveInput>();
+  const [confirmReservation, setConfirmReservation] =
+    useState<ReservationRequestFront>();
 
   const {
     mutateAsync: postReserveMutateAsync,
@@ -33,10 +36,12 @@ export const useReservation = (): UseReservationReturn => {
     };
 
     setReservation(reservationRequest);
+    setConfirmReservation(formData);
   };
 
   const onCancel = () => {
     setReservation(undefined);
+    setConfirmReservation(undefined);
   };
 
   const onPostReserve = async () => {
@@ -48,6 +53,7 @@ export const useReservation = (): UseReservationReturn => {
       });
 
       setReservation(undefined);
+      setConfirmReservation(undefined);
     } catch (error) {
       console.error("post reserve failed", error);
     }
@@ -56,6 +62,7 @@ export const useReservation = (): UseReservationReturn => {
   return {
     onSubmit,
     reservation,
+    confirmReservation,
     isOpenConfirmDialog: reservation !== undefined,
     onCancel,
     onPostReserve,

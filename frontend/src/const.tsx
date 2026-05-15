@@ -1,3 +1,6 @@
+import { createListCollection } from "@chakra-ui/react";
+import { RESERVATION_MASTER_SCHEDULE } from "@repo/shared/domain-model";
+
 export const SECTION_IDS = {
   introduction: "introduction",
   characters: "characters",
@@ -9,14 +12,7 @@ type SectionId = (typeof SECTION_IDS)[keyof typeof SECTION_IDS];
 
 export const HEADER_HEIGHT = "60px";
 
-export const RESERVATION_DATE_TIME = [
-  { value: "2026-07-18-day", label: "2026/7/18(土) 昼" },
-  { value: "2026-07-18-night", label: "2026/7/18(土) 夜" },
-  { value: "2026-07-19-day", label: "2026/7/19(日) 昼" },
-  { value: "2026-07-19-night", label: "2026/7/19(日) 夜" },
-];
-
-export const HORIZONTAL = [
+export const FIND_FROM_ITEMS = [
   { value: "X", label: "X" },
   { value: "Instagram", label: "Instagram" },
   { value: "web", label: "本webページ" },
@@ -40,3 +36,18 @@ export type SelectOption = {
   label: string;
   value: string;
 };
+
+export const PEOPLE_COLLECTION = createListCollection({
+  items: Array.from({ length: 10 }, (_, i) => ({
+    label: `${i + 1}人`,
+    value: String(i + 1),
+  })),
+});
+
+export const RESERVATIONDATETIME_COLLECTION =
+  createListCollection<SelectOption>({
+    items: RESERVATION_MASTER_SCHEDULE.map((reservation) => ({
+      value: reservation.reserveId,
+      label: reservation.label,
+    })),
+  });

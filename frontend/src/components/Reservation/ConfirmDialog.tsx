@@ -1,30 +1,77 @@
 import { Button, Dialog, Field, Input, Portal, Stack } from "@chakra-ui/react";
 import { useRef } from "react";
 import type { ReserveInput } from "../../lib/gas/model";
+import {
+  FIND_FROM_ITEMS,
+  PEOPLE_COLLECTION,
+  RESERVATIONDATETIME_COLLECTION,
+  type SelectOption,
+} from "../../const";
+import type { ReservationRequestFront } from "./type";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
-  isOpenConfirmDialog: boolean;
+  confirmReservation: ReservationRequestFront | undefined;
+  isOpen: boolean;
   onCancel: () => void;
-  onPostReserve: () => Promise<void>;
+  onOk: () => Promise<void>;
+  isPosting: boolean;
+};
+
+const getReservationLabel = (
+  value: string,
+  collection: SelectOption[],
+): string => {
+  return collection.find((item) => item.value === value)?.label ?? value;
+};
+
+const getFindFromLabels = (
+  values: string[] | undefined,
+  findFromWho?: string,
+  findFromOther?: string,
+): string => {
+  if (!values) return "";
+
+  return values
+    .map((value) => {
+      if (value === "contact") {
+        return findFromWho ? `関係者: ${findFromWho}` : "関係者";
+      }
+
+      if (value === "other") {
+        return findFromOther ? `その他: ${findFromOther}` : "その他";
+      }
+
+      return getReservationLabel(value, FIND_FROM_ITEMS);
+    })
+    .join(", ");
 };
 
 export const ConfirmDialog = ({
   reservation,
-  isOpenConfirmDialog,
+  isOpen,
+  confirmReservation,
   onCancel,
-  onPostReserve,
+  onOk,
+  isPosting,
 }: ReservationDialogProps) => {
   const ref = useRef<HTMLInputElement | null>(null);
   return (
     <>
-      <Dialog.Root lazyMount open={isOpenConfirmDialog}>
+      <Dialog.Root
+        lazyMount
+        open={isOpen}
+        closeOnInteractOutside={false}
+        closeOnEscape={false}
+      >
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner>
             <Dialog.Content>
               <Dialog.Header>
-                <Dialog.Title>予約内容の確認</Dialog.Title>
+                <Dialog.Title textAlign="center">
+                  以下の内容で予約します。よろしいですか？
+                </Dialog.Title>
               </Dialog.Header>
               <Dialog.Body pb="4">
                 <Stack gap="4">
@@ -45,7 +92,10 @@ export const ConfirmDialog = ({
                     <Input
                       readOnly
                       ref={ref}
-                      value={reservation?.reserveId ?? ""}
+                      value={getReservationLabel(
+                        reservation?.reserveId ?? "",
+                        RESERVATIONDATETIME_COLLECTION.items,
+                      )}
                     />
                   </Field.Root>
                   <Field.Root>
@@ -53,7 +103,10 @@ export const ConfirmDialog = ({
                     <Input
                       readOnly
                       ref={ref}
-                      value={reservation?.count ?? ""}
+                      value={getReservationLabel(
+                        String(reservation?.count ?? ""),
+                        PEOPLE_COLLECTION.items,
+                      )}
                     />
                   </Field.Root>
                   <Field.Root>
@@ -61,7 +114,11 @@ export const ConfirmDialog = ({
                     <Input
                       readOnly
                       ref={ref}
-                      value={reservation?.findFrom?.join(", ") ?? ""}
+                      value={getFindFromLabels(
+                        confirmReservation?.findFrom,
+                        confirmReservation?.findFromWho,
+                        confirmReservation?.findFromOther,
+                      )}
                     />
                   </Field.Root>
                   <Field.Root>
@@ -72,11 +129,17 @@ export const ConfirmDialog = ({
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
-                  <Button variant="outline" onClick={onCancel}>
+                  <Button
+                    variant="outline"
+                    onClick={onCancel}
+                    disabled={isPosting}
+                  >
                     キャンセル
                   </Button>
                 </Dialog.ActionTrigger>
-                <Button onClick={onPostReserve}>送信する</Button>
+                <Button onClick={onOk} loading={isPosting}>
+                  予約
+                </Button>
               </Dialog.Footer>
             </Dialog.Content>
           </Dialog.Positioner>
