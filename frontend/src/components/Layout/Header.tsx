@@ -22,7 +22,6 @@ export const Header = () => (
     bg="brand.500"
     align="center"
     borderBottom="3px solid rgb(110, 1, 1)"
-    boxShadow="0 0 10px 5px rgb(110, 1, 1)"
   >
     <Box
       as="button"
