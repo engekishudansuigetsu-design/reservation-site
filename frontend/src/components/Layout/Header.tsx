@@ -16,9 +16,6 @@ export const Header = () => (
   <Flex
     h={HEADER_HEIGHT}
     px={4}
-    position="sticky"
-    top={0}
-    zIndex={100}
     bg="brand.500"
     align="center"
     borderBottom="3px solid rgb(110, 1, 1)"

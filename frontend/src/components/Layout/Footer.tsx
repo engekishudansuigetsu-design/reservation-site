@@ -8,46 +8,49 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { STAFF_CREDITS } from "../../const";
+import React from "react";
 
 export const Footer = () => (
   <Box as="footer" bg="#4c4c4c">
     <Container w="5xl">
       <VStack py={10} alignItems="flex-start">
-        <Text>STAFF</Text>
+        <Text pb={3}>STAFF</Text>
 
         <SimpleGrid columnGap="10" rowGap="8" w="full" columns={[2, null, 3]}>
           {STAFF_CREDITS.map((item) =>
             item.names.length === 1 ? (
-              <>
+              <React.Fragment key={item.role}>
                 {typeof item.names[0] === "string" ? (
-                  <Text key={item.role}>
+                  <Text>
                     {item.role}: {item.names.join("")}
                   </Text>
                 ) : (
-                  <VStack key={item.role} alignItems="flex-start">
+                  <VStack alignItems="flex-start">
                     <Text>{item.role}: </Text>
-                    <HStack alignItems="flex-end" gap={0} pl={3}>
+                    <HStack alignItems="flex-end" gap={0}>
                       <Text>{item.names[0].name}</Text>
                       <Text fontSize="xs">({item.names[0].team} 所属)</Text>
                     </HStack>
                   </VStack>
                 )}
-              </>
+              </React.Fragment>
             ) : (
               <VStack key={item.role} alignItems="flex-start">
                 <Text>{item.role}:</Text>
                 <VStack alignItems="flex-start" gap={0}>
                   {item.names.map((name) => (
-                    <>
+                    <React.Fragment
+                      key={typeof name === "string" ? name : name.name}
+                    >
                       {typeof name === "string" ? (
                         <Text key={name}>{name}</Text>
                       ) : (
-                        <HStack key={name.name} alignItems="flex-end" pl={3}>
+                        <HStack key={name.name} alignItems="flex-end">
                           <Text>{name.name}</Text>
                           <Text fontSize="xs">({name.team} 所属)</Text>
                         </HStack>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
                 </VStack>
               </VStack>

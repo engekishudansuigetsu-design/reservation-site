@@ -1,19 +1,26 @@
 import React from "react";
 import { Header } from "./Header";
-import { Container } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import { Footer } from "./Footer";
+import { Fabs } from "./Fabs";
+import { Orbs } from "./Orbs";
 
 export const Layout = (props: { children: React.ReactNode }) => {
   return (
     <Box position="relative">
-      <Box position="fixed" bottom={8} right={6} zIndex="10000">
+      <Box position="fixed" bottom={8} right={6} zIndex="fab">
         <Fabs />
       </Box>
-      <Header />
+      <Box position="sticky" top={0} zIndex="header">
+        <Header />
+      </Box>
       <Container w="720px" mt={4} mb={8}>
         {props.children}
       </Container>
-      <Footer />
+      <Orbs />
+      <Box position="relative" zIndex="footer">
+        <Footer />
+      </Box>
     </Box>
   );
 };

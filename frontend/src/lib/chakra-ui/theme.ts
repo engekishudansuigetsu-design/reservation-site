@@ -47,6 +47,19 @@ const config = defineConfig({
         title: { value: '"Hina Mincho", serif' },
         default: { value: '"Zen Maru Gothic", sans-serif' },
       },
+      zIndex: {
+        fab: { value: "300" },
+        header: { value: "100" },
+        footer: { value: "100" },
+
+        title: { value: "50" },
+        flyerKurage: { value: "10" },
+        flyerKurageGlow: { value: "9" },
+
+        backgroundBaseWrapper: { value: "3" },
+        backgroundBG: { value: "1" },
+        backgroundNoise: { value: "2" },
+      },
     },
 
     semanticTokens: {

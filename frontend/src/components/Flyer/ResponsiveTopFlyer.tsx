@@ -39,7 +39,7 @@ export const ResponsiveTopFlyer = () => {
       {/* 2. クラゲ */}
       <Box
         position="absolute"
-        zIndex={10}
+        zIndex="flyerKurage"
         // 位置のレスポンシブ指定
         top={0}
         left={0}
@@ -50,7 +50,7 @@ export const ResponsiveTopFlyer = () => {
         </picture>
       </Box>
       <Box
-        zIndex={5}
+        zIndex="flyerKurageGlow"
         position="absolute"
         top={{ base: "320px", md: "30px" }}
         left={{ base: "80px", md: "120px" }}
