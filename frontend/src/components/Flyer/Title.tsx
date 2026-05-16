@@ -63,7 +63,7 @@ export const Title = () => (
       as="h1"
       fontFamily="title"
       fontSize="72px"
-      color="#a8742c"
+      color="accent.500"
       scrollMarginTop={HEADER_HEIGHT}
       id={SECTION_IDS[SECTION_IDS.top]}
       opacity="0" // 初期状態は非表示

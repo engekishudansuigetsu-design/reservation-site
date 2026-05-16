@@ -57,7 +57,7 @@ export const FormSelect = <
         <Select.Positioner>
           <Select.Content>
             {collection.items.map((item) => (
-              <Select.Item item={item} key={item.value}>
+              <Select.Item item={item} key={item.value} color="black">
                 {item.label}
                 <Select.ItemIndicator />
               </Select.Item>

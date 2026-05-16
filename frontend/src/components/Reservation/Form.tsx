@@ -157,7 +157,10 @@ export const ReservationForm = () => {
                   <Stack gap="2">
                     {HORIZONTAL.map((option) => (
                       <React.Fragment key={option.value}>
-                        <Checkbox.Root value={option.value}>
+                        <Checkbox.Root
+                          value={option.value}
+                          colorPalette="accent"
+                        >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control />
                           <Checkbox.Label>{option.label}</Checkbox.Label>
