@@ -1,57 +1,62 @@
-import { Flex, IconButton, Menu, Portal } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Image,
+  Menu,
+  Portal,
+  Spacer,
+} from "@chakra-ui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { SECTION_IDS, HEADER_HEIGHT, MENU_ITEMS } from "../../const";
+import suigetsuIcon from "../../assets/icon-white.svg";
+import { HEADER_HEIGHT, MENU_ITEMS } from "../../const";
+import { jumpToSection } from "./utils";
 
-export const Header = () => {
-  const handleClick = (id: (typeof MENU_ITEMS)[number]["id"]) => {
-    const target = document.getElementById(id);
-
-    // もしtargetが見つからない場合は、ページのトップにスクロールする
-    if (!target) return;
-
-    // トップセクションの場合は、ページのトップにスクロールする
-    // それ以外のセクションの場合は、該当のセクションにスクロールする
-    target.scrollIntoView({
-      behavior: "smooth",
-      ...(id === SECTION_IDS.top ? { top: 0 } : { block: "start" }),
-    });
-  };
-
-  return (
-    <Flex
-      w="100%"
-      h={HEADER_HEIGHT}
-      px={4}
-      position="sticky"
-      top={0}
-      zIndex={100}
-      bg="#B00000"
-      align="center"
-      justify="flex-end"
+export const Header = () => (
+  <Flex
+    h={HEADER_HEIGHT}
+    px={4}
+    position="sticky"
+    top={0}
+    zIndex={100}
+    bg="brand.500"
+    align="center"
+    borderBottom="3px solid rgb(110, 1, 1)"
+    boxShadow="0 0 10px 5px rgb(110, 1, 1)"
+  >
+    <Box
+      as="button"
+      onClick={() => jumpToSection("top")}
+      boxSize={10}
+      cursor="pointer"
     >
-      <Menu.Root>
-        <Menu.Trigger asChild>
-          <IconButton aria-label="menu" variant="ghost" color="white">
-            <RxHamburgerMenu />
-          </IconButton>
-        </Menu.Trigger>
+      <Image src={suigetsuIcon} boxSize={10} alt="icon" />
+    </Box>
 
-        <Portal>
-          <Menu.Positioner>
-            <Menu.Content>
-              {MENU_ITEMS.map((item) => (
-                <Menu.Item
-                  key={item.id}
-                  value={item.id}
-                  onClick={() => handleClick(item.id)}
-                >
-                  {item.label}
-                </Menu.Item>
-              ))}
-            </Menu.Content>
-          </Menu.Positioner>
-        </Portal>
-      </Menu.Root>
-    </Flex>
-  );
-};
+    <Spacer />
+
+    <Menu.Root>
+      <Menu.Trigger asChild>
+        <IconButton aria-label="menu" colorPalette="brand">
+          <RxHamburgerMenu />
+        </IconButton>
+      </Menu.Trigger>
+
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content>
+            {MENU_ITEMS.map((item) => (
+              <Menu.Item
+                key={item.id}
+                value={item.id}
+                onClick={() => jumpToSection(item.id)}
+              >
+                {item.label}
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>
+  </Flex>
+);
