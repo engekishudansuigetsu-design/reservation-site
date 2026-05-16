@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { usePostExec } from "../../lib/gas/default/default";
 import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
@@ -22,24 +22,27 @@ export const useReservation = (): UseReservationReturn => {
     isPending: postReserveIsLoading,
   } = usePostExec();
 
-  const onSubmit = (formData: ReservationRequestFront) => {
-    const reservationRequest: ReserveInput = {
-      name: formData.name,
-      email: formData.email,
-      reserveId: formData.reserveId,
-      count: formData.count,
-      findFrom: formData.findFrom,
-      note: formData.note,
-    };
+  const onSubmit = useCallback<UseReservationReturn["onSubmit"]>(
+    (formData: ReservationRequestFront) => {
+      const reservationRequest: ReserveInput = {
+        name: formData.name,
+        email: formData.email,
+        reserveId: formData.reserveId,
+        count: formData.count,
+        findFrom: formData.findFrom,
+        note: formData.note,
+      };
 
-    setReservation(reservationRequest);
-  };
+      setReservation(reservationRequest);
+    },
+    [],
+  );
 
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     setReservation(undefined);
-  };
+  }, []);
 
-  const onPostReserve = async () => {
+  const onPostReserve = useCallback(async () => {
     if (!reservation) return;
 
     try {
@@ -51,7 +54,7 @@ export const useReservation = (): UseReservationReturn => {
     } catch (error) {
       console.error("post reserve failed", error);
     }
-  };
+  }, []);
 
   return {
     onSubmit,

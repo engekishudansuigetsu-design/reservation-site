@@ -41,11 +41,11 @@ const formSizeStyles = {
   md: formsize,
 };
 
-type onSubmitFrom = {
+type onSubmitFormProps = {
   onSubmit: (formData: ReservationRequestFront) => void;
 };
 
-export const ReservationForm = ({ onSubmit }: onSubmitFrom) => {
+export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
   const {
     control,
     register,

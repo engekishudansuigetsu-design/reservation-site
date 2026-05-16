@@ -1,5 +1,4 @@
 import { Layout } from "./components/Layout/Layout";
-// import { useGetReserve, usePostReserve } from "./lib/gas/default/default";
 import { Box, Text } from "@chakra-ui/react";
 import { SECTION_IDS, HEADER_HEIGHT, MENU_MAP } from "./const";
 
