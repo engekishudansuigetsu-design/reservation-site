@@ -1,11 +1,12 @@
 import {
-  Box,
   Flex,
+  HStack,
   IconButton,
   Image,
   Menu,
   Portal,
   Spacer,
+  Text,
 } from "@chakra-ui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import suigetsuIcon from "../../assets/icon-white.svg";
@@ -20,17 +21,17 @@ export const Header = () => (
     align="center"
     borderBottom="3px solid rgb(110, 1, 1)"
   >
-    <Box
+    <HStack
       as="button"
       onClick={() => jumpToSection("top")}
       boxSize={10}
       cursor="pointer"
+      w="fit-content"
     >
       <Image src={suigetsuIcon} boxSize={10} alt="icon" />
-    </Box>
-
+      <Text>演劇集団すいげつ旗揚げ公演</Text>
+    </HStack>
     <Spacer />
-
     <Menu.Root>
       <Menu.Trigger asChild>
         <IconButton aria-label="menu" colorPalette="brand">
