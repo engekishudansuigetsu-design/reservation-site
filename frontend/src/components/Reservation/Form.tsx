@@ -12,6 +12,7 @@ import {
   CheckboxGroup,
   Fieldset,
   createListCollection,
+  Flex,
 } from "@chakra-ui/react";
 import { HORIZONTAL } from "../../const";
 import type { SelectOption } from "../../const";
@@ -202,7 +203,16 @@ export const ReservationForm = () => {
           />
         </Field.Root>
 
-        <Button type="submit">内容を確認する</Button>
+        <Flex direction="column" alignItems="center">
+          <Button
+            type="submit"
+            w="230px"
+            colorPalette="brand"
+            boxShadow="0 4px 12px 0 rgba(255, 248, 237, 0.5)"
+          >
+            内容を確認する
+          </Button>
+        </Flex>
       </Stack>
     </form>
   );
