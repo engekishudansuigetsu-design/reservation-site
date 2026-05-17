@@ -77,13 +77,14 @@ export const useReservation = (): UseReservationReturn => {
       await postReserveMutateAsync({
         data: reservation,
       });
+      // console.error("post reserve failed");
 
       setReservation(undefined);
       setConfirmReservation(undefined);
     } catch (error) {
       console.error("post reserve failed", error);
     }
-  }, [postReserveMutateAsync]);
+  }, [postReserveMutateAsync, reservation]);
 
   return {
     onSubmit,
