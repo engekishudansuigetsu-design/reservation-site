@@ -15,10 +15,10 @@ export const HEADER_HEIGHT = "60px";
 export const FIND_FROM_ITEMS = [
   { value: "X", label: "X" },
   { value: "Instagram", label: "Instagram" },
-  { value: "web", label: "本webページ" },
-  { value: "flyer", label: "フライヤー" },
-  { value: "contact", label: "関係者" },
-  { value: "other", label: "その他" }, // 3行くらいで表示+行数増やせるようにしておく
+  { value: "本webページ", label: "本webページ" },
+  { value: "フライヤー", label: "フライヤー" },
+  { value: "関係者", label: "関係者" },
+  { value: "その他", label: "その他" }, // 3行くらいで表示+行数増やせるようにしておく
 ];
 
 export const MENU_ITEMS = [

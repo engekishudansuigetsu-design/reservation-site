@@ -1,8 +1,6 @@
-import { Button, Dialog, Field, Input, Portal, Stack } from "@chakra-ui/react";
-import { useRef } from "react";
+import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
 import {
-  FIND_FROM_ITEMS,
   PEOPLE_COLLECTION,
   RESERVATIONDATETIME_COLLECTION,
   type SelectOption,
@@ -25,37 +23,13 @@ const getReservationLabel = (
   return collection.find((item) => item.value === value)?.label ?? value;
 };
 
-const getFindFromLabels = (
-  values: string[] | undefined,
-  findFromWho?: string,
-  findFromOther?: string,
-): string => {
-  if (!values) return "";
-
-  return values
-    .map((value) => {
-      if (value === "contact") {
-        return findFromWho ? `関係者: ${findFromWho}` : "関係者";
-      }
-
-      if (value === "other") {
-        return findFromOther ? `その他: ${findFromOther}` : "その他";
-      }
-
-      return getReservationLabel(value, FIND_FROM_ITEMS);
-    })
-    .join(", ");
-};
-
 export const ConfirmDialog = ({
   reservation,
   isOpen,
-  confirmReservation,
   onCancel,
   onOk,
   isPosting,
 }: ReservationDialogProps) => {
-  const ref = useRef<HTMLInputElement | null>(null);
   return (
     <>
       <Dialog.Root
@@ -75,56 +49,27 @@ export const ConfirmDialog = ({
               </Dialog.Header>
               <Dialog.Body pb="4">
                 <Stack gap="4">
-                  <Field.Root>
-                    <Field.Label>お名前</Field.Label>
-                    <Input readOnly value={reservation?.name ?? ""} />
-                  </Field.Root>
-                  <Field.Root>
-                    <Field.Label>メールアドレス</Field.Label>
-                    <Input
-                      readOnly
-                      ref={ref}
-                      value={reservation?.email ?? ""}
-                    />
-                  </Field.Root>
-                  <Field.Root>
-                    <Field.Label>観劇日時</Field.Label>
-                    <Input
-                      readOnly
-                      ref={ref}
-                      value={getReservationLabel(
-                        reservation?.reserveId ?? "",
-                        RESERVATIONDATETIME_COLLECTION.items,
-                      )}
-                    />
-                  </Field.Root>
-                  <Field.Root>
-                    <Field.Label>予約人数</Field.Label>
-                    <Input
-                      readOnly
-                      ref={ref}
-                      value={getReservationLabel(
-                        String(reservation?.count ?? ""),
-                        PEOPLE_COLLECTION.items,
-                      )}
-                    />
-                  </Field.Root>
-                  <Field.Root>
-                    <Field.Label>どこで本公演を知りましたか？</Field.Label>
-                    <Input
-                      readOnly
-                      ref={ref}
-                      value={getFindFromLabels(
-                        confirmReservation?.findFrom,
-                        confirmReservation?.findFromWho,
-                        confirmReservation?.findFromOther,
-                      )}
-                    />
-                  </Field.Root>
-                  <Field.Root>
-                    <Field.Label>備考</Field.Label>
-                    <Input readOnly ref={ref} value={reservation?.note ?? ""} />
-                  </Field.Root>
+                  <Text>お名前：{reservation?.name ?? ""}</Text>
+                  <Text>メールアドレス：{reservation?.email ?? ""}</Text>
+                  <Text>
+                    観劇日時：
+                    {getReservationLabel(
+                      reservation?.reserveId ?? "",
+                      RESERVATIONDATETIME_COLLECTION.items,
+                    )}
+                  </Text>
+                  <Text>
+                    予約人数：
+                    {getReservationLabel(
+                      String(reservation?.count ?? ""),
+                      PEOPLE_COLLECTION.items,
+                    )}
+                  </Text>
+                  <Text>
+                    どこで本公演を知りましたか？：
+                    {reservation?.findFrom?.join(", ") ?? ""}
+                  </Text>
+                  <Text>備考：{reservation?.note ?? ""}</Text>
                 </Stack>
               </Dialog.Body>
               <Dialog.Footer>
