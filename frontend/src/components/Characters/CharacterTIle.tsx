@@ -8,7 +8,6 @@ type Props = {
   team?: string;
 };
 
-// 💡 ベストプラクティス：キャラクターカード単体
 export const CharacterTile = ({
   svgUrl,
   name,
@@ -22,10 +21,9 @@ export const CharacterTile = ({
     p="4"
     borderRadius="lg"
     w="full"
-    h="full" // 💡 グリッド内で高さを統一するために必須
+    h="full"
     textAlign="center"
   >
-    {/* 💡 SVGが絶対に欠けないボックス設定 */}
     <Box
       w="120px"
       aspectRatio={3 / 4}
@@ -37,7 +35,7 @@ export const CharacterTile = ({
         src={svgUrl}
         w="full"
         h="full"
-        objectFit="contain" // 💡 枠の中にSVG全体をきれいに収める
+        objectFit="contain"
         alt={`${name}カード`}
       />
     </Box>
