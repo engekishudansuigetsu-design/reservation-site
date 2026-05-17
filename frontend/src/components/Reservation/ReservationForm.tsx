@@ -136,18 +136,18 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
             control={control}
             render={({ field }) => {
               const selectedFindFrom = field.value ?? [];
-              const isWhoSelected = selectedFindFrom.includes("contact");
-              const isOtherSelected = selectedFindFrom.includes("other");
+              const isWhoSelected = selectedFindFrom.includes("関係者");
+              const isOtherSelected = selectedFindFrom.includes("その他");
 
               return (
                 <CheckboxGroup
                   value={selectedFindFrom}
                   onValueChange={(value) => {
                     field.onChange(value);
-                    if (!value.includes("contact")) {
+                    if (!value.includes("関係者")) {
                       resetField("findFromWho");
                     }
-                    if (!value.includes("other")) {
+                    if (!value.includes("その他")) {
                       resetField("findFromOther");
                     }
                   }}
@@ -161,7 +161,7 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
                           <Checkbox.Label>{option.label}</Checkbox.Label>
                         </Checkbox.Root>
 
-                        {isWhoSelected && option.value === "contact" && (
+                        {isWhoSelected && option.value === "関係者" && (
                           <Field.Root mb={3}>
                             <Input
                               placeholder="関係者名をご記入してください"
@@ -170,7 +170,7 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
                           </Field.Root>
                         )}
 
-                        {isOtherSelected && option.value === "other" && (
+                        {isOtherSelected && option.value === "その他" && (
                           <Field.Root mb={3}>
                             <Textarea
                               placeholder="具体的にご記入ください"
