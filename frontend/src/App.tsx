@@ -1,62 +1,47 @@
 import { Layout } from "./components/Layout/Layout";
-// import { useGetReserve, usePostReserve } from "./lib/gas/default/default";
-import { Box, Text } from "@chakra-ui/react";
-import { SECTION_IDS, HEADER_HEIGHT, MENU_MAP } from "./const";
+import { Box, Text, VStack } from "@chakra-ui/react";
+import { Title } from "./components/Flyer/Title";
+import { ResponsiveTopFlyer } from "./components/Flyer/ResponsiveTopFlyer";
 
 import { ReservationForm } from "./components/Reservation/Form";
+import { SectionTitle } from "./components/SectionTitle/SectionTitle";
+import { InfoTable } from "./components/InfoTable";
+import { Introduction } from "./components/Introduction/Introduction";
+import { CharacterGrid } from "./components/Characters/CharactersGrid";
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const { data } = useGetReserve();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const { mutateAsync: postReserve } = usePostReserve();
-
   return (
     <Layout>
-      <Text
-        as="h2"
-        fontSize="xl"
-        scrollMarginTop={HEADER_HEIGHT}
-        id={SECTION_IDS[SECTION_IDS.introduction]}
-      >
-        {MENU_MAP.introduction}
-      </Text>
-      <Text>あああああああああああああああああああああああ</Text>
-      <Text>ああああああああああああああああああああああああ</Text>
-      <Text>ああああああああああああああああああああああああ</Text>
+      <Box position="relative" boxSize="100%">
+        <Box position="relative" top={10} zIndex="title">
+          <Title />
+        </Box>
+        <ResponsiveTopFlyer />
 
-      <Box h="1000px" bg="blue.100">
-        <Text
-          as="h2"
-          fontSize="xl"
-          scrollMarginTop={HEADER_HEIGHT}
-          id={SECTION_IDS.characters}
-        >
-          {MENU_MAP[SECTION_IDS.characters]}
-        </Text>
-      </Box>
+        <SectionTitle id="introduction" />
+        <Introduction />
 
-      <Box h="1000px" bg="blue.100">
-        <Text
-          as="h2"
-          fontSize="xl"
-          scrollMarginTop={HEADER_HEIGHT}
-          id={SECTION_IDS.performance}
-        >
-          {MENU_MAP[SECTION_IDS.performance]}
-        </Text>
-      </Box>
+        <SectionTitle id="characters" />
+        <VStack gap={8}>
+          <CharacterGrid />
+          <VStack gap={0} mt="2">
+            <Text fontSize="md" fontWeight="bold">
+              アンサンブル
+            </Text>
+            <Text fontSize="sm" color="whiteAlpha.900">
+              やま
+            </Text>
+            <Text fontSize="xs" color="whiteAlpha.600">
+              (しゃんぐりら所属)
+            </Text>
+          </VStack>
+        </VStack>
 
-      <Box>
-        <Text
-          as="h2"
-          fontSize="xl"
-          scrollMarginTop={HEADER_HEIGHT}
-          id={SECTION_IDS.reservation}
-        >
-          {MENU_MAP[SECTION_IDS.reservation]}
-          <ReservationForm />
-        </Text>
+        <SectionTitle id="performance" />
+        <InfoTable />
+
+        <SectionTitle id="reservation" />
+        <ReservationForm />
       </Box>
     </Layout>
   );
