@@ -1,15 +1,11 @@
 import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
-import {
-  PEOPLE_COLLECTION,
-  RESERVATIONDATETIME_COLLECTION,
-  type SelectOption,
-} from "../../const";
-import type { ReservationRequestFront } from "./type";
+import { PEOPLE_COLLECTION, type SelectOption } from "../../const";
+import type { UseReservationReturn } from "./useReservation";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
-  confirmReservation: ReservationRequestFront | undefined;
+  reserveIdList: UseReservationReturn["reserveIdList"];
   isOpen: boolean;
   onCancel: () => void;
   onOk: () => Promise<void>;
@@ -25,6 +21,7 @@ const getReservationLabel = (
 
 export const ConfirmDialog = ({
   reservation,
+  reserveIdList,
   isOpen,
   onCancel,
   onOk,
@@ -55,7 +52,7 @@ export const ConfirmDialog = ({
                     観劇日時：
                     {getReservationLabel(
                       reservation?.reserveId ?? "",
-                      RESERVATIONDATETIME_COLLECTION.items,
+                      reserveIdList.items,
                     )}
                   </Text>
                   <Text>

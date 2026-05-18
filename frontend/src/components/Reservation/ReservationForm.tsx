@@ -11,15 +11,13 @@ import {
   Fieldset,
   Button,
 } from "@chakra-ui/react";
-import {
-  FIND_FROM_ITEMS,
-  PEOPLE_COLLECTION,
-  RESERVATIONDATETIME_COLLECTION,
-} from "../../const";
+import { FIND_FROM_ITEMS, PEOPLE_COLLECTION } from "../../const";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { reservationSchemaFront, type ReservationRequestFront } from "./type";
+import { reservationSchemaFront } from "./type";
 import { FormSelect } from "./SelectBox";
+
+import type { UseReservationReturn } from "./useReservation";
 
 const formsize = "600px";
 
@@ -28,11 +26,17 @@ const formSizeStyles = {
   md: formsize,
 };
 
-type onSubmitFormProps = {
-  onSubmit: (formData: ReservationRequestFront) => void;
+type ReservationFormProps = {
+  onSubmit: UseReservationReturn["onSubmit"];
+  reserveIdList: UseReservationReturn["reserveIdList"];
+  isLoadingReserveIdList: UseReservationReturn["isLoadingReserveIdList"];
 };
 
-export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
+export const ReservationForm = ({
+  onSubmit,
+  reserveIdList,
+  isLoadingReserveIdList,
+}: ReservationFormProps) => {
   const {
     control,
     register,
@@ -85,8 +89,10 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
           </Field.Label>
           <FormSelect
             name="reserveId"
-            placeholder="観劇日時を選択"
-            collection={RESERVATIONDATETIME_COLLECTION}
+            placeholder={
+              isLoadingReserveIdList ? "予約日時を読み込み中" : "観劇日時を選択"
+            }
+            collection={reserveIdList}
             control={control}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
@@ -97,7 +103,6 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
             予約人数
             <Field.RequiredIndicator />
           </Field.Label>
-          {/* selectボックスの実装は長くなったので切り出し */}
           <FormSelect
             name="count"
             placeholder="人数を選択"
