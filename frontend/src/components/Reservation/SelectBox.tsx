@@ -48,7 +48,10 @@ export const FormSelect = <
         <Select.HiddenSelect />
         <Select.Control>
           <Select.Trigger>
-            <Select.ValueText placeholder={placeholder} />
+            <Select.ValueText
+              placeholder={placeholder}
+              color="whiteAlpha.600"
+            />
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.Indicator />
