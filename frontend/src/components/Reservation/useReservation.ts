@@ -1,25 +1,58 @@
-import { useCallback, useState } from "react";
-import { usePostExec } from "../../lib/gas/default/default";
+import { useCallback, useMemo, useState } from "react";
 import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
-import { FIND_FROM_ITEMS } from "../../const";
+import { FIND_FROM_ITEMS, type SelectOption } from "../../const";
+import { useGetExec, usePostExec } from "../../lib/gas/default/default";
 
-type UseReservationReturn = {
+import { createListCollection } from "@chakra-ui/react";
+import { formatReservationIdLabel } from "../../util/formatReservationIdLabel";
+
+export type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
   reservation: ReserveInput | undefined;
-  confirmReservation: ReservationRequestFront | undefined;
   isOpenConfirmDialog: boolean;
   onCancel: () => void;
   onPostReserve: () => Promise<void>;
   postReserveStatus: ReturnType<typeof usePostExec>["status"];
   postReserveIsLoading: boolean;
+  reserveIdList: ReturnType<typeof createListCollection<SelectOption>>;
+  isLoadingReserveIdList: boolean;
+};
+
+export const useReservationIdList = () => {
+  const { data: reserveStatusList, isLoading: isLoadingReserveIdList } =
+    useGetExec();
+
+  const reserveIdList = useMemo(() => {
+    if (!reserveStatusList) {
+      return createListCollection<SelectOption>({
+        items: [
+          {
+            label: "",
+            value: "",
+            disabled: true,
+          },
+        ],
+      });
+    }
+
+    return createListCollection<SelectOption>({
+      items: reserveStatusList.map((reserveStatus) => ({
+        label: `${formatReservationIdLabel(reserveStatus.reserveId)} ${reserveStatus.remainCount <= 5 ? `(残席数：${reserveStatus.remainCount})` : ""}`,
+        value: reserveStatus.reserveId,
+        disabled: reserveStatus.remainCount === 0,
+      })),
+    });
+  }, [reserveStatusList]);
+  return {
+    reserveIdList,
+    isLoadingReserveIdList,
+  };
 };
 
 export const useReservation = (): UseReservationReturn => {
   const [reservation, setReservation] = useState<ReserveInput>();
-  const [confirmReservation, setConfirmReservation] =
-    useState<ReservationRequestFront>();
-
+  const { reserveIdList, isLoadingReserveIdList } = useReservationIdList();
   const {
     mutateAsync: postReserveMutateAsync,
     status: postReserveStatus,
@@ -80,7 +113,6 @@ export const useReservation = (): UseReservationReturn => {
       // console.error("post reserve failed");
 
       setReservation(undefined);
-      setConfirmReservation(undefined);
     } catch (error) {
       console.error("post reserve failed", error);
     }
@@ -89,11 +121,12 @@ export const useReservation = (): UseReservationReturn => {
   return {
     onSubmit,
     reservation,
-    confirmReservation,
     isOpenConfirmDialog: reservation !== undefined,
     onCancel,
     onPostReserve,
     postReserveStatus,
     postReserveIsLoading,
+    reserveIdList,
+    isLoadingReserveIdList,
   };
 };

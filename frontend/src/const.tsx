@@ -1,5 +1,4 @@
 import { createListCollection } from "@chakra-ui/react";
-import { RESERVATION_MASTER_SCHEDULE } from "@repo/shared/domain-model";
 
 export const SECTION_IDS = {
   introduction: "introduction",
@@ -35,6 +34,7 @@ export const MENU_MAP: Record<SectionId, string> = Object.fromEntries(
 export type SelectOption = {
   label: string;
   value: string;
+  disabled?: boolean;
 };
 
 export const PEOPLE_COLLECTION = createListCollection({
@@ -43,11 +43,3 @@ export const PEOPLE_COLLECTION = createListCollection({
     value: String(i + 1),
   })),
 });
-
-export const RESERVATIONDATETIME_COLLECTION =
-  createListCollection<SelectOption>({
-    items: RESERVATION_MASTER_SCHEDULE.map((reservation) => ({
-      value: reservation.reserveId,
-      label: reservation.label,
-    })),
-  });
