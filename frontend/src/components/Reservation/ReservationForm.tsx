@@ -11,13 +11,16 @@ import {
   Fieldset,
   Button,
 } from "@chakra-ui/react";
-import { FIND_FROM_ITEMS, PEOPLE_COLLECTION } from "../../const";
+import { FIND_FROM_ITEMS } from "../../const";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { reservationSchemaFront } from "./type";
 import { FormSelect } from "./SelectBox";
 
-import type { UseReservationReturn } from "./useReservation";
+import {
+  useReservationCount,
+  type UseReservationReturn,
+} from "./useReservation";
 
 const formsize = "600px";
 
@@ -42,6 +45,7 @@ export const ReservationForm = ({
     register,
     handleSubmit,
     resetField,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(reservationSchemaFront),
@@ -57,6 +61,10 @@ export const ReservationForm = ({
     },
   });
 
+  const selectedReserveId = watch("reserveId");
+  const { reservationCount } = useReservationCount({
+    reservationId: selectedReserveId,
+  });
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
@@ -107,7 +115,8 @@ export const ReservationForm = ({
             name="count"
             placeholder="人数を選択"
             control={control}
-            collection={PEOPLE_COLLECTION}
+            collection={reservationCount}
+            disabled={selectedReserveId === ""}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>

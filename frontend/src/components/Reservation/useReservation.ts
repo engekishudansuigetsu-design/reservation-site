@@ -19,7 +19,7 @@ export type UseReservationReturn = {
   isLoadingReserveIdList: boolean;
 };
 
-export const useReservationIdList = () => {
+const useReservationIdList = () => {
   const { data: reserveStatusList, isLoading: isLoadingReserveIdList } =
     useGetExec();
 
@@ -44,9 +44,49 @@ export const useReservationIdList = () => {
       })),
     });
   }, [reserveStatusList]);
+
   return {
     reserveIdList,
     isLoadingReserveIdList,
+  };
+};
+
+type UseReservationCountProps = {
+  reservationId: string;
+};
+
+export const useReservationCount = ({
+  reservationId,
+}: UseReservationCountProps) => {
+  const { data: reserveStatusList } = useGetExec();
+  const selectedReserveStatus = reserveStatusList?.find(
+    (reserveStatus) => reserveStatus.reserveId === reservationId,
+  );
+
+  const reservationCount = useMemo(() => {
+    if (!selectedReserveStatus) {
+      return createListCollection<SelectOption>({
+        items: [
+          {
+            label: "",
+            value: "",
+          },
+        ],
+      });
+    }
+
+    return createListCollection<SelectOption>({
+      items: Array.from(
+        { length: selectedReserveStatus.remainCount },
+        (_, i) => ({
+          label: `${i + 1}人`,
+          value: String(i + 1),
+        }),
+      ),
+    });
+  }, [reserveStatusList, reservationId]);
+  return {
+    reservationCount,
   };
 };
 

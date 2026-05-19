@@ -1,7 +1,10 @@
 import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
-import { PEOPLE_COLLECTION, type SelectOption } from "../../const";
-import type { UseReservationReturn } from "./useReservation";
+import { type SelectOption } from "../../const";
+import {
+  useReservationCount,
+  type UseReservationReturn,
+} from "./useReservation";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
@@ -27,6 +30,9 @@ export const ConfirmDialog = ({
   onOk,
   isPosting,
 }: ReservationDialogProps) => {
+  const { reservationCount } = useReservationCount({
+    reservationId: reservation?.reserveId ?? "",
+  });
   return (
     <>
       <Dialog.Root
@@ -59,7 +65,7 @@ export const ConfirmDialog = ({
                     予約人数：
                     {getReservationLabel(
                       String(reservation?.count ?? ""),
-                      PEOPLE_COLLECTION.items,
+                      reservationCount.items,
                     )}
                   </Text>
                   <Text>

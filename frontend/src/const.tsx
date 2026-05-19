@@ -36,10 +36,3 @@ export type SelectOption = {
   value: string;
   disabled?: boolean;
 };
-
-export const PEOPLE_COLLECTION = createListCollection({
-  items: Array.from({ length: 10 }, (_, i) => ({
-    label: `${i + 1}人`,
-    value: String(i + 1),
-  })),
-});
