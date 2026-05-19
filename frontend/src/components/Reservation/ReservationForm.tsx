@@ -97,7 +97,6 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
             予約人数
             <Field.RequiredIndicator />
           </Field.Label>
-          {/* selectボックスの実装は長くなったので切り出し */}
           <FormSelect
             name="count"
             placeholder="人数を選択"

@@ -9,7 +9,6 @@ import type { ReservationRequestFront } from "./type";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
-  confirmReservation: ReservationRequestFront | undefined;
   isOpen: boolean;
   onCancel: () => void;
   onOk: () => Promise<void>;

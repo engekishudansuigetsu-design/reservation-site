@@ -7,7 +7,6 @@ export const Reservation = () => {
   const {
     onSubmit,
     reservation,
-    confirmReservation,
     isOpenConfirmDialog,
     postReserveStatus,
     onCancel,
@@ -48,7 +47,6 @@ export const Reservation = () => {
       <ConfirmDialog
         reservation={reservation}
         isOpen={isOpenConfirmDialog}
-        confirmReservation={confirmReservation}
         onCancel={onCancel}
         onOk={onPostReserve}
         isPosting={postReserveIsLoading}
