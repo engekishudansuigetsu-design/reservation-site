@@ -12,7 +12,7 @@ import { CharacterGrid } from "./components/Characters/CharactersGrid";
 function App() {
   return (
     <Layout>
-      <Box position="relative" boxSize="100%">
+      <Box position="relative" w="100%">
         <Box position="relative" top={10} zIndex="title">
           <Title />
         </Box>

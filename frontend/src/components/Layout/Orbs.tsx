@@ -113,17 +113,15 @@ export const Orbs = () => {
   return (
     <>
       <Box
-        style={{
-          inset: 0,
-          backgroundColor: "transparent",
-          position: "relative",
-          overflow: "hidden",
-          zIndex: "backgroundBaseWrapper",
-        }}
+        inset={0}
+        backgroundColor="transparent"
+        position="fixed"
+        overflow="hidden"
+        zIndex="backgroundBaseWrapper"
       >
         {/* 背景ベース */}
         <Box
-          position="fixed"
+          position="absolute"
           inset={0}
           pointerEvents="none"
           zIndex="backgroundBG"
@@ -132,14 +130,14 @@ export const Orbs = () => {
         {/* 蛍コンテナ */}
         <Box
           ref={containerRef}
-          position="fixed"
+          position="absolute"
           inset={0}
           pointerEvents="none"
         />
 
         {/* フィルムノイズ */}
         <Box
-          position="fixed"
+          position="absolute"
           inset={0}
           zIndex="backgroundNoise"
           opacity={0.02}

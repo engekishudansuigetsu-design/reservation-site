@@ -28,11 +28,16 @@ export const ResponsiveTopFlyer = () => {
     >
       {/* 1. 水無月 画面サイズでPC用とスマホ用を切り替え */}
       <Box as="picture" width="100%" height="100%">
-        <source media="(min-width: 720px)" srcSet={humanPCImg} />
+        <source media="(min-width: 768px)" srcSet={humanPCImg} />
         <img
           src={humanPhoneImg}
           alt="フライヤー"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
         />
       </Box>
 
@@ -45,15 +50,30 @@ export const ResponsiveTopFlyer = () => {
         left={0}
       >
         <picture>
-          <source media="(min-width: 720px)" srcSet={kuragePCImg} />
-          <img src={kuragePhoneImg} alt="ニホンベニクラゲ" />
+          <source media="(min-width: 768px)" srcSet={kuragePCImg} />
+          <img
+            src={kuragePhoneImg}
+            alt="ニホンベニクラゲ"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
         </picture>
       </Box>
       <Box
         zIndex="flyerKurageGlow"
         position="absolute"
-        top={{ base: "320px", md: "30px" }}
-        left={{ base: "80px", md: "120px" }}
+        left={{
+          base: "8",
+          md: "22%",
+        }}
+        top={{
+          base: "30%",
+          md: "10%",
+        }}
         boxSize="300px"
         borderRadius="full"
         background="radial-gradient(circle, rgba(230,179,104,0.7) 0%, rgba(255,255,0,0) 70%)"
