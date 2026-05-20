@@ -12,11 +12,16 @@ import React from "react";
 
 export const Footer = () => (
   <Box as="footer" bg="#4c4c4c">
-    <Container w="5xl">
+    <Container maxW="720" px={{ base: 4, md: 6 }}>
       <VStack py={10} alignItems="flex-start">
         <Text pb={3}>STAFF</Text>
 
-        <SimpleGrid columnGap="10" rowGap="8" w="full" columns={[2, null, 3]}>
+        <SimpleGrid
+          columns={{ base: 1, sm: 2, md: 3 }}
+          columnGap={{ base: 4, sm: 6, md: 10 }}
+          rowGap={{ base: 6, sm: 8, md: 10 }}
+          w="full"
+        >
           {STAFF_CREDITS.map((item) =>
             item.names.length === 1 ? (
               <React.Fragment key={item.role}>
@@ -45,7 +50,11 @@ export const Footer = () => (
                       {typeof name === "string" ? (
                         <Text key={name}>{name}</Text>
                       ) : (
-                        <HStack key={name.name} alignItems="flex-end">
+                        <HStack
+                          key={name.name}
+                          alignItems="flex-end"
+                          flexWrap="wrap"
+                        >
                           <Text>{name.name}</Text>
                           <Text fontSize="xs">({name.team} 所属)</Text>
                         </HStack>

@@ -45,16 +45,12 @@ export type SelectOption = {
 
 export const STAFF_CREDITS = [
   {
-    role: "主催・脚本・演出",
+    role: "主催・脚本・演出・舞台監督",
     names: [{ name: "朱居智光", team: "演劇集団すいげつ" }],
   },
-  { role: "演出助手", names: [{ name: "難波瑞穂", team: "演劇集団すいげつ" }] },
   {
-    role: "舞台監督",
-    names: [
-      { name: "朱居智光", team: "演劇集団すいげつ" },
-      { name: "難波瑞穂", team: "演劇集団すいげつ" },
-    ],
+    role: "演出助手・舞台監督",
+    names: [{ name: "難波瑞穂", team: "演劇集団すいげつ" }],
   },
   {
     role: "制作",
