@@ -19,6 +19,10 @@ export type UseReservationReturn = {
   isLoadingReserveIdList: boolean;
 };
 
+type UseReservationCountProps = {
+  reservationId: string;
+};
+
 const useReservationIdList = () => {
   const { data: reserveStatusList, isLoading: isLoadingReserveIdList } =
     useGetExec();
@@ -49,10 +53,6 @@ const useReservationIdList = () => {
     reserveIdList,
     isLoadingReserveIdList,
   };
-};
-
-type UseReservationCountProps = {
-  reservationId: string;
 };
 
 export const useReservationCount = ({
@@ -90,6 +90,30 @@ export const useReservationCount = ({
   };
 };
 
+type FindFromInput = Pick<
+  ReservationRequestFront,
+  "findFrom" | "findFromWho" | "findFromOther"
+>;
+
+const getFindFromLabels = ({
+  findFrom,
+  findFromWho,
+  findFromOther,
+}: FindFromInput): string[] => {
+  if (!findFrom) return [];
+  return FIND_FROM_ITEMS.filter(({ value }) => findFrom.includes(value)).map(
+    ({ value }) => {
+      if (value === "関係者") {
+        return findFromWho ? `関係者: ${findFromWho}` : "関係者";
+      }
+      if (value === "その他") {
+        return findFromOther ? `その他: ${findFromOther}` : "その他";
+      }
+      return value;
+    },
+  );
+};
+
 export const useReservation = (): UseReservationReturn => {
   const [reservation, setReservation] = useState<ReserveInput>();
   const { reserveIdList, isLoadingReserveIdList } = useReservationIdList();
@@ -99,26 +123,6 @@ export const useReservation = (): UseReservationReturn => {
     isPending: postReserveIsLoading,
   } = usePostExec();
 
-  const getFindFromLabels = (
-    values: string[] | undefined,
-    findFromWho?: string,
-    findFromOther?: string,
-  ): string[] => {
-    if (!values) return [];
-
-    return FIND_FROM_ITEMS.filter(({ value }) => values.includes(value)).map(
-      ({ value }) => {
-        if (value === "関係者") {
-          return findFromWho ? `関係者: ${findFromWho}` : "関係者";
-        }
-        if (value === "その他") {
-          return findFromOther ? `その他: ${findFromOther}` : "その他";
-        }
-        return value;
-      },
-    );
-  };
-
   const onSubmit = useCallback<UseReservationReturn["onSubmit"]>(
     (formData: ReservationRequestFront) => {
       const reservationRequest: ReserveInput = {
@@ -126,14 +130,13 @@ export const useReservation = (): UseReservationReturn => {
         email: formData.email,
         reserveId: formData.reserveId,
         count: formData.count,
-        findFrom: getFindFromLabels(
-          formData.findFrom,
-          formData.findFromWho,
-          formData.findFromOther,
-        ),
+        findFrom: getFindFromLabels({
+          findFrom: formData.findFrom,
+          findFromWho: formData.findFromWho,
+          findFromOther: formData.findFromOther,
+        }),
         note: formData.note,
       };
-      console.log(formData);
       setReservation(reservationRequest);
     },
     [],
@@ -150,8 +153,6 @@ export const useReservation = (): UseReservationReturn => {
       await postReserveMutateAsync({
         data: reservation,
       });
-      // console.error("post reserve failed");
-
       setReservation(undefined);
     } catch (error) {
       console.error("post reserve failed", error);
