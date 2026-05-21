@@ -1,5 +1,3 @@
-import { createListCollection } from "@chakra-ui/react";
-
 export const SECTION_IDS = {
   introduction: "introduction",
   characters: "characters",
