@@ -1,11 +1,10 @@
-import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
+import { Button, Dialog, Grid, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
 import {
   PEOPLE_COLLECTION,
   RESERVATIONDATETIME_COLLECTION,
   type SelectOption,
 } from "../../const";
-import type { ReservationRequestFront } from "./type";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
@@ -21,6 +20,21 @@ const getReservationLabel = (
 ): string => {
   return collection.find((item) => item.value === value)?.label ?? value;
 };
+
+const dialogStyle = {
+  width: {
+    base: "calc(100vw - 32px)",
+    sm: "sm",
+    md: "md",
+  },
+  maxW: "600px",
+  maxH: "calc(100vh - 32px)",
+  overflow: "auto",
+  borderRadius: {
+    base: "xl",
+    md: "2xl",
+  },
+} as const;
 
 export const ConfirmDialog = ({
   reservation,
@@ -40,7 +54,7 @@ export const ConfirmDialog = ({
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner>
-            <Dialog.Content>
+            <Dialog.Content {...dialogStyle}>
               <Dialog.Header>
                 <Dialog.Title textAlign="center">
                   以下の内容で予約します。よろしいですか？
@@ -64,10 +78,18 @@ export const ConfirmDialog = ({
                       PEOPLE_COLLECTION.items,
                     )}
                   </Text>
-                  <Text>
-                    どこで本公演を知りましたか？：
-                    {reservation?.findFrom?.join(", ") ?? ""}
-                  </Text>
+                  <Grid
+                    templateColumns="max-content 1fr"
+                    columnGap={1}
+                    alignItems="start"
+                  >
+                    <Text whiteSpace="nowrap">
+                      どこで本公演を知りましたか？：
+                    </Text>
+                    <Text whiteSpace="pre-line">
+                      {reservation?.findFrom?.join("\n") ?? ""}
+                    </Text>
+                  </Grid>
                   <Text>備考：{reservation?.note ?? ""}</Text>
                 </Stack>
               </Dialog.Body>
