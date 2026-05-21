@@ -1,4 +1,4 @@
-import { Button, Dialog, Grid, Portal, Stack, Text } from "@chakra-ui/react";
+import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
 import {
   PEOPLE_COLLECTION,
@@ -78,18 +78,9 @@ export const ConfirmDialog = ({
                       PEOPLE_COLLECTION.items,
                     )}
                   </Text>
-                  <Grid
-                    templateColumns="max-content 1fr"
-                    columnGap={1}
-                    alignItems="start"
-                  >
-                    <Text whiteSpace="nowrap">
-                      どこで本公演を知りましたか？：
-                    </Text>
-                    <Text whiteSpace="pre-line">
-                      {reservation?.findFrom?.join("\n") ?? ""}
-                    </Text>
-                  </Grid>
+                  <Text whiteSpace="pre-line">
+                    {`どこで本公演を知りましたか？：\n${reservation?.findFrom?.join("\n") ?? ""}`}
+                  </Text>
                   <Text>備考：{reservation?.note ?? ""}</Text>
                 </Stack>
               </Dialog.Body>
