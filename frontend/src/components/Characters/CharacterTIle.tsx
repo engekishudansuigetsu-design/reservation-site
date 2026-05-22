@@ -49,7 +49,9 @@ export const CharacterTile = ({
       </Text>
       {team && (
         <Text fontSize="xs" color="whiteAlpha.600">
-          ({team}所属)
+          {team}
+          <wbr />
+          所属
         </Text>
       )}
     </VStack>
@@ -59,10 +61,11 @@ export const CharacterTile = ({
       color="whiteAlpha.800"
       lineHeight="tall"
       mt="3"
-      w="full"
+      w={{ base: "full", md: "fit-content" }}
       fontFamily="{fonts.default}"
       textAlign={{ base: "center", md: "left" }}
-      overflowWrap="anywhere"
+      whiteSpace="unset"
+      wordBreak="keep-all"
     >
       {children}
     </Text>

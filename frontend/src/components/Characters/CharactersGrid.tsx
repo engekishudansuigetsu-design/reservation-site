@@ -16,11 +16,15 @@ export const CharacterGrid = () => (
     alignItems="stretch"
   >
     <CharacterTile svgUrl={minazuki} name="水無月" credit="宮原瞬也">
-      日本クラゲ研究所の所長。
+      日本クラゲ研究所の
+      <wbr />
+      所長。
       <br />
       妻の紅子の研究結果をもとに、
       <br />
-      ベニクラゲ細胞を完成させた。
+      ベニクラゲ細胞を
+      <wbr />
+      完成させた。
     </CharacterTile>
     <CharacterTile
       svgUrl={kaidou}
@@ -28,25 +32,45 @@ export const CharacterGrid = () => (
       credit="難波瑞穂"
       team="演劇集団すいげつ"
     >
-      日本クラゲ研究所の副所長。
+      日本クラゲ研究所の
+      <wbr />
+      副所長。
       <br />
-      水無月と紅子の大学時代の先輩。
+      水無月と紅子の
+      <wbr />
+      大学時代の先輩。
       <br />
-      水無月と紅子を引き合わせた。
+      水無月と紅子を
+      <wbr />
+      引き合わせた。
     </CharacterTile>
     <CharacterTile svgUrl={jumonji} name="十文字" credit="藤井歩輝">
       水無月の助手。
       <br />
-      面倒事を他研究員から押し付けられがち。
+      面倒事を他研究員から
+      <wbr />
+      押し付けられがち。
       <br />
-      よく紅子のフィールドワークに付き合っていた。
+      よく紅子の
+      <wbr />
+      フィールドワークに
+      <wbr />
+      付き合っていた。
     </CharacterTile>
     <CharacterTile svgUrl={auri} name="アウリ" credit="紫吹結">
-      日本クラゲ研究所に新しく赴任してきた研究員。
+      日本クラゲ研究所に
+      <wbr />
+      新しく赴任してきた
+      <wbr />
+      研究員。
       <br />
-      日本とアルバニアのハーフ。
+      日本とアルバニア
+      <wbr />
+      のハーフ。
       <br />
-      気になったことは遠慮なく聞くタイプ。
+      気になったことは
+      <wbr />
+      遠慮なく聞くタイプ。
     </CharacterTile>
     <CharacterTile svgUrl={hanagasa} name="花笠" credit="あつと">
       フリーの雑誌記者
@@ -59,10 +83,16 @@ export const CharacterGrid = () => (
     >
       水無月の妻。
       <br />
-      ベニクラゲの若返り因子を特定した。
+      ベニクラゲの若返り因子を
+      <wbr />
+      特定した。
       <br />
-      フィールドワークが好きで、 <br />
-      に塩の香りをまとっていた。
+      フィールドワーク
+      <wbr />
+      が好きで、 <br />
+      常に塩の香りを
+      <wbr />
+      まとっていた。
     </CharacterTile>
   </SimpleGrid>
 );
