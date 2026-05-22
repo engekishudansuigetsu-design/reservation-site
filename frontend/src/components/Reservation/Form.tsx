@@ -4,7 +4,6 @@ import React from "react";
 import {
   Input,
   Checkbox,
-  Button,
   Textarea,
   Text,
   Stack,
@@ -21,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { reservationSchemaFront, type ReservationRequestFront } from "./type";
 import { FormSelect } from "./SelectBox";
+import { ShiningButton } from "../Common/ShiningButton";
 
 const peopleCollection = createListCollection({
   items: Array.from({ length: 10 }, (_, i) => ({
@@ -204,14 +204,9 @@ export const ReservationForm = () => {
         </Field.Root>
 
         <Flex direction="column" alignItems="center">
-          <Button
-            type="submit"
-            w="230px"
-            colorPalette="brand"
-            boxShadow="0 4px 12px 0 rgba(255, 248, 237, 0.5)"
-          >
+          <ShiningButton type="submit" colorPalette="brand">
             内容を確認する
-          </Button>
+          </ShiningButton>
         </Flex>
       </Stack>
     </form>

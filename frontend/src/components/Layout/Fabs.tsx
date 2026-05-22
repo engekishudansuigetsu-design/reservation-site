@@ -1,9 +1,10 @@
-import { Button, IconButton, Image, VStack } from "@chakra-ui/react";
+import { IconButton, Image, VStack } from "@chakra-ui/react";
 import { jumpToSection } from "./utils";
 import { SECTION_IDS } from "../../const";
 import xIcon from "../../assets/Xlogo.svg";
 import instaIcon from "../../assets/Instagram_Glyph_White.svg";
 import suigetsuIcon from "../../assets/icon-white.svg";
+import { ShiningButton } from "../Common/ShiningButton";
 
 const onOpenSNS = (url: string) => {
   window.open(`${url}`, "_blank", "noopener,noreferrer");
@@ -31,16 +32,13 @@ export const Fabs = () => (
     >
       <Image src={instaIcon} boxSize={6} />
     </IconButton>
-    <Button
-      size="xl"
-      onClick={() => jumpToSection(SECTION_IDS.reservation)}
-      w="230px"
+
+    <ShiningButton
       colorPalette="accent"
-      variant="solid"
-      boxShadow="0 4px 12px 0 rgba(255, 248, 237, 0.5)"
+      onClick={() => jumpToSection(SECTION_IDS.reservation)}
     >
       <Image src={suigetsuIcon} boxSize={8} alt="icon" />
       チケットを予約する
-    </Button>
+    </ShiningButton>
   </VStack>
 );

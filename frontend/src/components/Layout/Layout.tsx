@@ -14,7 +14,13 @@ export const Layout = (props: { children: React.ReactNode }) => {
       <Box position="sticky" top={0} zIndex="header">
         <Header />
       </Box>
-      <Container maxW="720px" px={{ base: 4, md: 0 }} mt={4} mb={8}>
+      <Container
+        maxW="container.md"
+        px={{ base: 4, md: 0 }}
+        mt={4}
+        mb={8}
+        zIndex="content"
+      >
         {props.children}
       </Container>
       <Orbs />

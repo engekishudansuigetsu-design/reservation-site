@@ -6,6 +6,8 @@ import {
   defineSlotRecipe,
 } from "@chakra-ui/react";
 
+// fontsixze sm 12, md 14 lg 16
+
 const config = defineConfig({
   globalCss: {
     "html, body": {
@@ -56,6 +58,7 @@ const config = defineConfig({
         title: { value: "50" },
         flyerKurage: { value: "10" },
         flyerKurageGlow: { value: "9" },
+        content: { value: "5" },
 
         backgroundBaseWrapper: { value: "3" },
         backgroundBG: { value: "1" },
