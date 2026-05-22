@@ -72,7 +72,7 @@ export const ShiningButton = ({ children, ...props }: Props) => (
           )
         `,
 
-      animation: `${shine} 5s ease-in-out infinite`,
+      animation: `${shine} 8s ease-in-out infinite`,
     }}
     boxShadow="0 4px 12px 0 rgba(255, 248, 237, 0.5)"
   >

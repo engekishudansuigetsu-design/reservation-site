@@ -12,26 +12,28 @@ const onOpenSNS = (url: string) => {
 
 export const Fabs = () => (
   <VStack alignItems="flex-end" gap={5}>
-    <IconButton
-      colorPalette="brand"
-      rounded="full"
-      aria-label="公式Xを開く"
-      onClick={() => {
-        onOpenSNS("https://x.com/suigetsu_engeki");
-      }}
-    >
-      <Image src={xIcon} boxSize={5} />
-    </IconButton>
-    <IconButton
-      colorPalette="brand"
-      rounded="full"
-      aria-label="公式Instagramを開く"
-      onClick={() => {
-        onOpenSNS("https://www.instagram.com/engekishudan.suigetsu/");
-      }}
-    >
-      <Image src={instaIcon} boxSize={6} />
-    </IconButton>
+    <VStack gap={2}>
+      <IconButton
+        colorPalette="brand"
+        rounded="full"
+        aria-label="公式Xを開く"
+        onClick={() => {
+          onOpenSNS("https://x.com/suigetsu_engeki");
+        }}
+      >
+        <Image src={xIcon} boxSize={5} />
+      </IconButton>
+      <IconButton
+        colorPalette="brand"
+        rounded="full"
+        aria-label="公式Instagramを開く"
+        onClick={() => {
+          onOpenSNS("https://www.instagram.com/engekishudan.suigetsu/");
+        }}
+      >
+        <Image src={instaIcon} boxSize={6} />
+      </IconButton>
+    </VStack>
 
     <ShiningButton
       colorPalette="accent"

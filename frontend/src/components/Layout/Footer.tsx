@@ -68,7 +68,7 @@ export const Footer = () => (
         </SimpleGrid>
       </VStack>
       <Separator size="lg" />
-      <VStack py={10} alignItems="flex-start">
+      <VStack pt={10} pb="120px" alignItems="flex-start">
         <Text>演劇集団すいげつ</Text>
         <Text>朱居智光・難波瑞穂</Text>
         <Text as="address">engekishudan.suigetsu@gmail.com</Text>
