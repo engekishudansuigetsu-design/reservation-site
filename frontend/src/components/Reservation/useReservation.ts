@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { usePostExec } from "../../lib/gas/default/default";
 import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
-import { HORIZONTAL } from "../../const";
+import { FIND_FROM_ITEMS } from "../../const";
 
 type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
@@ -25,14 +25,13 @@ const getFindFromLabels = ({
   findFromOther,
 }: FindFromInput): string[] => {
   if (!findFrom) return [];
-
-  return HORIZONTAL.filter(({ value }) => findFrom.includes(value)).map(
+  return FIND_FROM_ITEMS.filter(({ value }) => findFrom.includes(value)).map(
     ({ value }) => {
       if (value === "関係者") {
-        return findFromWho ? `関係者: ${findFromWho}` : "関係者";
+        return findFromWho ? `関係者: (${findFromWho})` : "関係者";
       }
       if (value === "その他") {
-        return findFromOther ? `その他: ${findFromOther}` : "その他";
+        return findFromOther ? `その他: (${findFromOther})` : "その他";
       }
       return value;
     },

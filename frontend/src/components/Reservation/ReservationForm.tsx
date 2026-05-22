@@ -9,30 +9,17 @@ import {
   Field,
   CheckboxGroup,
   Fieldset,
-  createListCollection,
   Button,
 } from "@chakra-ui/react";
-import { HORIZONTAL } from "../../const";
-import type { SelectOption } from "../../const";
-import { RESERVATION_MASTER_SCHEDULE } from "@repo/shared/domain-model";
+import {
+  FIND_FROM_ITEMS,
+  PEOPLE_COLLECTION,
+  RESERVATIONDATETIME_COLLECTION,
+} from "../../const";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { reservationSchemaFront, type ReservationRequestFront } from "./type";
 import { FormSelect } from "./SelectBox";
-
-const peopleCollection = createListCollection({
-  items: Array.from({ length: 10 }, (_, i) => ({
-    label: `${i + 1}人`,
-    value: String(i + 1),
-  })),
-});
-
-const reservationDateTimeCollection = createListCollection<SelectOption>({
-  items: RESERVATION_MASTER_SCHEDULE.map((reservation) => ({
-    value: reservation.reserveId,
-    label: reservation.label,
-  })),
-});
 
 const formsize = "600px";
 
@@ -99,7 +86,7 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
           <FormSelect
             name="reserveId"
             placeholder="観劇日時を選択"
-            collection={reservationDateTimeCollection}
+            collection={RESERVATIONDATETIME_COLLECTION}
             control={control}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
@@ -110,12 +97,11 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
             予約人数
             <Field.RequiredIndicator />
           </Field.Label>
-          {/* selectボックスの実装は長くなったので切り出し */}
           <FormSelect
             name="count"
             placeholder="人数を選択"
             control={control}
-            collection={peopleCollection}
+            collection={PEOPLE_COLLECTION}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>
@@ -153,7 +139,7 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
                   }}
                 >
                   <Stack gap="2">
-                    {HORIZONTAL.map((option) => (
+                    {FIND_FROM_ITEMS.map((option) => (
                       <React.Fragment key={option.value}>
                         <Checkbox.Root value={option.value}>
                           <Checkbox.HiddenInput />
