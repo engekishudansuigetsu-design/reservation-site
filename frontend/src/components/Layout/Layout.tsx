@@ -1,9 +1,10 @@
 import React from "react";
 import { Header } from "./Header";
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { Footer } from "./Footer";
 import { Fabs } from "./Fabs";
 import { Orbs } from "./Orbs";
+import { ResponsiveTopFlyer } from "../Flyer/ResponsiveTopFlyer";
 
 export const Layout = (props: { children: React.ReactNode }) => {
   return (
@@ -14,13 +15,11 @@ export const Layout = (props: { children: React.ReactNode }) => {
       <Box position="sticky" top={0} zIndex="header">
         <Header />
       </Box>
-      <Container
-        maxW="container.md"
-        px={{ base: 4, md: 0 }}
-        mt={4}
-        mb={8}
-        zIndex="content"
-      >
+
+      <Flex justifyContent="center">
+        <ResponsiveTopFlyer />
+      </Flex>
+      <Container maxW="container.md" px={6} mt={4} mb={8} zIndex="content">
         {props.children}
       </Container>
       <Orbs />

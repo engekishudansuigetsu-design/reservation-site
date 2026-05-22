@@ -62,7 +62,7 @@ export const Title = () => (
     <Text
       as="h1"
       fontFamily="title"
-      fontSize="72px"
+      fontSize={{ base: "40px", md: "72px" }}
       color="accent.500"
       scrollMarginTop={HEADER_HEIGHT}
       id={SECTION_IDS[SECTION_IDS.top]}
