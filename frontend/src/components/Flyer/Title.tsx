@@ -62,16 +62,22 @@ export const Title = () => (
     <Text
       as="h1"
       fontFamily="title"
-      fontSize={{ base: "40px", md: "72px" }}
+      fontSize="clamp(40px, 8vw, 72px)"
       color="accent.500"
       scrollMarginTop={HEADER_HEIGHT}
       id={SECTION_IDS[SECTION_IDS.top]}
       opacity="0" // 初期状態は非表示
       animation={`${fadeInScale} 1.5s 0.2s ease-out forwards`}
+      whiteSpace="nowrap"
     >
       命あれば
       <br />
-      水月も紅に会う
+      水月も
+      {/* PCでは表示しない、スマホだけ改行 */}
+      <Box as="span" display={{ base: "inline", md: "none" }}>
+        <br />
+      </Box>
+      紅に会う
     </Text>
   </Box>
 );

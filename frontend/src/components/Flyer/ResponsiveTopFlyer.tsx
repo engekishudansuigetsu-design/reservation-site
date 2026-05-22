@@ -27,8 +27,10 @@ export const ResponsiveTopFlyer = () => {
       <Flex
         position="absolute"
         top="5%"
+        left="40%"
+        transform="translateX(-70%)"
         zIndex="title"
-        left={{ base: "10%", md: "-10%" }}
+        pointerEvents="none"
       >
         <Title />
       </Flex>
