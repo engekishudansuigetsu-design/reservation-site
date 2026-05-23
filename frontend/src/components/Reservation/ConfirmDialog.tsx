@@ -22,6 +22,21 @@ const getReservationLabel = (
   return collection.find((item) => item.value === value)?.label ?? value;
 };
 
+const dialogStyle = {
+  width: {
+    base: "calc(100vw - 32px)",
+    sm: "sm",
+    md: "md",
+  },
+  maxW: "600px",
+  maxH: "calc(100vh - 32px)",
+  overflow: "auto",
+  borderRadius: {
+    base: "xl",
+    md: "2xl",
+  },
+} as const;
+
 export const ConfirmDialog = ({
   reservation,
   reserveIdList,
@@ -44,7 +59,7 @@ export const ConfirmDialog = ({
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner>
-            <Dialog.Content>
+            <Dialog.Content {...dialogStyle}>
               <Dialog.Header>
                 <Dialog.Title textAlign="center">
                   以下の内容で予約します。よろしいですか？
@@ -68,9 +83,8 @@ export const ConfirmDialog = ({
                       reservationCount.items,
                     )}
                   </Text>
-                  <Text>
-                    どこで本公演を知りましたか？：
-                    {reservation?.findFrom?.join(", ") ?? ""}
+                  <Text whiteSpace="pre-line">
+                    {`どこで本公演を知りましたか？：\n${reservation?.findFrom?.join("\n") ?? ""}`}
                   </Text>
                   <Text>備考：{reservation?.note ?? ""}</Text>
                 </Stack>
