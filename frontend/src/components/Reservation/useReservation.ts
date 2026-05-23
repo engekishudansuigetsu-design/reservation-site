@@ -1,11 +1,8 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
-import { FIND_FROM_ITEMS, type SelectOption } from "../../const";
-import { useGetExec, usePostExec } from "../../lib/gas/default/default";
-
-import { createListCollection } from "@chakra-ui/react";
-import { formatReservationIdLabel } from "../../util/formatReservationIdLabel";
+import { FIND_FROM_ITEMS } from "../../const";
+import { usePostExec } from "../../lib/gas/default/default";
 
 export type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
@@ -15,79 +12,6 @@ export type UseReservationReturn = {
   onPostReserve: () => Promise<void>;
   postReserveStatus: ReturnType<typeof usePostExec>["status"];
   postReserveIsLoading: boolean;
-  reserveIdList: ReturnType<typeof createListCollection<SelectOption>>;
-  isLoadingReserveIdList: boolean;
-};
-
-type UseReservationCountProps = {
-  reservationId: string;
-};
-
-const useReservationIdList = () => {
-  const { data: reserveStatusList, isLoading: isLoadingReserveIdList } =
-    useGetExec();
-
-  const reserveIdList = useMemo(() => {
-    if (!reserveStatusList) {
-      return createListCollection<SelectOption>({
-        items: [
-          {
-            label: "",
-            value: "",
-            disabled: true,
-          },
-        ],
-      });
-    }
-
-    return createListCollection<SelectOption>({
-      items: reserveStatusList.map((reserveStatus) => ({
-        label: `${formatReservationIdLabel(reserveStatus.reserveId)} ${reserveStatus.remainCount <= 5 ? `(残席数：${reserveStatus.remainCount})` : ""}`,
-        value: reserveStatus.reserveId,
-        disabled: reserveStatus.remainCount === 0,
-      })),
-    });
-  }, [reserveStatusList]);
-
-  return {
-    reserveIdList,
-    isLoadingReserveIdList,
-  };
-};
-
-export const useReservationCount = ({
-  reservationId,
-}: UseReservationCountProps) => {
-  const { data: reserveStatusList } = useGetExec();
-  const selectedReserveStatus = reserveStatusList?.find(
-    (reserveStatus) => reserveStatus.reserveId === reservationId,
-  );
-
-  const reservationCount = useMemo(() => {
-    if (!selectedReserveStatus) {
-      return createListCollection<SelectOption>({
-        items: [
-          {
-            label: "",
-            value: "",
-          },
-        ],
-      });
-    }
-
-    return createListCollection<SelectOption>({
-      items: Array.from(
-        { length: selectedReserveStatus.remainCount },
-        (_, i) => ({
-          label: `${i + 1}人`,
-          value: String(i + 1),
-        }),
-      ),
-    });
-  }, [reserveStatusList, reservationId]);
-  return {
-    reservationCount,
-  };
 };
 
 type FindFromInput = Pick<
@@ -116,7 +40,6 @@ const getFindFromLabels = ({
 
 export const useReservation = (): UseReservationReturn => {
   const [reservation, setReservation] = useState<ReserveInput>();
-  const { reserveIdList, isLoadingReserveIdList } = useReservationIdList();
   const {
     mutateAsync: postReserveMutateAsync,
     status: postReserveStatus,
@@ -167,7 +90,5 @@ export const useReservation = (): UseReservationReturn => {
     onPostReserve,
     postReserveStatus,
     postReserveIsLoading,
-    reserveIdList,
-    isLoadingReserveIdList,
   };
 };

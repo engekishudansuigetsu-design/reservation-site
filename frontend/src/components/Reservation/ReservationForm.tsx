@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import React from "react";
 import {
   Input,
@@ -12,15 +12,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FIND_FROM_ITEMS } from "../../const";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { reservationSchemaFront } from "./type";
 import { FormSelect } from "./SelectBox";
 
-import {
-  useReservationCount,
-  type UseReservationReturn,
-} from "./useReservation";
+import { type UseReservationReturn } from "./useReservation";
+import { useReservationForm } from "./useReservationForm";
 
 const formsize = "600px";
 
@@ -31,42 +27,23 @@ const formSizeStyles = {
 
 type ReservationFormProps = {
   onSubmit: UseReservationReturn["onSubmit"];
-  reserveIdList: UseReservationReturn["reserveIdList"];
-  isLoadingReserveIdList: UseReservationReturn["isLoadingReserveIdList"];
 };
 
-export const ReservationForm = ({
-  onSubmit,
-  reserveIdList,
-  isLoadingReserveIdList,
-}: ReservationFormProps) => {
+export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
   const {
     control,
     register,
-    handleSubmit,
     resetField,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(reservationSchemaFront),
-    mode: "onChange",
-    defaultValues: {
-      name: "",
-      email: "",
-      reserveId: "",
-      count: 0,
-      findFrom: [],
-      findFromOther: "",
-      note: "",
-    },
-  });
+    errors,
+    selectedReserveId,
+    reserveIdList,
+    isLoadingReserveIdList,
+    reservationCount,
+    handleSubmit,
+  } = useReservationForm({ onSubmit });
 
-  const selectedReserveId = watch("reserveId");
-  const { reservationCount } = useReservationCount({
-    reservationId: selectedReserveId,
-  });
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form noValidate onSubmit={handleSubmit}>
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>

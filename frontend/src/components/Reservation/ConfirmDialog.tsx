@@ -1,25 +1,13 @@
 import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
-import { type SelectOption } from "../../const";
-import {
-  useReservationCount,
-  type UseReservationReturn,
-} from "./useReservation";
+import { formatReservationIdLabel } from "../../util/formatReservationIdLabel";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
-  reserveIdList: UseReservationReturn["reserveIdList"];
   isOpen: boolean;
   onCancel: () => void;
   onOk: () => Promise<void>;
   isPosting: boolean;
-};
-
-const getReservationLabel = (
-  value: string,
-  collection: SelectOption[],
-): string => {
-  return collection.find((item) => item.value === value)?.label ?? value;
 };
 
 const dialogStyle = {
@@ -39,15 +27,11 @@ const dialogStyle = {
 
 export const ConfirmDialog = ({
   reservation,
-  reserveIdList,
   isOpen,
   onCancel,
   onOk,
   isPosting,
 }: ReservationDialogProps) => {
-  const { reservationCount } = useReservationCount({
-    reservationId: reservation?.reserveId ?? "",
-  });
   return (
     <>
       <Dialog.Root
@@ -71,17 +55,11 @@ export const ConfirmDialog = ({
                   <Text>メールアドレス：{reservation?.email ?? ""}</Text>
                   <Text>
                     観劇日時：
-                    {getReservationLabel(
-                      reservation?.reserveId ?? "",
-                      reserveIdList.items,
-                    )}
+                    {formatReservationIdLabel(reservation?.reserveId)}
                   </Text>
                   <Text>
                     予約人数：
-                    {getReservationLabel(
-                      String(reservation?.count ?? ""),
-                      reservationCount.items,
-                    )}
+                    {reservation?.count}人
                   </Text>
                   <Text whiteSpace="pre-line">
                     {`どこで本公演を知りましたか？：\n${reservation?.findFrom?.join("\n") ?? ""}`}

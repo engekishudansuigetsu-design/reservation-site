@@ -1,4 +1,7 @@
-export const formatReservationIdLabel = (data: string) => {
+export const formatReservationIdLabel = (data: string | undefined) => {
+  if (!data) {
+    return;
+  }
   const dateReservationId = new Date(data);
 
   // 各パーツの取得

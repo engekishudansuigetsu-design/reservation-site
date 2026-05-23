@@ -12,8 +12,6 @@ export const Reservation = () => {
     onCancel,
     onPostReserve,
     postReserveIsLoading,
-    reserveIdList,
-    isLoadingReserveIdList,
   } = useReservation();
 
   return (
@@ -43,17 +41,12 @@ export const Reservation = () => {
           </Text>
         </Stack>
       ) : (
-        <ReservationForm
-          onSubmit={onSubmit}
-          reserveIdList={reserveIdList}
-          isLoadingReserveIdList={isLoadingReserveIdList}
-        />
+        <ReservationForm onSubmit={onSubmit} />
       )}
 
       <ConfirmDialog
         reservation={reservation}
         isOpen={isOpenConfirmDialog}
-        reserveIdList={reserveIdList}
         onCancel={onCancel}
         onOk={onPostReserve}
         isPosting={postReserveIsLoading}
