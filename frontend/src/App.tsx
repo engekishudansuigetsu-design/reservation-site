@@ -1,11 +1,12 @@
 import { Layout } from "./components/Layout/Layout";
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
-import { ReservationForm } from "./components/Reservation/Form";
 import { SectionTitle } from "./components/SectionTitle/SectionTitle";
 import { InfoTable } from "./components/InfoTable";
 import { Introduction } from "./components/Introduction/Introduction";
 import { CharacterGrid } from "./components/Characters/CharactersGrid";
+
+import { Reservation } from "./components/Reservation/Reservation";
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
       </Flex>
 
       <SectionTitle id="reservation" />
-      <ReservationForm />
+      <Reservation />
     </Layout>
   );
 }

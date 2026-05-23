@@ -1,5 +1,4 @@
 import { Controller, useForm } from "react-hook-form";
-
 import React from "react";
 import {
   Input,
@@ -10,31 +9,18 @@ import {
   Field,
   CheckboxGroup,
   Fieldset,
-  createListCollection,
   Flex,
 } from "@chakra-ui/react";
-import { HORIZONTAL } from "../../const";
-import type { SelectOption } from "../../const";
-import { RESERVATION_MASTER_SCHEDULE } from "@repo/shared/domain-model";
+import {
+  FIND_FROM_ITEMS,
+  PEOPLE_COLLECTION,
+  RESERVATIONDATETIME_COLLECTION,
+} from "../../const";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { reservationSchemaFront, type ReservationRequestFront } from "./type";
 import { FormSelect } from "./SelectBox";
 import { ShiningButton } from "../Common/ShiningButton";
-
-const peopleCollection = createListCollection({
-  items: Array.from({ length: 10 }, (_, i) => ({
-    label: `${i + 1}人`,
-    value: String(i + 1),
-  })),
-});
-
-const reservationDateTimeCollection = createListCollection<SelectOption>({
-  items: RESERVATION_MASTER_SCHEDULE.map((reservation) => ({
-    value: reservation.reserveId,
-    label: reservation.label,
-  })),
-});
 
 const formsize = "600px";
 
@@ -43,11 +29,11 @@ const formSizeStyles = {
   md: formsize,
 };
 
-const onPushReservation = (values: ReservationRequestFront) => {
-  console.log(values);
+type onSubmitFormProps = {
+  onSubmit: (formData: ReservationRequestFront) => void;
 };
 
-export const ReservationForm = () => {
+export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
   const {
     control,
     register,
@@ -69,7 +55,7 @@ export const ReservationForm = () => {
   });
 
   return (
-    <form noValidate onSubmit={handleSubmit((data) => onPushReservation(data))}>
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
@@ -101,7 +87,7 @@ export const ReservationForm = () => {
           <FormSelect
             name="reserveId"
             placeholder="観劇日時を選択"
-            collection={reservationDateTimeCollection}
+            collection={RESERVATIONDATETIME_COLLECTION}
             control={control}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
@@ -112,12 +98,11 @@ export const ReservationForm = () => {
             予約人数
             <Field.RequiredIndicator />
           </Field.Label>
-          {/* selectボックスの実装は長くなったので切り出し */}
           <FormSelect
             name="count"
             placeholder="人数を選択"
             control={control}
-            collection={peopleCollection}
+            collection={PEOPLE_COLLECTION}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>
@@ -138,25 +123,24 @@ export const ReservationForm = () => {
             control={control}
             render={({ field }) => {
               const selectedFindFrom = field.value ?? [];
-              const isWhoSelected = selectedFindFrom.includes("contact");
-              const isOtherSelected = selectedFindFrom.includes("other");
+              const isWhoSelected = selectedFindFrom.includes("関係者");
+              const isOtherSelected = selectedFindFrom.includes("その他");
 
               return (
                 <CheckboxGroup
                   value={selectedFindFrom}
                   onValueChange={(value) => {
-                    console.log(value);
                     field.onChange(value);
-                    if (!value.includes("contact")) {
+                    if (!value.includes("関係者")) {
                       resetField("findFromWho");
                     }
-                    if (!value.includes("other")) {
+                    if (!value.includes("その他")) {
                       resetField("findFromOther");
                     }
                   }}
                 >
                   <Stack gap="2">
-                    {HORIZONTAL.map((option) => (
+                    {FIND_FROM_ITEMS.map((option) => (
                       <React.Fragment key={option.value}>
                         <Checkbox.Root
                           value={option.value}
@@ -167,7 +151,7 @@ export const ReservationForm = () => {
                           <Checkbox.Label>{option.label}</Checkbox.Label>
                         </Checkbox.Root>
 
-                        {isWhoSelected && option.value === "contact" && (
+                        {isWhoSelected && option.value === "関係者" && (
                           <Field.Root mb={3}>
                             <Input
                               placeholder="関係者名をご記入してください"
@@ -176,7 +160,7 @@ export const ReservationForm = () => {
                           </Field.Root>
                         )}
 
-                        {isOtherSelected && option.value === "other" && (
+                        {isOtherSelected && option.value === "その他" && (
                           <Field.Root mb={3}>
                             <Textarea
                               placeholder="具体的にご記入ください"
