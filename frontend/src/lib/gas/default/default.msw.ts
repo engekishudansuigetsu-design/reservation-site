@@ -4,48 +4,74 @@
  * 演劇集団すいげつ 予約システム API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  faker
-} from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
-import {
-  HttpResponse,
-  http
-} from 'msw';
-import type {
-  RequestHandlerOptions
-} from 'msw';
+import { HttpResponse, http } from "msw";
+import type { RequestHandlerOptions } from "msw";
 
-import type {
-  ReserveStatus
-} from '../model';
+import type { ReserveStatus } from "../model";
 
+export const getGetExecResponseMock = (): ReserveStatus[] =>
+  Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    reserveId: faker.date.past().toISOString().slice(0, 19) + "Z",
+    label: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    remainCount: faker.number.float({ fractionDigits: 2 }),
+  }));
 
-export const getGetExecResponseMock = (): ReserveStatus[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({reserveId: faker.date.past().toISOString().slice(0, 19) + 'Z', label: faker.string.alpha({length: {min: 10, max: 20}}), remainCount: faker.number.float({fractionDigits: 2})})))
+export const getGetExecMockHandler = (
+  overrideResponse?:
+    | ReserveStatus[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<ReserveStatus[]> | ReserveStatus[]),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/exec",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      const response =
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetExecResponseMock();
 
+      return HttpResponse.json(
+        {
+          result: true,
+          data: response,
+        },
+        { status: 200 },
+      );
+    },
+    options,
+  );
+};
 
-export const getGetExecMockHandler = (overrideResponse?: ReserveStatus[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<ReserveStatus[]> | ReserveStatus[]), options?: RequestHandlerOptions) => {
-  return http.get('*/exec', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+export const getPostExecMockHandler = (
+  overrideResponse?:
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<void> | void),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/exec",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info);
+      }
 
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getGetExecResponseMock(),
-      { status: 200
-      })
-  }, options)
-}
-
-export const getPostExecMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
-  return http.post('*/exec', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
-
-    return new HttpResponse(null,
-      { status: 200
-      })
-  }, options)
-}
+      return new HttpResponse(null, { status: 200 });
+    },
+    options,
+  );
+};
 export const getDefaultMock = () => [
   getGetExecMockHandler(),
-  getPostExecMockHandler()
-]
+  getPostExecMockHandler(),
+];
