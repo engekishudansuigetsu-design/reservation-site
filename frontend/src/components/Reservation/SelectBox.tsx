@@ -49,7 +49,10 @@ export const FormSelect = <
         <Select.HiddenSelect />
         <Select.Control>
           <Select.Trigger>
-            <Select.ValueText placeholder={placeholder} />
+            <Select.ValueText
+              placeholder={placeholder}
+              color="whiteAlpha.600"
+            />
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.Indicator />
@@ -58,7 +61,7 @@ export const FormSelect = <
         <Select.Positioner>
           <Select.Content>
             {collection.items.map((item) => (
-              <Select.Item item={item} key={item.value}>
+              <Select.Item item={item} key={item.value} color="black">
                 {item.label}
                 <Select.ItemIndicator />
               </Select.Item>

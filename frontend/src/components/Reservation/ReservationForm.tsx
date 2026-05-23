@@ -9,7 +9,7 @@ import {
   Field,
   CheckboxGroup,
   Fieldset,
-  Button,
+  Flex,
 } from "@chakra-ui/react";
 import {
   FIND_FROM_ITEMS,
@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { reservationSchemaFront, type ReservationRequestFront } from "./type";
 import { FormSelect } from "./SelectBox";
+import { ShiningButton } from "../Common/ShiningButton";
 
 const formsize = "600px";
 
@@ -141,7 +142,10 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
                   <Stack gap="2">
                     {FIND_FROM_ITEMS.map((option) => (
                       <React.Fragment key={option.value}>
-                        <Checkbox.Root value={option.value}>
+                        <Checkbox.Root
+                          value={option.value}
+                          colorPalette="accent"
+                        >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control />
                           <Checkbox.Label>{option.label}</Checkbox.Label>
@@ -183,7 +187,11 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
           />
         </Field.Root>
 
-        <Button type="submit">内容を確認する</Button>
+        <Flex direction="column" alignItems="center">
+          <ShiningButton type="submit" colorPalette="brand">
+            内容を確認する
+          </ShiningButton>
+        </Flex>
       </Stack>
     </form>
   );

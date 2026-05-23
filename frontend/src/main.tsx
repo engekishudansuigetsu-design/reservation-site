@@ -1,8 +1,11 @@
+import "../index.css";
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { system } from "./lib/chakra-ui/theme.ts";
 
 async function enableMocking() {
   // 開発環境かつ、環境変数などでモックを有効にしたい場合のみ実行
@@ -25,7 +28,7 @@ enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider value={defaultSystem}>
+        <ChakraProvider value={system}>
           <App />
         </ChakraProvider>
       </QueryClientProvider>
