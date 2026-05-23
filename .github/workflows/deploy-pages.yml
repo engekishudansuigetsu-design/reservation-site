@@ -31,6 +31,8 @@ jobs:
 
       - name: Build frontend
         run: npm run build -w frontend
+        env:
+          VITE_GAS_API_URL: ${{ secrets.VITE_GAS_API_UTL }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
