@@ -33,7 +33,7 @@ type UseReservationFormProps = {
   onSubmit: (formData: ReservationRequestFront) => void;
 };
 
-const makeReservationIdList = () => {
+const useReservationIdList = () => {
   const { data: reserveStatusList, isLoading: isLoadingReserveIdList } =
     useGetExec();
 
@@ -65,7 +65,7 @@ const makeReservationIdList = () => {
   };
 };
 
-const makeReservationCount = ({ reservationId }: UseReservationCountProps) => {
+const useReservationCount = ({ reservationId }: UseReservationCountProps) => {
   const { data: reserveStatusList } = useGetExec();
   const selectedReserveStatus = reserveStatusList?.find(
     (reserveStatus) => reserveStatus.reserveId === reservationId,
@@ -123,8 +123,8 @@ export const useReservationForm = ({
   });
   const selectedReserveId = watch("reserveId");
 
-  const { reserveIdList, isLoadingReserveIdList } = makeReservationIdList();
-  const { reservationCount } = makeReservationCount({
+  const { reserveIdList, isLoadingReserveIdList } = useReservationIdList();
+  const { reservationCount } = useReservationCount({
     reservationId: selectedReserveId,
   });
 
