@@ -3,6 +3,8 @@ import { usePostExec } from "../../lib/gas/default/default";
 import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
 import { FIND_FROM_ITEMS } from "../../const";
+import { useGlobalError } from "../../provider/errorProvider/useGlobalError";
+import { isApiErrorResponse } from "../../utils";
 
 type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
@@ -39,6 +41,7 @@ const getFindFromLabels = ({
 };
 
 export const useReservation = (): UseReservationReturn => {
+  const { showError } = useGlobalError();
   const [reservation, setReservation] = useState<ReserveInput>();
 
   const {
@@ -80,9 +83,14 @@ export const useReservation = (): UseReservationReturn => {
 
       setReservation(undefined);
     } catch (error) {
-      console.error("post reserve failed", error);
+      console.log(error);
+      if (isApiErrorResponse(error)) {
+        showError(error.message);
+        return;
+      }
+      showError("予約に失敗しました。\nもう一度おためしください。");
     }
-  }, [postReserveMutateAsync, reservation]);
+  }, [postReserveMutateAsync, reservation, showError]);
 
   return {
     onSubmit,
