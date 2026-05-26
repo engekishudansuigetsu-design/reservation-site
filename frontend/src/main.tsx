@@ -6,6 +6,9 @@ import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import { system } from "./lib/chakra-ui/theme.ts";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorProvider } from "./provider/errorProvider/ErrorProvider.tsx";
+import { FatalErrorScreen } from "./provider/errorProvider/FatalErrotScreen.tsx";
 
 async function enableMocking() {
   // 開発環境かつ、環境変数などでモックを有効にしたい場合のみ実行
@@ -29,7 +32,11 @@ enableMocking().then(() =>
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider value={system}>
-          <App />
+          <ErrorProvider>
+            <ErrorBoundary fallbackRender={() => <FatalErrorScreen />}>
+              <App />
+            </ErrorBoundary>
+          </ErrorProvider>
         </ChakraProvider>
       </QueryClientProvider>
     </StrictMode>,
