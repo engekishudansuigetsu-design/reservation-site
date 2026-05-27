@@ -12,4 +12,5 @@ export interface ReserveInput {
   count: number;
   findFrom?: string[];
   note?: string;
+  age: string;
 }
