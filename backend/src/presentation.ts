@@ -37,6 +37,12 @@ export function doGet() {
 export function doPost(e: GoogleAppsScript.Events.DoPost) {
   try {
     const body = reservationSchema.safeParse(JSON.parse(e.postData.contents));
+    if (body.data?.age !== undefined && body.data?.age.length > 0) {
+      console.warn(
+        `[Spam Blocked]: Bot attempted to submit form. Input: "${body.data?.age}"`,
+      );
+      return createJsonResponse({ result: true, data: null });
+    }
     if (!body.success) {
       throw new InvalidParameterError();
     }
