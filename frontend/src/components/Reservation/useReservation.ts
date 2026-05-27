@@ -63,6 +63,7 @@ export const useReservation = (): UseReservationReturn => {
           findFromOther: formData.findFromOther,
         }),
         note: formData.note,
+        age: formData.age,
       };
       setReservation(reservationRequest);
     },
