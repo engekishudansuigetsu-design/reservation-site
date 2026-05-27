@@ -14,6 +14,7 @@ type UseReservationReturn = {
   onPostReserve: () => Promise<void>;
   postReserveStatus: ReturnType<typeof usePostExec>["status"];
   postReserveIsLoading: boolean;
+  setTurnstileToken: (token: string) => void;
 };
 
 type FindFromInput = Pick<
@@ -43,6 +44,7 @@ const getFindFromLabels = ({
 export const useReservation = (): UseReservationReturn => {
   const { showError } = useGlobalError();
   const [reservation, setReservation] = useState<ReserveInput>();
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const {
     mutateAsync: postReserveMutateAsync,
@@ -79,7 +81,7 @@ export const useReservation = (): UseReservationReturn => {
 
     try {
       await postReserveMutateAsync({
-        data: reservation,
+        data: { reservation, turnstileToken },
       });
 
       setReservation(undefined);
@@ -91,7 +93,7 @@ export const useReservation = (): UseReservationReturn => {
       }
       showError("予約に失敗しました。\nもう一度おためしください。");
     }
-  }, [postReserveMutateAsync, reservation, showError]);
+  }, [postReserveMutateAsync, reservation, showError, turnstileToken]);
 
   return {
     onSubmit,
@@ -101,5 +103,6 @@ export const useReservation = (): UseReservationReturn => {
     onPostReserve,
     postReserveStatus,
     postReserveIsLoading,
+    setTurnstileToken,
   };
 };
