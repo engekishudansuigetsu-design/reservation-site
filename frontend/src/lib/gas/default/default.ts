@@ -27,9 +27,9 @@ import type {
   InvalidParameterErrorResponse,
   MaintenanceErrorResponse,
   MaxReserveErrorResponse,
+  PostReservationRequest,
   RegistrationClosedErrorResponse,
   RegistrationNotStartedErrorResponse,
-  ReserveInput,
   ReserveStatus
 } from '../model';
 
@@ -137,7 +137,7 @@ export function useGetExec<TData = Awaited<ReturnType<typeof getExec>>, TError =
  * @summary 予約API
  */
 export const postExec = (
-    reserveInput: ReserveInput,
+    postReservationRequest: PostReservationRequest,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
 
@@ -145,7 +145,7 @@ export const postExec = (
       return customInstance<void>(
       {url: `/exec`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: reserveInput, signal
+      data: postReservationRequest, signal
     },
       options);
     }
@@ -153,8 +153,8 @@ export const postExec = (
 
 
 export const getPostExecMutationOptions = <TError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: ReserveInput}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: ReserveInput}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: PostReservationRequest}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: PostReservationRequest}, TContext> => {
 
 const mutationKey = ['postExec'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -166,7 +166,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postExec>>, {data: ReserveInput}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postExec>>, {data: PostReservationRequest}> = (props) => {
           const {data} = props ?? {};
 
           return  postExec(data,requestOptions)
@@ -180,18 +180,18 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type PostExecMutationResult = NonNullable<Awaited<ReturnType<typeof postExec>>>
-    export type PostExecMutationBody = ReserveInput
+    export type PostExecMutationBody = PostReservationRequest
     export type PostExecMutationError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>
 
     /**
  * @summary 予約API
  */
 export const usePostExec = <TError = ErrorType<InvalidParameterErrorResponse | MaxReserveErrorResponse | MaintenanceErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: ReserveInput}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postExec>>, TError,{data: PostReservationRequest}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postExec>>,
         TError,
-        {data: ReserveInput},
+        {data: PostReservationRequest},
         TContext
       > => {
       return useMutation(getPostExecMutationOptions(options), queryClient);
