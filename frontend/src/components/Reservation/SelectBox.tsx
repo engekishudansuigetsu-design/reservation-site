@@ -17,6 +17,7 @@ type FormSelectProps<
   control: Control<TFieldValues>;
   collection: ReturnType<typeof createListCollection<SelectOption>>;
   disabled?: boolean;
+  onValueChange?: (value: string) => void;
 };
 
 export const FormSelect = <
@@ -28,6 +29,7 @@ export const FormSelect = <
   collection,
   control,
   disabled = false,
+  onValueChange,
 }: FormSelectProps<TFieldValues, TName>) => (
   <Controller
     control={control}
@@ -46,6 +48,8 @@ export const FormSelect = <
               ? Number(selectedValue)
               : selectedValue,
           );
+
+          onValueChange?.(selectedValue);
         }}
         onInteractOutside={() => field.onBlur()}
       >

@@ -79,6 +79,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
             }
             collection={reserveIdList}
             control={control}
+            onValueChange={() => resetField("count", { defaultValue: 0 })}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>

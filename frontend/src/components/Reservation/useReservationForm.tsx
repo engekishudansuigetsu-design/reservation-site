@@ -1,4 +1,4 @@
-import { useEffect, useMemo, type FormEventHandler } from "react";
+import { useMemo, type FormEventHandler } from "react";
 import { useGetExec } from "../../lib/gas/default/default";
 import { createListCollection } from "@chakra-ui/react";
 import type { SelectOption } from "../../const";
@@ -54,10 +54,6 @@ export const useReservationForm = ({
   });
 
   const selectedReserveId = watch("reserveId");
-
-  useEffect(() => {
-    resetField("count", { defaultValue: 0 });
-  }, [selectedReserveId, resetField]);
 
   const { data: reserveStatusList, isLoading: isLoadingReserveIdList } =
     useGetExec();
