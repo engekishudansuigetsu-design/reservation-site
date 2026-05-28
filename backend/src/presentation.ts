@@ -37,10 +37,27 @@ export function doGet() {
 export function doPost(e: GoogleAppsScript.Events.DoPost) {
   try {
     const body = reservationSchema.safeParse(JSON.parse(e.postData.contents));
+    if (body.data?.age !== undefined && body.data?.age.length > 0) {
+      console.warn(
+        `[Spam Blocked]: Bot attempted to submit form. Input: "${body.data?.age}"`,
+      );
+      return createJsonResponse({ result: true, data: null });
+    }
     if (!body.success) {
       throw new InvalidParameterError();
     }
-    handlePostReservation(body.data);
+    const hasUrl = /(https?:\/\/|www\.)/i.test(body.data.note ?? "");
+
+    if (hasUrl) {
+      throw new InvalidParameterError();
+    }
+    const safeName = sanitizeMailText(body.data.name);
+    const bannedWords = ["casino", "viagra", "bitcoin", "http"];
+
+    if (bannedWords.some((w) => body.data.note ?? "".includes(w))) {
+      throw new InvalidParameterError();
+    }
+    handlePostReservation({ ...body.data, name: safeName });
     return createJsonResponse({ result: true, data: null });
   } catch (e) {
     if (e instanceof AppError) {
@@ -62,3 +79,10 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     return createJsonResponse(response);
   }
 }
+
+const sanitizeMailText = (text: string) => {
+  return text
+    .replace(/[\r\n]/g, " ")
+    .replace(/[<>]/g, "")
+    .trim();
+};

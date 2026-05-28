@@ -1,5 +1,13 @@
 import "../index.css";
 
+// 予約操作時の人間証明用
+const script = document.createElement("script");
+script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+script.async = true;
+script.defer = true;
+
+document.head.appendChild(script);
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";

@@ -5,7 +5,7 @@ export const AXIOS_INSTANCE = axios.create({
   // 必要に応じて設定
 });
 
-const BASE_URL = (import.meta.env.VITE_GAS_API_URL as string) ?? "";
+const BASE_URL = (import.meta.env.VITE_API_URL as string) ?? "";
 
 // Orvalが期待する「キャンセル機能付きPromise」の型を定義
 export type PromiseWithCancel<T> = Promise<T> & { cancel?: () => void };

@@ -10,6 +10,7 @@ import {
   CheckboxGroup,
   Fieldset,
   Flex,
+  Box,
 } from "@chakra-ui/react";
 import {
   FIND_FROM_ITEMS,
@@ -51,6 +52,7 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
       findFrom: [],
       findFromOther: "",
       note: "",
+      age: "",
     },
   });
 
@@ -186,6 +188,24 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
             {...register("note")}
           />
         </Field.Root>
+
+        <Box
+          position="absolute"
+          top="-9999px"
+          left="-9999px"
+          opacity={0}
+          width={0}
+          height={0}
+          overflow="hidden"
+          aria-hidden="true"
+        >
+          <Input
+            {...register("age")}
+            tabIndex={-1}
+            autoComplete="off"
+            placeholder="年齢"
+          />
+        </Box>
 
         <Flex direction="column" alignItems="center">
           <ShiningButton type="submit" colorPalette="brand">

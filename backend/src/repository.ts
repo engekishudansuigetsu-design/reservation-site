@@ -3,11 +3,13 @@
 import { ReservationRequest } from "@shared/domain-model";
 import { getSpreadsheet } from "./utils";
 
+export type ReservationRequestSheet = Omit<ReservationRequest, "age">;
+
 /**
  * Sheetの行を予約情報に変換して返却
  * @returns
  */
-export function getReserVationsData(): ReservationRequest[] {
+export function getReserVationsData(): ReservationRequestSheet[] {
   const sheet = getSpreadsheet();
   const data = sheet.getDataRange().getValues();
 
@@ -20,7 +22,7 @@ export function getReserVationsData(): ReservationRequest[] {
         count: Number(row[4]),
         findFrom: String(row[5]).split(", "),
         note: row[6],
-      }) satisfies ReservationRequest,
+      }) satisfies ReservationRequestSheet,
   );
 }
 

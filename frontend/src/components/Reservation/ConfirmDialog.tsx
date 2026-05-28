@@ -5,6 +5,7 @@ import {
   RESERVATIONDATETIME_COLLECTION,
   type SelectOption,
 } from "../../const";
+import { Turnstile } from "../../Turnstile";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
@@ -12,6 +13,7 @@ type ReservationDialogProps = {
   onCancel: () => void;
   onOk: () => Promise<void>;
   isPosting: boolean;
+  onVerifyTurnstile: (token: string) => void;
 };
 
 const getReservationLabel = (
@@ -43,6 +45,7 @@ export const ConfirmDialog = ({
   onCancel,
   onOk,
   isPosting,
+  onVerifyTurnstile,
 }: ReservationDialogProps) => {
   return (
     <>
@@ -87,6 +90,7 @@ export const ConfirmDialog = ({
                   <Text color="#140a00">備考：{reservation?.note ?? ""}</Text>
                 </Stack>
               </Dialog.Body>
+              <Turnstile onVerify={onVerifyTurnstile} />
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
                   <Button
