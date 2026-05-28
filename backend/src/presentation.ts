@@ -46,7 +46,18 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     if (!body.success) {
       throw new InvalidParameterError();
     }
-    handlePostReservation(body.data);
+    const hasUrl = /(https?:\/\/|www\.)/i.test(body.data.note ?? "");
+
+    if (hasUrl) {
+      throw new InvalidParameterError();
+    }
+    const safeName = sanitizeMailText(body.data.name);
+    const bannedWords = ["casino", "viagra", "bitcoin", "http"];
+
+    if (bannedWords.some((w) => body.data.note ?? "".includes(w))) {
+      throw new InvalidParameterError();
+    }
+    handlePostReservation({ ...body.data, name: safeName });
     return createJsonResponse({ result: true, data: null });
   } catch (e) {
     if (e instanceof AppError) {
@@ -68,3 +79,10 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     return createJsonResponse(response);
   }
 }
+
+const sanitizeMailText = (text: string) => {
+  return text
+    .replace(/[\r\n]/g, " ")
+    .replace(/[<>]/g, "")
+    .trim();
+};
