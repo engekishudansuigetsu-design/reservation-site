@@ -50,6 +50,7 @@ export const useReservationForm = ({
       findFrom: [],
       findFromOther: "",
       note: "",
+      age: "",
     },
   });
 
