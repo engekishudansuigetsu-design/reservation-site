@@ -1,10 +1,6 @@
 import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
-import {
-  PEOPLE_COLLECTION,
-  RESERVATIONDATETIME_COLLECTION,
-  type SelectOption,
-} from "../../const";
+import { formatReservationIdLabel } from "../../util/formatReservationIdLabel";
 import { Turnstile } from "../../Turnstile";
 
 type ReservationDialogProps = {
@@ -14,13 +10,6 @@ type ReservationDialogProps = {
   onOk: () => Promise<void>;
   isPosting: boolean;
   onVerifyTurnstile: (token: string) => void;
-};
-
-const getReservationLabel = (
-  value: string,
-  collection: SelectOption[],
-): string => {
-  return collection.find((item) => item.value === value)?.label ?? value;
 };
 
 const dialogStyle = {
@@ -72,17 +61,11 @@ export const ConfirmDialog = ({
                   </Text>
                   <Text color="#140a00">
                     観劇日時：
-                    {getReservationLabel(
-                      reservation?.reserveId ?? "",
-                      RESERVATIONDATETIME_COLLECTION.items,
-                    )}
+                    {formatReservationIdLabel(reservation?.reserveId)}
                   </Text>
                   <Text color="#140a00">
                     予約人数：
-                    {getReservationLabel(
-                      String(reservation?.count ?? ""),
-                      PEOPLE_COLLECTION.items,
-                    )}
+                    {reservation?.count}人
                   </Text>
                   <Text whiteSpace="pre-line" color="#140a00">
                     {`どこで本公演を知りましたか？：\n${reservation?.findFrom?.join("\n") ?? ""}`}

@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import React from "react";
 import {
   Input,
@@ -12,16 +12,13 @@ import {
   Flex,
   Box,
 } from "@chakra-ui/react";
-import {
-  FIND_FROM_ITEMS,
-  PEOPLE_COLLECTION,
-  RESERVATIONDATETIME_COLLECTION,
-} from "../../const";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FIND_FROM_ITEMS } from "../../const";
 
-import { reservationSchemaFront, type ReservationRequestFront } from "./type";
 import { FormSelect } from "./SelectBox";
 import { ShiningButton } from "../Common/ShiningButton";
+
+import { type UseReservationReturn } from "./useReservation";
+import { useReservationForm } from "./useReservationForm";
 
 const formsize = "600px";
 
@@ -30,34 +27,25 @@ const formSizeStyles = {
   md: formsize,
 };
 
-type onSubmitFormProps = {
-  onSubmit: (formData: ReservationRequestFront) => void;
+type ReservationFormProps = {
+  onSubmit: UseReservationReturn["onSubmit"];
 };
 
-export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
+export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
   const {
     control,
     register,
-    handleSubmit,
     resetField,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(reservationSchemaFront),
-    mode: "onChange",
-    defaultValues: {
-      name: "",
-      email: "",
-      reserveId: "",
-      count: 0,
-      findFrom: [],
-      findFromOther: "",
-      note: "",
-      age: "",
-    },
-  });
+    errors,
+    selectedReserveId,
+    reserveIdList,
+    isLoadingReserveIdList,
+    reservationCount,
+    handleSubmit,
+  } = useReservationForm({ onSubmit });
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form noValidate onSubmit={handleSubmit}>
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
@@ -88,9 +76,12 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
           </Field.Label>
           <FormSelect
             name="reserveId"
-            placeholder="観劇日時を選択"
-            collection={RESERVATIONDATETIME_COLLECTION}
+            placeholder={
+              isLoadingReserveIdList ? "予約日時を読み込み中" : "観劇日時を選択"
+            }
+            collection={reserveIdList}
             control={control}
+            onValueChange={() => resetField("count", { defaultValue: 0 })}
           />
           <Field.ErrorText>{errors.reserveId?.message}</Field.ErrorText>
         </Field.Root>
@@ -104,7 +95,8 @@ export const ReservationForm = ({ onSubmit }: onSubmitFormProps) => {
             name="count"
             placeholder="人数を選択"
             control={control}
-            collection={PEOPLE_COLLECTION}
+            collection={reservationCount}
+            disabled={selectedReserveId === ""}
           />
           <Field.ErrorText>{errors.count?.message}</Field.ErrorText>
         </Field.Root>

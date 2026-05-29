@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
-import { usePostExec } from "../../lib/gas/default/default";
 import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
 import { FIND_FROM_ITEMS } from "../../const";
+import { usePostExec } from "../../lib/gas/default/default";
 import { useGlobalError } from "../../provider/errorProvider/useGlobalError";
 import { isApiErrorResponse } from "../../utils";
 
-type UseReservationReturn = {
+export type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
   reservation: ReserveInput | undefined;
   isOpenConfirmDialog: boolean;
@@ -83,7 +83,6 @@ export const useReservation = (): UseReservationReturn => {
       await postReserveMutateAsync({
         data: { reservation, turnstileToken },
       });
-
       setReservation(undefined);
     } catch (error) {
       console.log(error);
