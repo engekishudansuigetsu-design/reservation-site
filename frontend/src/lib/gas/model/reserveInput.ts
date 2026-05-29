@@ -10,6 +10,7 @@ export interface ReserveInput {
   email: string;
   reserveId: string;
   count: number;
-  findFrom?: string[];
+  findFrom: string[];
   note?: string;
+  age: string;
 }

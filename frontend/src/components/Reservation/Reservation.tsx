@@ -12,6 +12,7 @@ export const Reservation = () => {
     onCancel,
     onPostReserve,
     postReserveIsLoading,
+    setTurnstileToken,
   } = useReservation();
 
   return (
@@ -50,6 +51,7 @@ export const Reservation = () => {
         onCancel={onCancel}
         onOk={onPostReserve}
         isPosting={postReserveIsLoading}
+        onVerifyTurnstile={setTurnstileToken}
       />
     </>
   );

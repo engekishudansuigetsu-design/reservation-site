@@ -9,11 +9,13 @@ import {
   Field,
   CheckboxGroup,
   Fieldset,
-  Button,
+  Flex,
+  Box,
 } from "@chakra-ui/react";
 import { FIND_FROM_ITEMS } from "../../const";
 
 import { FormSelect } from "./SelectBox";
+import { ShiningButton } from "../Common/ShiningButton";
 
 import { type UseReservationReturn } from "./useReservation";
 import { useReservationForm } from "./useReservationForm";
@@ -134,7 +136,10 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                   <Stack gap="2">
                     {FIND_FROM_ITEMS.map((option) => (
                       <React.Fragment key={option.value}>
-                        <Checkbox.Root value={option.value}>
+                        <Checkbox.Root
+                          value={option.value}
+                          colorPalette="accent"
+                        >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control />
                           <Checkbox.Label>{option.label}</Checkbox.Label>
@@ -176,7 +181,29 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
           />
         </Field.Root>
 
-        <Button type="submit">内容を確認する</Button>
+        <Box
+          position="absolute"
+          top="-9999px"
+          left="-9999px"
+          opacity={0}
+          width={0}
+          height={0}
+          overflow="hidden"
+          aria-hidden="true"
+        >
+          <Input
+            {...register("age")}
+            tabIndex={-1}
+            autoComplete="off"
+            placeholder="年齢"
+          />
+        </Box>
+
+        <Flex direction="column" alignItems="center">
+          <ShiningButton type="submit" colorPalette="brand">
+            内容を確認する
+          </ShiningButton>
+        </Flex>
       </Stack>
     </form>
   );

@@ -5,6 +5,7 @@ import {
   ReservationRequest,
 } from "@shared/domain-model";
 import { ReserveStatus } from "./controller";
+import { ReservationRequestSheet } from "./repository";
 
 /**
  * 予約管理のspread sheet を取得します
@@ -28,7 +29,7 @@ export const getSpreadsheet = () => {
  * @returns 予約可能残数
  */
 export const createReservationStatus = (
-  data: ReservationRequest[],
+  data: ReservationRequestSheet[],
 ): ReserveStatus[] => {
   const now = new Date();
 

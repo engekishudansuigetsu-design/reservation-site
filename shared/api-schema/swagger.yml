@@ -30,7 +30,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ReserveInput"
+              $ref: "#/components/schemas/PostReservationRequest"
       responses:
         "200":
           description: 予約完了
@@ -56,9 +56,20 @@ components:
         remainCount:
           type: number
 
+    PostReservationRequest:
+      type: object
+      required:
+        - reservation
+        - turnstileToken
+      properties:
+        reservation:
+          $ref: "#/components/schemas/ReserveInput"
+        turnstileToken:
+          type: string
+
     ReserveInput:
       type: object
-      required: [reserveId, name, email, count, reserveFrom]
+      required: [reserveId, name, email, count, findFrom, age]
       properties:
         name:
           type: string
@@ -73,6 +84,8 @@ components:
           items:
             type: string
         note:
+          type: string
+        age:
           type: string
 
     ErrorResponse:

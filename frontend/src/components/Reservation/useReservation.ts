@@ -3,6 +3,8 @@ import type { ReserveInput } from "../../lib/gas/model";
 import type { ReservationRequestFront } from "./type";
 import { FIND_FROM_ITEMS } from "../../const";
 import { usePostExec } from "../../lib/gas/default/default";
+import { useGlobalError } from "../../provider/errorProvider/useGlobalError";
+import { isApiErrorResponse } from "../../utils";
 
 export type UseReservationReturn = {
   onSubmit: (formData: ReservationRequestFront) => void;
@@ -12,6 +14,7 @@ export type UseReservationReturn = {
   onPostReserve: () => Promise<void>;
   postReserveStatus: ReturnType<typeof usePostExec>["status"];
   postReserveIsLoading: boolean;
+  setTurnstileToken: (token: string) => void;
 };
 
 type FindFromInput = Pick<
@@ -39,7 +42,10 @@ const getFindFromLabels = ({
 };
 
 export const useReservation = (): UseReservationReturn => {
+  const { showError } = useGlobalError();
   const [reservation, setReservation] = useState<ReserveInput>();
+  const [turnstileToken, setTurnstileToken] = useState("");
+
   const {
     mutateAsync: postReserveMutateAsync,
     status: postReserveStatus,
@@ -59,6 +65,7 @@ export const useReservation = (): UseReservationReturn => {
           findFromOther: formData.findFromOther,
         }),
         note: formData.note,
+        age: formData.age,
       };
       setReservation(reservationRequest);
     },
@@ -74,13 +81,18 @@ export const useReservation = (): UseReservationReturn => {
 
     try {
       await postReserveMutateAsync({
-        data: reservation,
+        data: { reservation, turnstileToken },
       });
       setReservation(undefined);
     } catch (error) {
-      console.error("post reserve failed", error);
+      console.log(error);
+      if (isApiErrorResponse(error)) {
+        showError(error.message);
+        return;
+      }
+      showError("予約に失敗しました。\nもう一度おためしください。");
     }
-  }, [postReserveMutateAsync, reservation]);
+  }, [postReserveMutateAsync, reservation, showError, turnstileToken]);
 
   return {
     onSubmit,
@@ -90,5 +102,6 @@ export const useReservation = (): UseReservationReturn => {
     onPostReserve,
     postReserveStatus,
     postReserveIsLoading,
+    setTurnstileToken,
   };
 };

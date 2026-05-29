@@ -1,6 +1,7 @@
 import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
 import { formatReservationIdLabel } from "../../util/formatReservationIdLabel";
+import { Turnstile } from "../../Turnstile";
 
 type ReservationDialogProps = {
   reservation: ReserveInput | undefined;
@@ -8,6 +9,7 @@ type ReservationDialogProps = {
   onCancel: () => void;
   onOk: () => Promise<void>;
   isPosting: boolean;
+  onVerifyTurnstile: (token: string) => void;
 };
 
 const dialogStyle = {
@@ -23,6 +25,7 @@ const dialogStyle = {
     base: "xl",
     md: "2xl",
   },
+  color: "#140a00",
 } as const;
 
 export const ConfirmDialog = ({
@@ -31,6 +34,7 @@ export const ConfirmDialog = ({
   onCancel,
   onOk,
   isPosting,
+  onVerifyTurnstile,
 }: ReservationDialogProps) => {
   return (
     <>
@@ -51,22 +55,25 @@ export const ConfirmDialog = ({
               </Dialog.Header>
               <Dialog.Body pb="4">
                 <Stack gap="4">
-                  <Text>お名前：{reservation?.name ?? ""}</Text>
-                  <Text>メールアドレス：{reservation?.email ?? ""}</Text>
-                  <Text>
+                  <Text color="#140a00">お名前：{reservation?.name ?? ""}</Text>
+                  <Text color="#140a00">
+                    メールアドレス：{reservation?.email ?? ""}
+                  </Text>
+                  <Text color="#140a00">
                     観劇日時：
                     {formatReservationIdLabel(reservation?.reserveId)}
                   </Text>
-                  <Text>
+                  <Text color="#140a00">
                     予約人数：
                     {reservation?.count}人
                   </Text>
-                  <Text whiteSpace="pre-line">
+                  <Text whiteSpace="pre-line" color="#140a00">
                     {`どこで本公演を知りましたか？：\n${reservation?.findFrom?.join("\n") ?? ""}`}
                   </Text>
-                  <Text>備考：{reservation?.note ?? ""}</Text>
+                  <Text color="#140a00">備考：{reservation?.note ?? ""}</Text>
                 </Stack>
               </Dialog.Body>
+              <Turnstile onVerify={onVerifyTurnstile} />
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
                   <Button
@@ -77,7 +84,7 @@ export const ConfirmDialog = ({
                     キャンセル
                   </Button>
                 </Dialog.ActionTrigger>
-                <Button onClick={onOk} loading={isPosting}>
+                <Button onClick={onOk} loading={isPosting} colorPalette="brand">
                   予約
                 </Button>
               </Dialog.Footer>
