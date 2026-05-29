@@ -1,4 +1,4 @@
-import { useMemo, type FormEventHandler } from "react";
+import { useMemo, type SubmitEventHandler } from "react";
 import { useGetExec } from "../../lib/gas/default/default";
 import { createListCollection } from "@chakra-ui/react";
 import type { SelectOption } from "../../const";
@@ -22,7 +22,7 @@ export type UseReservationFormReturn = {
   reserveIdList: ReturnType<typeof createListCollection<SelectOption>>;
   isLoadingReserveIdList: boolean;
   reservationCount: ReturnType<typeof createListCollection<SelectOption>>;
-  handleSubmit: FormEventHandler<HTMLFormElement>;
+  handleSubmit: SubmitEventHandler<HTMLFormElement>;
 };
 
 type UseReservationFormProps = {
