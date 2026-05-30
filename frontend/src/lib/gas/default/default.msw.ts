@@ -21,7 +21,7 @@ import type {
 } from '../model';
 
 
-export const getGetExecResponseMock = (): ReserveStatus[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({reserveId: faker.date.past().toISOString().slice(0, 19) + 'Z', label: faker.string.alpha({length: {min: 10, max: 20}}), remainCount: faker.number.float({fractionDigits: 2})})))
+export const getGetExecResponseMock = (): ReserveStatus[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({reserveId: faker.date.past().toISOString().slice(0, 19) + 'Z', remainCount: faker.number.float({fractionDigits: 2})})))
 
 
 export const getGetExecMockHandler = (overrideResponse?: ReserveStatus[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<ReserveStatus[]> | ReserveStatus[]), options?: RequestHandlerOptions) => {
