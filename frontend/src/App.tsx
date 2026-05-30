@@ -1,57 +1,45 @@
 import { Layout } from "./components/Layout/Layout";
-import { Box, Text } from "@chakra-ui/react";
-import { SECTION_IDS, HEADER_HEIGHT, MENU_MAP } from "./const";
+import { Flex, Text, VStack } from "@chakra-ui/react";
+
+import { SectionTitle } from "./components/SectionTitle/SectionTitle";
+import { InfoTable } from "./components/InfoTable";
+import { Introduction } from "./components/Introduction/Introduction";
+import { CharacterGrid } from "./components/Characters/CharactersGrid";
 
 import { Reservation } from "./components/Reservation/Reservation";
 
 function App() {
   return (
     <Layout>
-      <Text
-        as="h2"
-        fontSize="xl"
-        scrollMarginTop={HEADER_HEIGHT}
-        id={SECTION_IDS[SECTION_IDS.introduction]}
-      >
-        {MENU_MAP.introduction}
-      </Text>
-      <Text>あああああああああああああああああああああああ</Text>
-      <Text>ああああああああああああああああああああああああ</Text>
-      <Text>ああああああああああああああああああああああああ</Text>
+      <SectionTitle id="introduction" />
+      <Introduction />
 
-      <Box h="100px" bg="blue.100">
-        <Text
-          as="h2"
-          fontSize="xl"
-          scrollMarginTop={HEADER_HEIGHT}
-          id={SECTION_IDS.characters}
-        >
-          {MENU_MAP[SECTION_IDS.characters]}
-        </Text>
-      </Box>
+      <SectionTitle id="characters" />
+      <VStack gap={8}>
+        <CharacterGrid />
+        <VStack gap={0} mt="2">
+          <Text fontSize="md" fontWeight="bold">
+            &
+          </Text>
+          <Text fontSize="md" fontWeight="bold">
+            アンサンブル
+          </Text>
+          <Text fontSize="sm" color="whiteAlpha.900">
+            やま
+          </Text>
+          <Text fontSize="xs" color="whiteAlpha.600">
+            しゃんぐりら所属
+          </Text>
+        </VStack>
+      </VStack>
 
-      <Box h="1000px" bg="blue.100">
-        <Text
-          as="h2"
-          fontSize="xl"
-          scrollMarginTop={HEADER_HEIGHT}
-          id={SECTION_IDS.performance}
-        >
-          {MENU_MAP[SECTION_IDS.performance]}
-        </Text>
-      </Box>
+      <SectionTitle id="performance" />
+      <Flex justifyContent="center">
+        <InfoTable />
+      </Flex>
 
-      <Box>
-        <Text
-          as="h2"
-          fontSize="xl"
-          scrollMarginTop={HEADER_HEIGHT}
-          id={SECTION_IDS.reservation}
-        >
-          {MENU_MAP[SECTION_IDS.reservation]}
-        </Text>
-        <Reservation />
-      </Box>
+      <SectionTitle id="reservation" />
+      <Reservation />
     </Layout>
   );
 }

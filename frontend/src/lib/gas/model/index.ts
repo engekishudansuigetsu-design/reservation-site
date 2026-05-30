@@ -9,6 +9,7 @@ export * from './errorResponse';
 export * from './invalidParameterErrorResponse';
 export * from './maintenanceErrorResponse';
 export * from './maxReserveErrorResponse';
+export * from './postReservationRequest';
 export * from './registrationClosedErrorResponse';
 export * from './registrationNotStartedErrorResponse';
 export * from './reserveInput';

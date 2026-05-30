@@ -16,6 +16,8 @@ type FormSelectProps<
   placeholder: string;
   control: Control<TFieldValues>;
   collection: ReturnType<typeof createListCollection<SelectOption>>;
+  disabled?: boolean;
+  onValueChange?: (value: string) => void;
 };
 
 export const FormSelect = <
@@ -26,6 +28,8 @@ export const FormSelect = <
   placeholder,
   collection,
   control,
+  disabled = false,
+  onValueChange,
 }: FormSelectProps<TFieldValues, TName>) => (
   <Controller
     control={control}
@@ -33,6 +37,7 @@ export const FormSelect = <
     render={({ field }) => (
       <Select.Root
         collection={collection}
+        disabled={disabled}
         value={
           field.value === "" || field.value === 0 ? [] : [String(field.value)]
         }
@@ -43,13 +48,18 @@ export const FormSelect = <
               ? Number(selectedValue)
               : selectedValue,
           );
+
+          onValueChange?.(selectedValue);
         }}
         onInteractOutside={() => field.onBlur()}
       >
         <Select.HiddenSelect />
         <Select.Control>
           <Select.Trigger>
-            <Select.ValueText placeholder={placeholder} />
+            <Select.ValueText
+              placeholder={placeholder}
+              color="whiteAlpha.600"
+            />
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.Indicator />
@@ -58,7 +68,7 @@ export const FormSelect = <
         <Select.Positioner>
           <Select.Content>
             {collection.items.map((item) => (
-              <Select.Item item={item} key={item.value}>
+              <Select.Item item={item} key={item.value} color="black">
                 {item.label}
                 <Select.ItemIndicator />
               </Select.Item>
