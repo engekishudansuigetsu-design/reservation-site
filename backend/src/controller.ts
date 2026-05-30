@@ -15,7 +15,6 @@ import {
 
 export type ReserveStatus = {
   reserveId: ReservationRequest["reserveId"];
-  label: string;
   remainCount: number;
 };
 
@@ -78,6 +77,7 @@ export function handlePostReservation(param: ReservationRequest) {
 予約名: ${param.name}
 人数: ${param.count}
 
+ご予約のキャンセル、変更のある場合は当メールまでご連絡ください。
 ご来場をお待ちしております。
 `,
     });

@@ -46,13 +46,11 @@ components:
     # --- データ構造の定義 ---
     ReserveStatus:
       type: object
-      required: [reserveId, label, remainCount]
+      required: [reserveId, remainCount]
       properties:
         reserveId:
           type: string
           format: date-time
-        label:
-          type: string
         remainCount:
           type: number
 

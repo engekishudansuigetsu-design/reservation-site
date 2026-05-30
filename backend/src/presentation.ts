@@ -21,7 +21,6 @@ const createJsonResponse = <T>(data: ApiResponse<T>) => {
  * GAS側でこの名前で固定です
  */
 export function doGet() {
-  // 取得はたくさん呼ばれるのでアクセス頻度とかみなくていい？
   return createJsonResponse({ result: true, data: handleGetReservations() });
 }
 
