@@ -2,7 +2,7 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: ["main", "feature/github-page-ci"]
+    branches: ["main"]
   pull_request:
     branches: ["main"]
     types: [opened, synchronize, reopened]
@@ -44,6 +44,7 @@ jobs:
           path: frontend/dist
 
   deploy:
+    if: github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
