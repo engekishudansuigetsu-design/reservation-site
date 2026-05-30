@@ -43,7 +43,6 @@ jobs:
           path: frontend/dist
 
   deploy:
-    if: github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
