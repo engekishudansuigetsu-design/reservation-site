@@ -61,6 +61,9 @@ export const ResponsiveTopFlyer = () => {
             onLoad={() => {
               setIsLoading(false);
             }}
+            draggable={false}
+            userSelect="none"
+            pointerEvents="none"
           />
         </Box>
 
@@ -74,7 +77,7 @@ export const ResponsiveTopFlyer = () => {
         >
           <picture>
             <source media="(min-width: 768px)" srcSet={kuragePCImg} />
-            <img
+            <Image
               src={kuragePhoneImg}
               alt="ニホンベニクラゲ"
               style={{
@@ -83,6 +86,9 @@ export const ResponsiveTopFlyer = () => {
                 objectFit: "cover",
                 display: "block",
               }}
+              draggable={false}
+              userSelect="none"
+              pointerEvents="none"
             />
           </picture>
         </Box>

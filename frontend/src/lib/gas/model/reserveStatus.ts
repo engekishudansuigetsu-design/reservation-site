@@ -7,6 +7,5 @@
 
 export interface ReserveStatus {
   reserveId: string;
-  label: string;
   remainCount: number;
 }

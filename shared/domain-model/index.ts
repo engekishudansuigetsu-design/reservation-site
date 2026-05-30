@@ -12,26 +12,26 @@ export const START_REGISTRATION_UTC = "2026-06-17T04:00:00.000Z";
 export const RESERVATION_MASTER_SCHEDULE = [
   {
     reserveId: "2026-07-18T04:00:00.000Z",
-    label: "2026年7月18日 昼の回",
+    label: "2026年7月18日 13時開演の回",
     capacity: 25,
     closeAt: "2026-07-18T04:59:59.999Z",
   },
   {
     reserveId: "2026-07-18T08:00:00.000Z",
-    label: "2026年7月18日 夜の回",
+    label: "2026年7月18日 17時開演の回",
     capacity: 25,
     closeAt: "2026-07-18T08:59:59.999Z",
   },
   {
     reserveId: "2026-07-19T03:00:00.000Z",
-    label: "2026年7月19日 昼の回",
+    label: "2026年7月19日 12時開演の回",
 
     capacity: 25,
     closeAt: "2026-07-19T03:59:59.999Z",
   },
   {
     reserveId: "2026-07-19T07:00:00.000Z",
-    label: "2026年7月20日 夜の回",
+    label: "2026年7月20日 16時開演の回",
     capacity: 25,
     closeAt: "2026-07-19T07:59:59.999Z",
   },

@@ -47,7 +47,6 @@ export const createReservationStatus = (
 
     return {
       reserveId: reservation.reserveId,
-      label: reservation.label,
       remainCount: isClosed || remainCount < 0 ? 0 : remainCount,
     };
   });

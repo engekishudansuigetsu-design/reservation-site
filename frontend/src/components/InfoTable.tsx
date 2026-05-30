@@ -19,12 +19,11 @@ export const InfoTable = () => (
           開催日程
         </Table.ColumnHeader>
         <Table.Cell>
-          TODO!!!!!!! 2026年7月18(土)~19(日)
           <Box as="ul" listStylePosition="inside">
-            <li>7/18(土) 昼の回 </li>
-            <li>7/18(土) 夜の回</li>
-            <li>7/19(日) 昼の回</li>
-            <li>7/19(日) 夜の回</li>
+            <li>7/18(土) 13:00の回</li>
+            <li>7/18(土) 17:00の回</li>
+            <li>7/19(日) 12:00の回</li>
+            <li>7/19(日) 16:00の回</li>
           </Box>
         </Table.Cell>
       </Table.Row>
