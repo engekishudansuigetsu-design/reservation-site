@@ -157,7 +157,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                         {isOtherSelected && option.value === "その他" && (
                           <Field.Root mb={3}>
                             <Textarea
-                              placeholder="具体的にご記入ください"
+                              placeholder="具体的にご記入ください（50文字）"
                               {...register("findFromOther")}
                             />
                           </Field.Root>

@@ -58,7 +58,11 @@ export const FormSelect = <
           <Select.Trigger>
             <Select.ValueText
               placeholder={placeholder}
-              color="whiteAlpha.600"
+              color={
+                field.value === "" || field.value === 0
+                  ? "whiteAlpha.600"
+                  : "white"
+              }
             />
           </Select.Trigger>
           <Select.IndicatorGroup>
