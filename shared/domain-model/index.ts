@@ -1,7 +1,8 @@
 import { z } from "zod";
 
-/** 予約開始日時 */
-export const START_REGISTRATION_UTC = "2026-06-17T04:00:00.000Z";
+/** 予約開始日時: TODO 動作確認とれたら差し替える */
+export const START_REGISTRATION_UTC = "2026-05-30T04:00:00.000Z";
+// export const START_REGISTRATION_UTC = "2026-06-17T04:00:00.000Z";
 
 /**
  * 公演日時マスターデータ

@@ -9,6 +9,7 @@ type ReservationDialogProps = {
   onCancel: () => void;
   onOk: () => Promise<void>;
   isPosting: boolean;
+  isVerify: boolean;
   onVerifyTurnstile: (token: string) => void;
 };
 
@@ -34,6 +35,7 @@ export const ConfirmDialog = ({
   onCancel,
   onOk,
   isPosting,
+  isVerify,
   onVerifyTurnstile,
 }: ReservationDialogProps) => {
   return (
@@ -84,7 +86,12 @@ export const ConfirmDialog = ({
                     キャンセル
                   </Button>
                 </Dialog.ActionTrigger>
-                <Button onClick={onOk} loading={isPosting} colorPalette="brand">
+                <Button
+                  onClick={onOk}
+                  loading={isPosting || isVerify}
+                  disabled={isPosting || isVerify}
+                  colorPalette="brand"
+                >
                   予約
                 </Button>
               </Dialog.Footer>

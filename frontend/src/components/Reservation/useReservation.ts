@@ -14,6 +14,7 @@ export type UseReservationReturn = {
   onPostReserve: () => Promise<void>;
   postReserveStatus: ReturnType<typeof usePostExec>["status"];
   postReserveIsLoading: boolean;
+  isVerify: boolean;
   setTurnstileToken: (token: string) => void;
 };
 
@@ -90,7 +91,7 @@ export const useReservation = (): UseReservationReturn => {
         showError(error.message);
         return;
       }
-      showError("予約に失敗しました。\nもう一度おためしください。");
+      showError("予約に失敗しました。\nしばらく時間をあけてお試しください。");
     }
   }, [postReserveMutateAsync, reservation, showError, turnstileToken]);
 
@@ -102,6 +103,7 @@ export const useReservation = (): UseReservationReturn => {
     onPostReserve,
     postReserveStatus,
     postReserveIsLoading,
+    isVerify: turnstileToken !== undefined,
     setTurnstileToken,
   };
 };
