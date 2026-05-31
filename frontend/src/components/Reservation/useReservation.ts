@@ -90,7 +90,7 @@ export const useReservation = (): UseReservationReturn => {
         showError(error.message);
         return;
       }
-      showError("予約に失敗しました。\nもう一度おためしください。");
+      showError("予約に失敗しました。\nしばらく時間をあけてお試しください。");
     }
   }, [postReserveMutateAsync, reservation, showError, turnstileToken]);
 
