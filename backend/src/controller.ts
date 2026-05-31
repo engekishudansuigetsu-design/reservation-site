@@ -42,6 +42,7 @@ export function handlePostReservation(param: ReservationRequest) {
     const now = new Date();
     // 予約開始後か
     if (now < new Date(START_REGISTRATION_UTC)) {
+      console.warn(JSON.stringify(param));
       throw new RegistrationNotStartedError();
     }
 
@@ -50,6 +51,7 @@ export function handlePostReservation(param: ReservationRequest) {
       (v) => v.reserveId === param.reserveId,
     );
     if (schedule === undefined || now > new Date(schedule.closeAt)) {
+      console.warn(JSON.stringify(param));
       throw new RegistrationClosedError();
     }
 
@@ -59,6 +61,7 @@ export function handlePostReservation(param: ReservationRequest) {
       (v) => v.reserveId === param.reserveId,
     );
     if (remainCount === undefined || remainCount.remainCount === 0) {
+      console.warn(JSON.stringify(param));
       throw new MaxReserveError();
     }
 

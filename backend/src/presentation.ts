@@ -36,7 +36,7 @@ export function doGet() {
 export function doPost(e: GoogleAppsScript.Events.DoPost) {
   try {
     const body = reservationSchema.safeParse(JSON.parse(e.postData.contents));
-    if (body.data?.age !== undefined && body.data?.age.length > 0) {
+    if (body.data?.age !== undefined && body.data?.age !== "") {
       console.warn(
         `[Spam Blocked]: Bot attempted to submit form. Input: "${body.data?.age}"`,
       );
@@ -48,17 +48,22 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     const hasUrl = /(https?:\/\/|www\.)/i.test(body.data.note ?? "");
 
     if (hasUrl) {
+      console.warn(JSON.stringify(body.data));
       throw new InvalidParameterError();
     }
     const safeName = sanitizeMailText(body.data.name);
     const bannedWords = ["casino", "viagra", "bitcoin", "http"];
 
-    if (bannedWords.some((w) => body.data.note ?? "".includes(w))) {
+    if (
+      bannedWords.some((w) => (body.data.note ?? "").toLowerCase().includes(w))
+    ) {
+      console.warn(JSON.stringify(body.data));
       throw new InvalidParameterError();
     }
     handlePostReservation({ ...body.data, name: safeName });
     return createJsonResponse({ result: true, data: null });
   } catch (e) {
+    console.warn(JSON.stringify(e));
     if (e instanceof AppError) {
       const response: ApiErrorResponse = {
         result: false,
