@@ -3,6 +3,9 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
@@ -31,6 +34,9 @@ jobs:
 
       - name: Build frontend
         run: npm run build -w frontend
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -38,6 +44,7 @@ jobs:
           path: frontend/dist
 
   deploy:
+    if: github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
