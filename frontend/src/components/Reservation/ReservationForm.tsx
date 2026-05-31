@@ -155,11 +155,14 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                         )}
 
                         {isOtherSelected && option.value === "その他" && (
-                          <Field.Root mb={3}>
+                          <Field.Root mb={3} invalid={!!errors.findFromOther}>
                             <Textarea
                               placeholder="具体的にご記入ください（50文字）"
                               {...register("findFromOther")}
                             />
+                            <Field.ErrorText>
+                              {errors.findFromOther?.message}
+                            </Field.ErrorText>
                           </Field.Root>
                         )}
                       </React.Fragment>

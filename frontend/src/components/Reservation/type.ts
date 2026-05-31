@@ -37,7 +37,7 @@ export const reservationSchemaFront = reservationSchema.extend({
 
   findFrom: z.array(z.string()).min(1, ERROR_MESSAGES.findFromRequired),
 
-  findFromOther: z.string().optional(), //どこから予約したかのその他項目
+  findFromOther: z.string().max(50, "50文字以内で入力してください").optional(), //どこから予約したかのその他項目
   findFromWho: z.string().optional(), //どこから予約したのかの人の項目
   note: z.string().max(140, ERROR_MESSAGES.noteMax).optional(),
   age: z.string(),
