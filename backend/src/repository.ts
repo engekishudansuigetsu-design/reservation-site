@@ -1,6 +1,9 @@
 /** データアクセス */
 
-import { ReservationRequest } from "@shared/domain-model";
+import {
+  RESERVATION_MASTER_SCHEDULE,
+  ReservationRequest,
+} from "@shared/domain-model";
 import { getSpreadsheet } from "./utils";
 
 export type ReservationRequestSheet = Omit<ReservationRequest, "age">;
@@ -18,7 +21,8 @@ export function getReserVationsData(): ReservationRequestSheet[] {
       ({
         name: row[1],
         email: row[2],
-        reserveId: row[3] as ReservationRequest["reserveId"],
+        reserveId: RESERVATION_MASTER_SCHEDULE.find((v) => v.label === row[3])!
+          .reserveId as ReservationRequest["reserveId"],
         count: Number(row[4]),
         findFrom: String(row[5]).split(", "),
         note: row[6],
@@ -34,7 +38,8 @@ export function postReservationData(param: ReservationRequest) {
     Utilities.formatDate(new Date(), "Asia/Tokyo", "yyyy/MM/dd HH:mm:ss"),
     param.name,
     param.email,
-    param.reserveId,
+    RESERVATION_MASTER_SCHEDULE.find((v) => v.reserveId === param.reserveId)!
+      .label,
     param.count,
     param.findFrom.join(", "),
     param.note ?? "",
