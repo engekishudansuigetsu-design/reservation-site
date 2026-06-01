@@ -146,11 +146,14 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                         </Checkbox.Root>
 
                         {isWhoSelected && option.value === "関係者" && (
-                          <Field.Root mb={3}>
+                          <Field.Root mb={3} invalid={!!errors.findFromWho}>
                             <Input
-                              placeholder="関係者名をご記入してください"
+                              placeholder="関係者名をご記入してください（50文字）"
                               {...register("findFromWho")}
                             />
+                            <Field.ErrorText>
+                              {errors.findFromWho?.message}
+                            </Field.ErrorText>
                           </Field.Root>
                         )}
 
