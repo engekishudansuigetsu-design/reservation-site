@@ -1,4 +1,4 @@
-import { Button, Dialog, Portal, Stack, Text } from "@chakra-ui/react";
+import { Button, Dialog, Flex, Portal, Stack, Text } from "@chakra-ui/react";
 import type { ReserveInput } from "../../lib/gas/model";
 import { formatReservationIdLabel } from "../../util/formatReservationIdLabel";
 import { Turnstile } from "../../Turnstile";
@@ -75,7 +75,9 @@ export const ConfirmDialog = ({
                   <Text color="#140a00">備考：{reservation?.note ?? ""}</Text>
                 </Stack>
               </Dialog.Body>
-              <Turnstile onVerify={onVerifyTurnstile} />
+              <Flex justify="center" pb="4">
+                <Turnstile onVerify={onVerifyTurnstile} />
+              </Flex>
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
                   <Button

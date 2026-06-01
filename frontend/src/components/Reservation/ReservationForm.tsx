@@ -146,20 +146,26 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                         </Checkbox.Root>
 
                         {isWhoSelected && option.value === "関係者" && (
-                          <Field.Root mb={3}>
+                          <Field.Root mb={3} invalid={!!errors.findFromWho}>
                             <Input
-                              placeholder="関係者名をご記入してください"
+                              placeholder="関係者名をご記入してください（50文字）"
                               {...register("findFromWho")}
                             />
+                            <Field.ErrorText>
+                              {errors.findFromWho?.message}
+                            </Field.ErrorText>
                           </Field.Root>
                         )}
 
                         {isOtherSelected && option.value === "その他" && (
-                          <Field.Root mb={3}>
+                          <Field.Root mb={3} invalid={!!errors.findFromOther}>
                             <Textarea
-                              placeholder="具体的にご記入ください"
+                              placeholder="具体的にご記入ください（50文字）"
                               {...register("findFromOther")}
                             />
+                            <Field.ErrorText>
+                              {errors.findFromOther?.message}
+                            </Field.ErrorText>
                           </Field.Root>
                         )}
                       </React.Fragment>
