@@ -82,7 +82,7 @@ export const Orbs = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    const fireflyCount = 70;
+    const fireflyCount = 30;
     const fireflies: Firefly[] = [];
     let animationFrameId: number;
 
