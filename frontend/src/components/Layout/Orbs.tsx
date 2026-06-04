@@ -1,104 +1,112 @@
 import { Box } from "@chakra-ui/react";
 import { useRef, useEffect } from "react";
 
-/**
- * STREAMING_CHUNK: Defining the Orb class for high-performance DOM-based animation.
- * ReactのState管理では要素数が多いと重くなるため、DOMを直接操作してGPU加速を利用します。
- */
-class Firefly {
-  private el: HTMLDivElement;
-  public x: number = 0;
-  public y: number = 0;
-  private vx: number = 0;
-  private vy: number = 0;
-  private alpha: number = 0;
-  private alphaStep: number = 0;
-  private size: number = 0;
-
-  constructor(parent: HTMLDivElement) {
-    this.el = document.createElement("div");
-    Object.assign(this.el.style, {
-      position: "absolute",
-      borderRadius: "50%",
-      filter: "blur(0.5px)",
-      mixBlendMode: "screen",
-      willChange: "transform, opacity",
-      backgroundColor: "#fff",
-      boxShadow: "0 0 3px 1px rgba(255, 255, 255, 0.8)",
-      pointerEvents: "none",
-    });
-    parent.appendChild(this.el);
-    this.reset();
-  }
-
-  reset() {
-    // 極小の点（1px〜2.5px）
-    this.size = Math.random() * 1.5 + 1;
-    this.el.style.width = `${this.size}px`;
-    this.el.style.height = `${this.size}px`;
-
-    this.x = Math.random() * window.innerWidth;
-    this.y = Math.random() * window.innerHeight;
-
-    // 空気の揺らぎのような超低速
-    this.vx = (Math.random() - 0.5) * 0.12;
-    this.vy = (Math.random() - 0.5) * 0.12;
-
-    this.alpha = Math.random() * Math.PI * 2;
-    this.alphaStep = Math.random() * 0.012 + 0.005;
-  }
-
-  update() {
-    this.vx += (Math.random() - 0.5) * 0.004;
-    this.vy += (Math.random() - 0.5) * 0.004;
-
-    this.x += this.vx;
-    this.y += this.vy;
-
-    const margin = 50;
-    if (this.x < -margin) this.x = window.innerWidth + margin;
-    if (this.x > window.innerWidth + margin) this.x = -margin;
-    if (this.y < -margin) this.y = window.innerHeight + margin;
-    if (this.y > window.innerHeight + margin) this.y = -margin;
-
-    // サイン波の累乗で、光っている時間を短く、鋭い瞬きにする
-    this.alpha += this.alphaStep;
-    const opacity = Math.pow(Math.max(0, Math.sin(this.alpha) * 0.5 + 0.5), 4);
-
-    this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`;
-    this.el.style.opacity = opacity.toString();
-  }
-
-  destroy() {
-    this.el.remove();
-  }
+// 内部データ用のシンプルなオブジェクト型（クラスより軽量）
+interface FireflyData {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  alpha: number;
+  alphaStep: number;
+  size: number;
 }
 
-/** 画面背景にふぁ〜〜〜...と白いのが舞うアニメーションを管理するコンポーネント */
 export const Orbs = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const fireflyCount = 30;
-    const fireflies: Firefly[] = [];
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     let animationFrameId: number;
 
+    // 💡 スマホの画面サイズに合わせて、個数を「20個」に間引いて軽量化
+    const fireflyCount = 20;
+    const fireflies: FireflyData[] = [];
+
+    // 画面サイズのセット
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+
+    // 蛍の初期化
+    const createFirefly = (): FireflyData => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: (Math.random() - 0.5) * 0.12,
+      alpha: Math.random() * Math.PI * 2,
+      // 瞬きの速度
+      alphaStep: Math.random() * 0.012 + 0.005,
+      // サイズもスマホ用に少し小さく調整（1px〜2px）
+      size: Math.random() * 2 + 1.5,
+    });
+
     for (let i = 0; i < fireflyCount; i++) {
-      fireflies.push(new Firefly(container));
+      fireflies.push(createFirefly());
     }
 
+    // アニメーションループ
     const animate = () => {
-      fireflies.forEach((f) => f.update());
+      // 画面全体を一度クリア
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      fireflies.forEach((f) => {
+        // 位置の更新（わずかなランダムノイズを付与）
+        f.vx += (Math.random() - 0.5) * 0.004;
+        f.vy += (Math.random() - 0.5) * 0.004;
+        f.x += f.vx;
+        f.y += f.vy;
+
+        // 画面外に出たときのループ処理
+        const margin = 20;
+        if (f.x < -margin) f.x = canvas.width + margin;
+        if (f.x > canvas.width + margin) f.x = -margin;
+        if (f.y < -margin) f.y = canvas.height + margin;
+        if (f.y > canvas.height + margin) f.y = -margin;
+
+        // 瞬き（サイン波の4乗）
+        f.alpha += f.alphaStep;
+        const opacity = Math.pow(Math.max(0, Math.sin(f.alpha) * 0.5 + 0.5), 4);
+
+        if (opacity > 0.01) {
+          // 💡 CSSのblurやbox-shadowを使わず、Canvasの円形グラデーションで「光のぼかし」を超軽量に表現
+          const gradient = ctx.createRadialGradient(
+            f.x,
+            f.y,
+            0,
+            f.x,
+            f.y,
+            f.size * 2,
+          );
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
+          gradient.addColorStop(0.4, `rgba(255, 255, 255, ${opacity * 0.6})`);
+          gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size * 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
       animationFrameId = requestAnimationFrame(animate);
     };
+
     animate();
 
     const handleResize = () => {
+      resizeCanvas();
+      // 画面サイズが変わったらはみ出た蛍を再配置
       fireflies.forEach((f) => {
-        if (f.x > window.innerWidth) f.reset();
+        if (f.x > canvas.width) f.x = Math.random() * canvas.width;
+        if (f.y > canvas.height) f.y = Math.random() * canvas.height;
       });
     };
     window.addEventListener("resize", handleResize);
@@ -106,45 +114,39 @@ export const Orbs = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
-      fireflies.forEach((f) => f.destroy());
     };
   }, []);
 
   return (
-    <>
+    <Box
+      inset={0}
+      backgroundColor="transparent"
+      position="fixed"
+      overflow="hidden"
+      zIndex="backgroundBaseWrapper"
+      pointerEvents="none"
+    >
+      {/* 💡 30個のdivを廃止し、1枚のCanvasに集約 */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          display: "block",
+        }}
+      />
+
+      {/* フィルムノイズ（重い場合はさらにopacityを下げるか削除を検討） */}
       <Box
+        position="absolute"
         inset={0}
-        backgroundColor="transparent"
-        position="fixed"
-        overflow="hidden"
-        zIndex="backgroundBaseWrapper"
-      >
-        {/* 背景ベース */}
-        <Box
-          position="absolute"
-          inset={0}
-          pointerEvents="none"
-          zIndex="backgroundBG"
-        />
-
-        {/* 蛍コンテナ */}
-        <Box
-          ref={containerRef}
-          position="absolute"
-          inset={0}
-          pointerEvents="none"
-        />
-
-        {/* フィルムノイズ */}
-        <Box
-          position="absolute"
-          inset={0}
-          zIndex="backgroundNoise"
-          opacity={0.02}
-          pointerEvents="none"
-          backgroundImage="url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3e%3cfilter id='noiseFilter'%3e%3cfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3e%3c/svg%3e&quot;)"
-        />
-      </Box>
-    </>
+        zIndex="backgroundNoise"
+        opacity={0.015} // スマホ向けに少し薄くしてノイズによる負荷も軽減
+        backgroundImage="url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3e%3cfilter id='noiseFilter'%3e%3cfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3e%3c/svg%3e&quot;)"
+      />
+    </Box>
   );
 };
