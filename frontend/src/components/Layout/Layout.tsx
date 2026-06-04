@@ -3,7 +3,6 @@ import { Header } from "./Header";
 import { Box, Container, Flex } from "@chakra-ui/react";
 import { Footer } from "./Footer";
 import { Fabs } from "./Fabs";
-import { Orbs } from "./Orbs";
 import { ResponsiveTopFlyer } from "../Flyer/ResponsiveTopFlyer";
 
 export const Layout = (props: { children: React.ReactNode }) => {
@@ -22,7 +21,6 @@ export const Layout = (props: { children: React.ReactNode }) => {
       <Container maxW="container.md" px={6} mt={4} mb={8} zIndex="content">
         {props.children}
       </Container>
-      <Orbs />
       <Box position="relative" zIndex="footer">
         <Footer />
       </Box>

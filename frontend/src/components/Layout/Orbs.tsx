@@ -45,7 +45,7 @@ export const Orbs = () => {
       // 瞬きの速度
       alphaStep: Math.random() * 0.012 + 0.005,
       // サイズもスマホ用に少し小さく調整（1px〜2px）
-      size: Math.random() * 2 + 1.5,
+      size: Math.random() * 1 + 1.5,
     });
 
     for (let i = 0; i < fireflyCount; i++) {
