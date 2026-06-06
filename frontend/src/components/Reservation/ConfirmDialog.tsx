@@ -14,11 +14,7 @@ type ReservationDialogProps = {
 };
 
 const dialogStyle = {
-  width: {
-    base: "calc(100vw - 32px)",
-    sm: "sm",
-    md: "md",
-  },
+  width: "100%",
   maxW: "600px",
   maxH: "calc(100vh - 32px)",
   overflow: "auto",
@@ -48,8 +44,8 @@ export const ConfirmDialog = ({
       >
         <Portal>
           <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content {...dialogStyle}>
+          <Dialog.Positioner p={4}>
+            <Dialog.Content {...dialogStyle} outline="2px solid red">
               <Dialog.Header>
                 <Dialog.Title textAlign="center">
                   以下の内容で予約します。よろしいですか？
