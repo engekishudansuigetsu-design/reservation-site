@@ -45,7 +45,7 @@ export const ConfirmDialog = ({
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner p={4}>
-            <Dialog.Content {...dialogStyle} outline="2px solid red">
+            <Dialog.Content {...dialogStyle}>
               <Dialog.Header>
                 <Dialog.Title textAlign="center">
                   以下の内容で予約します。よろしいですか？
