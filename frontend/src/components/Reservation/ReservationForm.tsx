@@ -179,12 +179,13 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
           <Fieldset.ErrorText>{errors.findFrom?.message}</Fieldset.ErrorText>
         </Fieldset.Root>
 
-        <Field.Root w={formSizeStyles}>
+        <Field.Root w={formSizeStyles} invalid={!!errors.note}>
           <Field.Label>備考</Field.Label>
           <Textarea
             placeholder="その他備考があればこちらに入力してください"
             {...register("note")}
           />
+          <Field.ErrorText>{errors.note?.message}</Field.ErrorText>
         </Field.Root>
 
         <Box
