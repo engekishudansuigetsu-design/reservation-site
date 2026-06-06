@@ -103,7 +103,7 @@ export const useReservation = (): UseReservationReturn => {
     onPostReserve,
     postReserveStatus,
     postReserveIsLoading,
-    isVerify: turnstileToken !== "",
+    isVerify: turnstileToken === "",
     setTurnstileToken,
   };
 };
