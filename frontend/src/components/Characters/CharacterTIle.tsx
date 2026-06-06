@@ -42,7 +42,10 @@ export const CharacterTile = ({
 
     <VStack gap={0} mt="2">
       <Text fontSize="md" fontWeight="bold" color="accent.500">
-        CHARACTER / {name}
+        <Box as="span" display={{ base: "block", md: "inline" }}>
+          CHARACTER /
+        </Box>
+        <Box as="span">{name}</Box>
       </Text>
       <Text fontSize="sm" color="whiteAlpha.900">
         役者 / {credit}
