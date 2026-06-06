@@ -1,6 +1,6 @@
 /** APIのエントリーポイント */
 
-import { reservationSchema } from "@shared/domain-model";
+import { fieldNameMap, reservationSchema } from "@shared/domain-model";
 import { handleGetReservations, handlePostReservation } from "./controller";
 import { AppError, InvalidParameterError } from "./ApiError";
 import { ApiErrorResponse, ApiResponse } from "@shared/errors/apiReturnType";
@@ -43,7 +43,17 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
       return createJsonResponse({ result: true, data: null });
     }
     if (!body.success) {
-      throw new InvalidParameterError();
+      const detail = body.error.issues
+        .map((issue) => {
+          const field = issue.path[0]?.toString() ?? "不明な項目";
+          const fieldName =
+            fieldNameMap[field as keyof typeof fieldNameMap] ?? field;
+
+          return `・${fieldName}: ${issue.message}`;
+        })
+        .join("\n");
+
+      throw new InvalidParameterError(`入力値が不正です。\n\n${detail}`);
     }
     const hasUrl = /(https?:\/\/|www\.)/i.test(body.data.note ?? "");
 

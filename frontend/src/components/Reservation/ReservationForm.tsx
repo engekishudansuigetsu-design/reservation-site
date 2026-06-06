@@ -19,6 +19,7 @@ import { ShiningButton } from "../Common/ShiningButton";
 
 import { type UseReservationReturn } from "./useReservation";
 import { useReservationForm } from "./useReservationForm";
+import { fieldNameMap } from "@repo/shared/domain-model";
 
 const formsize = "600px";
 
@@ -49,7 +50,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
-            お名前
+            {fieldNameMap.name}
             <Field.RequiredIndicator />
           </Field.Label>
           <Input placeholder="海月 太郎" {...register("name")} />
@@ -58,7 +59,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
 
         <Field.Root required invalid={!!errors.email} w={formSizeStyles}>
           <Field.Label>
-            メールアドレス
+            {fieldNameMap.email}
             <Field.RequiredIndicator />
           </Field.Label>
           <Input
@@ -71,7 +72,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
 
         <Field.Root required invalid={!!errors.reserveId} w={formSizeStyles}>
           <Field.Label>
-            観劇日時
+            {fieldNameMap.reserveId}
             <Field.RequiredIndicator />
           </Field.Label>
           <FormSelect
@@ -88,7 +89,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
 
         <Field.Root required invalid={!!errors.count} w={formSizeStyles}>
           <Field.Label>
-            予約人数
+            {fieldNameMap.count}
             <Field.RequiredIndicator />
           </Field.Label>
           <FormSelect
@@ -107,7 +108,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
           w={formSizeStyles}
         >
           <Fieldset.Legend>
-            どこで本公演を知りましたか？
+            {fieldNameMap.findFrom}
             <Text as="span" color="red.500" ml="1">
               *
             </Text>
@@ -180,7 +181,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
         </Fieldset.Root>
 
         <Field.Root w={formSizeStyles}>
-          <Field.Label>備考</Field.Label>
+          <Field.Label>{fieldNameMap.note}</Field.Label>
           <Textarea
             placeholder="その他備考があればこちらに入力してください"
             {...register("note")}
