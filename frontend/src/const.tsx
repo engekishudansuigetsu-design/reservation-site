@@ -16,7 +16,7 @@ export const FIND_FROM_ITEMS = [
   { value: "本webページ", label: "本webページ" },
   { value: "フライヤー", label: "フライヤー" },
   { value: "関係者", label: "関係者" },
-  { value: "その他", label: "その他" }, // 3行くらいで表示+行数増やせるようにしておく
+  { value: "その他", label: "その他" },
 ];
 
 export const MENU_ITEMS = [
