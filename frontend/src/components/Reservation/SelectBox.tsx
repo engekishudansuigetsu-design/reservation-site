@@ -55,7 +55,7 @@ export const FormSelect = <
       >
         <Select.HiddenSelect />
         <Select.Control>
-          <Select.Trigger>
+          <Select.Trigger fontSize="md">
             <Select.ValueText
               placeholder={placeholder}
               color={

@@ -52,7 +52,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
             {fieldNameMap.name}
             <Field.RequiredIndicator />
           </Field.Label>
-          <Input placeholder="海月 太郎" {...register("name")} />
+          <Input placeholder="海月 太郎" {...register("name")} fontSize="md" />
           <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
         </Field.Root>
 
@@ -65,6 +65,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
             type="email"
             placeholder="kurage@example.com"
             {...register("email")}
+            fontSize="md"
           />
           <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
         </Field.Root>
@@ -142,7 +143,9 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                         >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control />
-                          <Checkbox.Label>{option.label}</Checkbox.Label>
+                          <Checkbox.Label fontSize="md">
+                            {option.label}
+                          </Checkbox.Label>
                         </Checkbox.Root>
 
                         {isWhoSelected && option.value === "関係者" && (
@@ -150,6 +153,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                             <Input
                               placeholder="関係者名をご記入してください（50文字）"
                               {...register("findFromWho")}
+                              fontSize="md"
                             />
                             <Field.ErrorText>
                               {errors.findFromWho?.message}
@@ -162,6 +166,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                             <Textarea
                               placeholder="具体的にご記入ください（50文字）"
                               {...register("findFromOther")}
+                              fontSize="md"
                             />
                             <Field.ErrorText>
                               {errors.findFromOther?.message}
@@ -184,6 +189,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
           <Textarea
             placeholder="その他備考があればこちらに入力してください"
             {...register("note")}
+            fontSize="md"
           />
         </Field.Root>
 
