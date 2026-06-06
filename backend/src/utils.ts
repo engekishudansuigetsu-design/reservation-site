@@ -34,7 +34,7 @@ export const createReservationStatus = (
   const now = new Date();
 
   const countMap = data.reduce<Record<string, number>>((prev, cur) => {
-    prev[cur.reserveId] = (prev[cur.reserveId] ?? 0) + 1;
+    prev[cur.reserveId] = (prev[cur.reserveId] ?? 0) + cur.count;
 
     return prev;
   }, {});
