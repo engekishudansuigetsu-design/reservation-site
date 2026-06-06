@@ -27,9 +27,7 @@ export const Layout = (props: { children: React.ReactNode }) => {
       <Container maxW="container.md" px={6} mt={4} mb={8} zIndex="content">
         {props.children}
       </Container>
-      <Box position="relative" zIndex="footer">
-        <Footer />
-      </Box>
+      <Footer />
     </Box>
   );
 };

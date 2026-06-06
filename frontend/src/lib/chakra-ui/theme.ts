@@ -53,7 +53,6 @@ const config = defineConfig({
       zIndex: {
         fab: { value: "300" },
         header: { value: "100" },
-        footer: { value: "100" },
 
         title: { value: "50" },
         flyerKurage: { value: "10" },
