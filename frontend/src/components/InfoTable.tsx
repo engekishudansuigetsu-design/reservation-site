@@ -1,4 +1,5 @@
-import { Box, Table } from "@chakra-ui/react";
+import { Box, Link, Table, Text } from "@chakra-ui/react";
+import { LuExternalLink } from "react-icons/lu";
 
 export const InfoTable = () => (
   <Table.Root
@@ -11,7 +12,7 @@ export const InfoTable = () => (
         <Table.ColumnHeader color="white" wordBreak="keep-all">
           公演時間
         </Table.ColumnHeader>
-        <Table.Cell>70分</Table.Cell>
+        <Table.Cell>約70分</Table.Cell>
       </Table.Row>
 
       <Table.Row bg="transparent">
@@ -20,11 +21,14 @@ export const InfoTable = () => (
         </Table.ColumnHeader>
         <Table.Cell>
           <Box as="ul" listStylePosition="inside">
-            <li>7/18(土) 13:00の回</li>
-            <li>7/18(土) 17:00の回</li>
-            <li>7/19(日) 12:00の回</li>
-            <li>7/19(日) 16:00の回</li>
+            <li>7/18(土) 13:00開演</li>
+            <li>7/18(土) 17:00開演</li>
+            <li>7/19(日) 12:00開演</li>
+            <li>7/19(日) 16:00開演</li>
           </Box>
+          <Text ml={3} fontSize="sm">
+            開場はいずれも開演30分前
+          </Text>
         </Table.Cell>
       </Table.Row>
       <Table.Row bg="transparent">
@@ -36,13 +40,25 @@ export const InfoTable = () => (
           会場
         </Table.ColumnHeader>
         <Table.Cell borderBottom="none">
-          スタジオ空洞
-          <br />
-          池袋駅より徒歩7分
-          <br />
-          東京都豊島区池袋3-60-5
-          <br />
-          地下１階
+          <Text>スタジオ空洞</Text>
+          <Text fontSize="xs" ml={3} mt={2} lineHeight={1.5}>
+            池袋駅より徒歩7分
+            <br />
+            東京都豊島区池袋3-60-5
+            <br />
+            地下１階
+          </Text>
+          <Link
+            href="https://maps.google.com/?q=東京都豊島区池袋3-60-5"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="white"
+            variant="underline"
+            ml={3}
+          >
+            <LuExternalLink />
+            Google Map
+          </Link>
         </Table.Cell>
       </Table.Row>
     </Table.Body>
