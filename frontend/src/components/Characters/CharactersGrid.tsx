@@ -90,7 +90,7 @@ export const CharacterGrid = () => (
       フィールドワーク
       <wbr />
       が好きで、 <br />
-      常に塩の香りを
+      常に潮の香りを
       <wbr />
       まとっていた。
     </CharacterTile>
