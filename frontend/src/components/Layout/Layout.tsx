@@ -8,7 +8,13 @@ import { ResponsiveTopFlyer } from "../Flyer/ResponsiveTopFlyer";
 export const Layout = (props: { children: React.ReactNode }) => {
   return (
     <Box position="relative">
-      <Box position="fixed" bottom={8} right={6} zIndex="fab">
+      <Box
+        position="fixed"
+        bottom={8}
+        right={6}
+        zIndex="fab"
+        pointerEvents="none"
+      >
         <Fabs />
       </Box>
       <Box position="sticky" top={0} zIndex="header">

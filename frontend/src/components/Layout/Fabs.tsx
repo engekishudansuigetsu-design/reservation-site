@@ -11,9 +11,10 @@ const onOpenSNS = (url: string) => {
 };
 
 export const Fabs = () => (
-  <VStack alignItems="flex-end" gap={5}>
+  <VStack alignItems="flex-end" gap={5} pointerEvents="none">
     <VStack gap={2}>
       <IconButton
+        pointerEvents="auto"
         colorPalette="brand"
         rounded="full"
         aria-label="公式Xを開く"
@@ -24,6 +25,7 @@ export const Fabs = () => (
         <Image src={xIcon} boxSize={5} />
       </IconButton>
       <IconButton
+        pointerEvents="auto"
         colorPalette="brand"
         rounded="full"
         aria-label="公式Instagramを開く"
@@ -36,6 +38,7 @@ export const Fabs = () => (
     </VStack>
 
     <ShiningButton
+      pointerEvents="auto"
       colorPalette="accent"
       onClick={() => jumpToSection(SECTION_IDS.reservation)}
     >
