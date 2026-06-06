@@ -43,13 +43,9 @@ export const Footer = () => (
               <VStack key={item.role} alignItems="flex-start">
                 <Text>{item.role}:</Text>
                 <VStack alignItems="flex-start" gap={0}>
-                  {item.names.map((name) => (
-                    <React.Fragment
-                      key={typeof name === "string" ? name : name.name}
-                    >
-                      {typeof name === "string" ? (
-                        <Text key={name}>{name}</Text>
-                      ) : (
+                  {item.names.every((v) => typeof v === "string")
+                    ? item.names.join(", ")
+                    : item.names.map((name) => (
                         <HStack
                           key={name.name}
                           alignItems="flex-end"
@@ -58,9 +54,7 @@ export const Footer = () => (
                           <Text>{name.name}</Text>
                           <Text fontSize="xs">({name.team} 所属)</Text>
                         </HStack>
-                      )}
-                    </React.Fragment>
-                  ))}
+                      ))}
                 </VStack>
               </VStack>
             ),
