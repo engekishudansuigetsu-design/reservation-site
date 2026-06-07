@@ -9,7 +9,13 @@ import { HEADER_HEIGHT } from "../../const";
 export const Layout = (props: { children: React.ReactNode }) => {
   return (
     <Box position="relative">
-      <Box position="fixed" bottom={8} right={6} zIndex="fab">
+      <Box
+        position="fixed"
+        bottom={8}
+        right={6}
+        zIndex="fab"
+        pointerEvents="none"
+      >
         <Fabs />
       </Box>
       <Box position="fixed" top={0} left={0} right={0} zIndex="header">
@@ -23,9 +29,7 @@ export const Layout = (props: { children: React.ReactNode }) => {
       <Container maxW="container.md" px={6} mt={4} mb={8} zIndex="content">
         {props.children}
       </Container>
-      <Box position="relative" zIndex="footer">
-        <Footer />
-      </Box>
+      <Footer />
     </Box>
   );
 };

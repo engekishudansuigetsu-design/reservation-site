@@ -76,6 +76,6 @@ export const STAFF_CREDITS = [
   },
   {
     role: "当日制作",
-    names: ["呆れ霹靂"],
+    names: ["呆れ霹靂", "小笠原裕太"],
   },
 ];

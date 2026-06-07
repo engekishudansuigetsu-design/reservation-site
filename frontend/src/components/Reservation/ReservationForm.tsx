@@ -10,7 +10,6 @@ import {
   CheckboxGroup,
   Fieldset,
   Flex,
-  Box,
 } from "@chakra-ui/react";
 import { FIND_FROM_ITEMS } from "../../const";
 
@@ -19,6 +18,7 @@ import { ShiningButton } from "../Common/ShiningButton";
 
 import { type UseReservationReturn } from "./useReservation";
 import { useReservationForm } from "./useReservationForm";
+import { fieldNameMap } from "@repo/shared/domain-model";
 
 const formsize = "600px";
 
@@ -49,29 +49,30 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
       <Stack gap="6" w="100%" maxW={formSizeStyles} mx="auto">
         <Field.Root required invalid={!!errors.name} w={formSizeStyles}>
           <Field.Label>
-            お名前
+            {fieldNameMap.name}
             <Field.RequiredIndicator />
           </Field.Label>
-          <Input placeholder="海月 太郎" {...register("name")} />
+          <Input placeholder="海月 太郎" {...register("name")} fontSize="md" />
           <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
         </Field.Root>
 
         <Field.Root required invalid={!!errors.email} w={formSizeStyles}>
           <Field.Label>
-            メールアドレス
+            {fieldNameMap.email}
             <Field.RequiredIndicator />
           </Field.Label>
           <Input
             type="email"
             placeholder="kurage@example.com"
             {...register("email")}
+            fontSize="md"
           />
           <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
         </Field.Root>
 
         <Field.Root required invalid={!!errors.reserveId} w={formSizeStyles}>
           <Field.Label>
-            観劇日時
+            {fieldNameMap.reserveId}
             <Field.RequiredIndicator />
           </Field.Label>
           <FormSelect
@@ -88,7 +89,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
 
         <Field.Root required invalid={!!errors.count} w={formSizeStyles}>
           <Field.Label>
-            予約人数
+            {fieldNameMap.count}
             <Field.RequiredIndicator />
           </Field.Label>
           <FormSelect
@@ -107,7 +108,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
           w={formSizeStyles}
         >
           <Fieldset.Legend>
-            どこで本公演を知りましたか？
+            {fieldNameMap.findFrom}
             <Text as="span" color="red.500" ml="1">
               *
             </Text>
@@ -142,7 +143,9 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                         >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control />
-                          <Checkbox.Label>{option.label}</Checkbox.Label>
+                          <Checkbox.Label fontSize="md">
+                            {option.label}
+                          </Checkbox.Label>
                         </Checkbox.Root>
 
                         {isWhoSelected && option.value === "関係者" && (
@@ -150,6 +153,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                             <Input
                               placeholder="関係者名をご記入してください（50文字）"
                               {...register("findFromWho")}
+                              fontSize="md"
                             />
                             <Field.ErrorText>
                               {errors.findFromWho?.message}
@@ -162,6 +166,7 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
                             <Textarea
                               placeholder="具体的にご記入ください（50文字）"
                               {...register("findFromOther")}
+                              fontSize="md"
                             />
                             <Field.ErrorText>
                               {errors.findFromOther?.message}
@@ -180,31 +185,27 @@ export const ReservationForm = ({ onSubmit }: ReservationFormProps) => {
         </Fieldset.Root>
 
         <Field.Root w={formSizeStyles} invalid={!!errors.note}>
-          <Field.Label>備考</Field.Label>
+          <Field.Label>{fieldNameMap.note}</Field.Label>
           <Textarea
             placeholder="その他備考があればこちらに入力してください"
             {...register("note")}
+            fontSize="md"
           />
           <Field.ErrorText>{errors.note?.message}</Field.ErrorText>
         </Field.Root>
 
-        <Box
+        <Input
+          {...register("age")}
+          tabIndex={-1}
+          autoComplete="off"
+          placeholder="年齢"
           position="absolute"
-          top="-9999px"
-          left="-9999px"
           opacity={0}
-          width={0}
-          height={0}
+          pointerEvents="none"
+          w="1px"
+          h="1px"
           overflow="hidden"
-          aria-hidden="true"
-        >
-          <Input
-            {...register("age")}
-            tabIndex={-1}
-            autoComplete="off"
-            placeholder="年齢"
-          />
-        </Box>
+        />
 
         <Flex direction="column" alignItems="center">
           <ShiningButton type="submit" colorPalette="brand">

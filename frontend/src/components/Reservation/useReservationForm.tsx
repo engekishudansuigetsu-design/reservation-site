@@ -98,7 +98,8 @@ export const useReservationForm = ({
 
     return createListCollection<SelectOption>({
       items: Array.from(
-        { length: selectedReserveStatus.remainCount },
+        // 予約可能最大人数は10人、それより残席数が少ない場合最大残席数を選択候補にする
+        { length: Math.min(selectedReserveStatus.remainCount, 10) },
         (_, i) => ({
           label: `${i + 1}人`,
           value: String(i + 1),

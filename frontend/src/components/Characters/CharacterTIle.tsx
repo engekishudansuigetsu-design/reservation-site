@@ -23,6 +23,7 @@ export const CharacterTile = ({
     w="full"
     h="full"
     textAlign="center"
+    gap={0}
   >
     <Box
       w="120px"
@@ -40,27 +41,42 @@ export const CharacterTile = ({
       />
     </Box>
 
-    <VStack gap={0} mt="2">
+    <VStack gap={0} mt="4">
       <Text fontSize="md" fontWeight="bold" color="accent.500">
-        CHARACTER / {name}
+        <Box as="span" display={{ base: "block", md: "inline" }}>
+          CHARACTER /
+        </Box>
+        <Box as="span">{name}</Box>
       </Text>
+
       <Text fontSize="sm" color="whiteAlpha.900">
         役者 / {credit}
       </Text>
-      {team && (
-        <Text fontSize="xs" color="whiteAlpha.600">
-          {team}
-          <wbr />
-          所属
-        </Text>
-      )}
+
+      <Text
+        fontSize="xs"
+        color="whiteAlpha.600"
+        minH="2.5em"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        {team ? (
+          <>
+            {team}
+            <wbr />
+            所属
+          </>
+        ) : (
+          "\u00A0"
+        )}
+      </Text>
     </VStack>
 
     <Text
       fontSize="xs"
       color="whiteAlpha.800"
       lineHeight="tall"
-      mt="3"
       w={{ base: "full", md: "fit-content" }}
       fontFamily="{fonts.default}"
       textAlign={{ base: "center", md: "left" }}

@@ -14,11 +14,7 @@ type ReservationDialogProps = {
 };
 
 const dialogStyle = {
-  width: {
-    base: "calc(100vw - 32px)",
-    sm: "sm",
-    md: "md",
-  },
+  width: "100%",
   maxW: "600px",
   maxH: "calc(100vh - 32px)",
   overflow: "auto",
@@ -48,7 +44,7 @@ export const ConfirmDialog = ({
       >
         <Portal>
           <Dialog.Backdrop />
-          <Dialog.Positioner>
+          <Dialog.Positioner p={4}>
             <Dialog.Content {...dialogStyle}>
               <Dialog.Header>
                 <Dialog.Title textAlign="center">
