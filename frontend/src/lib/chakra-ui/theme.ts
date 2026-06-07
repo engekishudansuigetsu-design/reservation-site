@@ -14,7 +14,7 @@ const config = defineConfig({
       bg: "#140a00",
       color: "white",
       fontFamily: "{fonts.default}",
-      overflowX: "hidden",
+      overscrollBehavior: "none",
     },
   },
 
