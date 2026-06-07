@@ -7,8 +7,13 @@ import { Introduction } from "./components/Introduction/Introduction";
 import { CharacterGrid } from "./components/Characters/CharactersGrid";
 
 import { Reservation } from "./components/Reservation/Reservation";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Layout>
       <SectionTitle id="introduction" />

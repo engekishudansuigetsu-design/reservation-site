@@ -57,10 +57,14 @@ export function handlePostReservation(param: ReservationRequest) {
 
     // 予約数チェック
     const data = getReserVationsData();
-    const remainCount = createReservationStatus(data).find(
+    const reservationStatus = createReservationStatus(data).find(
       (v) => v.reserveId === param.reserveId,
     );
-    if (remainCount === undefined || remainCount.remainCount === 0) {
+    if (
+      reservationStatus === undefined ||
+      reservationStatus.remainCount === 0 ||
+      reservationStatus.remainCount < param.count
+    ) {
       console.warn(JSON.stringify(param));
       throw new MaxReserveError();
     }
