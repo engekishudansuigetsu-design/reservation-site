@@ -4,7 +4,6 @@ import { Box, Container, Flex } from "@chakra-ui/react";
 import { Footer } from "./Footer";
 import { Fabs } from "./Fabs";
 import { ResponsiveTopFlyer } from "../Flyer/ResponsiveTopFlyer";
-import { HEADER_HEIGHT } from "../../const";
 
 export const Layout = (props: { children: React.ReactNode }) => {
   return (
@@ -18,10 +17,9 @@ export const Layout = (props: { children: React.ReactNode }) => {
       >
         <Fabs />
       </Box>
-      <Box position="fixed" top={0} left={0} right={0} zIndex="header">
+      <Box position="sticky" top={0} zIndex="header">
         <Header />
       </Box>
-      <Box h={HEADER_HEIGHT} />
 
       <Flex justifyContent="center">
         <ResponsiveTopFlyer />
