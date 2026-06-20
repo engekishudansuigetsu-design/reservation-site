@@ -32,7 +32,7 @@ export const RESERVATION_MASTER_SCHEDULE = [
   },
   {
     reserveId: "2026-07-19T07:00:00.000Z",
-    label: "2026年7月20日 16時開演の回",
+    label: "2026年7月19日 16時開演の回",
     capacity: 25,
     closeAt: "2026-07-19T07:59:59.999Z",
   },
